@@ -8,7 +8,7 @@ const publicRoutes: Routes = [
       import('./chat-bot/chat-bot.component').then((m) => m.ChatBotComponent),
   },
   {
-    path: 'sign-in ',
+    path: 'sign-in',
     loadComponent: () =>
       import('./sign-in/sign-in.component').then((m) => m.SignInComponent),
   },
