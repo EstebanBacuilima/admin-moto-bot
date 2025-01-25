@@ -5,3 +5,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.title-text {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.small-text {
+  font-size: 12px;
+}
+
+.vertical-divider {
+  display: block;
+  margin: 0px 5px;
+}
+
+.input-radius {
+  border-radius: 8px;
+}

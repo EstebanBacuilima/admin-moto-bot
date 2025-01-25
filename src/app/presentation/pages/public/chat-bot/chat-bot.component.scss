@@ -1,0 +1,84 @@
+.app-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sider {
+  background: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.sider-header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.chat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.chat-item:hover {
+  background: #e6f7ff;
+}
+
+.chat-item nz-avatar {
+  margin-right: 8px;
+}
+
+.chat-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow-y: auto;
+  background: #ffffff;
+}
+
+.chat-header {
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.messages div {
+  max-width: 70%;
+  padding: 8px 16px;
+  border-radius: 8px;
+  word-break: break-word;
+}
+
+.messages div.sent {
+  background: #e6f7ff;
+  align-self: flex-end;
+}
+
+.messages div:not(.sent) {
+  background: #f5f5f5;
+}
+
+.chat-footer {
+  padding: 8px;
+  border-radius: 8px;
+  background: #f0f2f5;
+  border-top: 1px solid #d9d9d9;
+  border-left: 1px solid #d9d9d9;
+}

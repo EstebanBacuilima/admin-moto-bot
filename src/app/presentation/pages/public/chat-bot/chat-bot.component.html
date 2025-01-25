@@ -1,1 +1,62 @@
-<p>chat-bot works!</p>
+<nz-layout class="app-layout h-screen">
+  <!-- Sidebar -->
+  <nz-sider class="sider" [nzWidth]="250" nzTheme="light">
+    <div class="sider-header">
+      <h3>Chats</h3>
+      <button class="input-radius" nz-button nzType="primary" nzBlock>
+        Nuevo Chat
+      </button>
+    </div>
+    <ul class="chat-list">
+      @for (chat of chats; track $index) {
+      <li class="chat-item" (click)="selectChat(chat)">
+        <nz-avatar nzText="{{ chat.name[0] }}"></nz-avatar>
+        <span>{{ chat.name }}</span>
+      </li>
+      }
+    </ul>
+  </nz-sider>
+
+  <!-- Main Layout -->
+  <nz-layout>
+    <!-- Content -->
+    <nz-content class="chat-content">
+      <div class="chat-header">
+        <h3>{{ selectedChat?.name || "Selecciona un chat" }}</h3>
+      </div>
+      <div class="messages">
+        @for (message of messages; track $index) {
+        <div [class.sent]="message.sent">
+          <span>{{ message.text }}</span>
+        </div>
+        }
+      </div>
+    </nz-content>
+
+    <!-- Footer -->
+    <nz-footer class="chat-footer">
+      <nz-input-group
+        class="input-radius"
+        [nzSuffix]="suffixButton"
+        nzSize="large"
+      >
+        <input
+          type="text"
+          nz-input
+          [(ngModel)]="newMessage"
+          placeholder="Escribe tu mensaje..."
+        />
+      </nz-input-group>
+      <ng-template #suffixButton>
+        <button
+          class="input-radius"
+          nz-button
+          nzType="primary"
+          (click)="sendMessage()"
+        >
+          Enviar
+        </button>
+      </ng-template>
+    </nz-footer>
+  </nz-layout>
+</nz-layout>
