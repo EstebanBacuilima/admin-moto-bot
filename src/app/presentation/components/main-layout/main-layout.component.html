@@ -19,23 +19,36 @@
       nzMode="inline"
       [nzInlineCollapsed]="isCollapsed"
     >
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="Administración" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
+            <a routerLink="/welcome">Inicio</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Monitor</a>
+            <a>Marcas</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Workplace</a>
+            <a>Productos</a>
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a>Establecimientos</a>
+          </li>
+          <li nz--item nzMatchRouter>
+            <a>Usuarios</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+      <li nz-submenu nzOpen nzTitle="Citas" nzIcon="form">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
+            <a>Citas</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Servicios</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Clientes</a>
           </li>
         </ul>
       </li>
