@@ -1,3 +1,4 @@
+import { BranListComponent } from './bran-list/bran-list.component';
 import { Routes } from '@angular/router';
 
 const privateRoutes: Routes = [
@@ -14,6 +15,13 @@ const privateRoutes: Routes = [
         path: 'welcome',
         loadComponent: () =>
           import('./welcome/welcome.component').then((m) => m.WelcomeComponent),
+      },
+      {
+        path: 'brand-list',
+        loadComponent: () =>
+          import('./bran-list/bran-list.component').then(
+            (m) => m.BranListComponent
+          ),
       },
       {
         path: '**',

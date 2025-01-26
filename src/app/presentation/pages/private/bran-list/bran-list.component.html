@@ -1,0 +1,121 @@
+<app-simple-page-header
+  title="Macas"
+  searchPlaceholder="Buscar Marcas"
+  (add)="add()"
+  (searchChange)="onSearchChanged($event)"
+></app-simple-page-header>
+
+<nz-card>
+  <nz-table
+    #roleTable
+    [nzData]="brands"
+    nzSize="small"
+    nzTableLayout="fixed"
+    [nzScroll]="{ x: responsiveService.isMobile() ? '600px' : '' }"
+    [nzLoading]="loading$.value"
+    [nzFrontPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of listOfColumn"
+          [nzSortFn]="column.compare"
+          [nzSortPriority]="column.priority"
+        >
+          {{ column.title }}
+        </th>
+        <th [nzWidth]="'15%'" style="text-align: center">Estado</th>
+        <th [nzWidth]="'15%'" style="text-align: center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (brand of roleTable.data; track brand.id) {
+      <tr>
+        <td>{{ brand.name }}</td>
+        <td>{{ brand.description ?? "-" }}</td>
+        <td style="text-align: center">
+          <nz-switch
+            [ngModel]="brand.active"
+            [nzLoading]="brand.changedActive"
+            (ngModelChange)="onActiveChange(brand, $event)"
+          ></nz-switch>
+        </td>
+        <td style="text-align: center">
+          <button
+            nz-button
+            nzSize="small"
+            nzType="default"
+            nzShape="circle"
+            (click)="onEdit(brand)"
+          >
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<!-- Modal to create or edit brand -->
+<nz-modal
+  [(nzVisible)]="opendModal"
+  [nzTitle]="selectedBrand ? 'Editar Marca' : 'Crear Marca'"
+  (nzOnCancel)="cancel()"
+  (nzOnOk)="saveOrUpdate()"
+>
+  <ng-container *nzModalContent>
+    <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
+      <nz-col nzXs="24" nzMd="20">
+        <form nz-form [formGroup]="brandForm">
+          <nz-row [nzGutter]="[12, 12]">
+            <!-- The name of the chain. -->
+            <nz-col nzXs="24" nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzSpan="24">Nombre</nz-form-label>
+                <nz-form-control
+                  nzErrorTip="Nombre no válido"
+                  class="custom-error-tip-left"
+                >
+                  <input
+                    class="input-radius"
+                    type="text"
+                    nz-input
+                    formControlName="name"
+                    placeholder="Ejemplo: Licores"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+            <!-- The description of the chain. -->
+            <nz-col nzXs="24" nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzSpan="24">Descripción</nz-form-label>
+                <nz-form-control nzErrorTip="Descripción no válido">
+                  <textarea
+                    class="input-radius"
+                    formControlName="description"
+                    nz-input
+                    [nzAutosize]="{ minRows: 1, maxRows: 4 }"
+                  >
+                  </textarea>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+            <!-- If active the chain. -->
+            @if (selectedBrand) {
+            <nz-col nzSpan="24">
+              <nz-form-item>
+                <nz-form-label nzRequired nzSpan="24">Estado</nz-form-label>
+                <label formControlName="active" nz-checkbox>{{
+                  brandForm.get("active")?.value ? "ACTIVO" : "INACTIVO"
+                }}</label>
+              </nz-form-item>
+            </nz-col>
+            }
+          </nz-row>
+        </form>
+      </nz-col>
+    </nz-row>
+  </ng-container>
+</nz-modal>

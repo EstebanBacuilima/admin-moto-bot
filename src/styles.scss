@@ -6,6 +6,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* En styles.css */
+:root {
+  --primary-color: #f7a041;
+  --secondary-color: #fff;
+}
+
 .title-text {
   font-weight: bold;
   font-size: 14px;

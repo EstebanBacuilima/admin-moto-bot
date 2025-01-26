@@ -1,0 +1,44 @@
+<nz-page-header
+  class="site-page-header"
+  [nzBackIcon]="'left'"
+  nzTitle="{{ title() }}"
+>
+  <nz-page-header-extra *ngIf="disable()">
+    <nz-space>
+      <button
+        nz-button
+        style="border-radius: 10px"
+        *nzSpaceItem
+        (click)="add.emit()"
+      >
+        <i nz-icon nzType="plus-circle" nzTheme="outline"></i> Nuevo
+      </button>
+      <nz-input-group
+        *nzSpaceItem
+        [nzPrefix]="prefixTemplateUser"
+        [nzSuffix]="inputClearTpl"
+        style="border-radius: 10px"
+      >
+        <input
+          type="text"
+          nz-input
+          [(ngModel)]="currentSearchValue"
+          (ngModelChange)="onSearchChange($event)"
+          placeholder="{{ searchPlaceholder() }}"
+        />
+      </nz-input-group>
+      <ng-template #prefixTemplateUser
+        ><i nz-icon nzType="search"></i
+      ></ng-template>
+      <ng-template #inputClearTpl>
+        <i
+          nz-icon
+          nzType="close-circle"
+          nzTheme="fill"
+          *ngIf="currentSearchValue"
+          (click)="clearSearch()"
+        ></i>
+      </ng-template>
+    </nz-space>
+  </nz-page-header-extra>
+</nz-page-header>
