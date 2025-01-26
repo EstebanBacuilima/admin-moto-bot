@@ -1,6 +1,6 @@
 import { Brand } from '../../../../domain/entities/brand';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { BranService } from '../../../../data/src/branc.service';
+import { BrandService } from '../../../../data/src/brand.service';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { DefaultResponse } from '../../../../domain/common/default-response';
@@ -29,7 +29,7 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
   styleUrl: './brand-list.component.scss',
 })
 export class BrandListComponent implements OnInit {
-  private readonly branService = inject(BranService);
+  private readonly branService = inject(BrandService);
   public readonly responsiveService = inject(ResponsiveService);
   private readonly formBuilder = inject(FormBuilder);
   public loading$ = new BehaviorSubject<boolean>(false);
