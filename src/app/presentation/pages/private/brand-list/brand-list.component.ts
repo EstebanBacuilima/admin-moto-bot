@@ -1,4 +1,4 @@
-import { Brand } from './../../../../domain/entities/brand';
+import { Brand } from '../../../../domain/entities/brand';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { BranService } from '../../../../data/src/branc.service';
 import { ResponsiveService } from '../../../../services/responsive-service';
@@ -25,10 +25,10 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     ReactiveFormsModule,
     SimplePageHeaderComponent,
   ],
-  templateUrl: './bran-list.component.html',
-  styleUrl: './bran-list.component.scss',
+  templateUrl: './brand-list.component.html',
+  styleUrl: './brand-list.component.scss',
 })
-export class BranListComponent implements OnInit {
+export class BrandListComponent implements OnInit {
   private readonly branService = inject(BranService);
   public readonly responsiveService = inject(ResponsiveService);
   private readonly formBuilder = inject(FormBuilder);
