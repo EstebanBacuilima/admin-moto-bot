@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { DefaultResponse } from '../../domain/common/default-response';
 import { Category } from '../../domain/entities/category';
 
@@ -40,5 +40,13 @@ export class CategoryService {
       `${this.apiURL}/category/update/${category.code}`,
       category
     );
+  }
+
+  listProductsByCategoryId(id: number): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(`${this.apiURL}/product/list-by-category?id=${id}`);
+  }
+
+  listProducts(): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(`${this.apiURL}/product/list`);
   }
 }
