@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../domain/entities/user';
 import { PreferenceKeyConst } from './preference-key-const';
+import { TokenResponse } from '../../domain/models/toke-response';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,22 @@ export class LocalData {
     localStorage.setItem(
       PreferenceKeyConst.currentUserKey,
       JSON.stringify(user)
+    );
+  }
+
+  getTokenResponde(): TokenResponse | null {
+    const data = localStorage.getItem(PreferenceKeyConst.tokenResponse);
+    return data ? JSON.parse(data) : null;
+  }
+
+  setTokenResponde(token: TokenResponse | null): void {
+    if (token === null) {
+      localStorage.removeItem(PreferenceKeyConst.tokenResponse);
+      return;
+    }
+    localStorage.setItem(
+      PreferenceKeyConst.tokenResponse,
+      JSON.stringify(token)
     );
   }
 

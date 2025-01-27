@@ -4,7 +4,13 @@
     <div class="sider-header">
       <h3>Chats</h3>
       <br />
-      <button class="input-radius" nz-button nzType="primary" nzBlock>
+      <button
+        class="input-radius"
+        (click)="createChat()"
+        nz-button
+        nzType="primary"
+        nzBlock
+      >
         Nuevo Chat
       </button>
     </div>
@@ -24,12 +30,24 @@
     <nz-content class="chat-content">
       <div class="chat-header">
         <h3>{{ selectedChat?.chatName || "Bienvenido" }}</h3>
+        <nz-avatar [nzText]="tokenResponse?.displayName"> </nz-avatar>
+        <h3>{{ tokenResponse?.displayName }}</h3>
       </div>
       <div class="messages-container">
         <div *ngIf="messages.length === 0" class="no-messages">
           <div class="welcome-icon">👋</div>
           <h2>¡Bienvenido a tu chat!</h2>
           <p>Aquí podrás conversar y compartir información.</p>
+          <br />
+          <button
+            class="input-radius"
+            (click)="openModalRegister()"
+            nz-button
+            nzType="primary"
+            nzBlock
+          >
+            Registra tu usuario
+          </button>
         </div>
         <div *ngFor="let message of messages" class="message-wrapper">
           <div
@@ -74,3 +92,113 @@
     </nz-footer>
   </nz-layout>
 </nz-layout>
+
+<!-- Register user modal -->
+<nz-modal
+  [(nzVisible)]="openModal"
+  nzTitle="Registra tu usuario"
+  (nzOnCancel)="cancel()"
+  (nzOnOk)="register()"
+  [nzWidth]="750"
+>
+  <ng-container *nzModalContent>
+    <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
+      <nz-col nzXs="24" nzMd="20">
+        <form nz-form [formGroup]="registerForm">
+          <nz-row [nzGutter]="[12, 12]">
+            <!-- The id card -->
+            <nz-col nzXs="24" nzMd="24">
+              <nz-form-item>
+                <nz-form-label nzRequired nzSpan="24"
+                  >Identificación</nz-form-label
+                >
+                <nz-form-control
+                  nzErrorTip="Identificación no válido"
+                  class="custom-error-tip-left"
+                >
+                  <input
+                    class="input-radius"
+                    type="text"
+                    nz-input
+                    formControlName="idCard"
+                    placeholder="Ejemplo: 0105957811"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row [nzGutter]="[12, 12]">
+            <!-- The first name -->
+            <nz-col nzXs="24" nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzSpan="24">Nombres</nz-form-label>
+                <nz-form-control
+                  nzErrorTip="Nombre no válido"
+                  class="custom-error-tip-left"
+                >
+                  <input
+                    class="input-radius"
+                    type="text"
+                    nz-input
+                    formControlName="firstName"
+                    placeholder="Ejemplo: Esteban"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+            <!-- The last name -->
+            <nz-col nzXs="24" nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzSpan="24">Apellidos</nz-form-label>
+                <nz-form-control nzErrorTip="Apellidos no válidos">
+                  <input
+                    class="input-radius"
+                    type="text"
+                    nz-input
+                    formControlName="lastName"
+                    placeholder="Ejemplo: Bacuilima"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row [nzGutter]="[12, 12]">
+            <!-- The mail -->
+            <nz-col nzXs="24" nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzSpan="24">Correo</nz-form-label>
+                <nz-form-control
+                  nzErrorTip="Correo no válido"
+                  class="custom-error-tip-left"
+                >
+                  <input
+                    class="input-radius"
+                    type="text"
+                    nz-input
+                    formControlName="email"
+                    placeholder="Ejemplo: correo@gmail.co."
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+            <!-- The password -->
+            <nz-col nzXs="24" nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzSpan="24">Contraseña</nz-form-label>
+                <nz-form-control nzErrorTip="Contraseña no válido">
+                  <input
+                    class="input-radius"
+                    type="text"
+                    nz-input
+                    formControlName="password"
+                    placeholder="Ejemplo: Abc123.@"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+        </form>
+      </nz-col>
+    </nz-row>
+  </ng-container>
+</nz-modal>

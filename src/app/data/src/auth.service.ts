@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { SignInRequest } from '../../domain/models/sign-in-request';
 import { DefaultResponse } from '../../domain/common/default-response';
 import { Observable } from 'rxjs';
+import { RegisterRequest } from '../../domain/models/register-request';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,13 @@ export class AuthService {
   authenticate(request: SignInRequest): Observable<DefaultResponse> {
     return this.http.post<DefaultResponse>(
       `${this.apiURL}/auth/login`,
+      request
+    );
+  }
+
+  register(request: RegisterRequest): Observable<DefaultResponse> {
+    return this.http.post<DefaultResponse>(
+      `${this.apiURL}/auth/register`,
       request
     );
   }
