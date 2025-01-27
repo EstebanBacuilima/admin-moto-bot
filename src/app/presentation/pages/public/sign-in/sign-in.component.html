@@ -8,74 +8,67 @@
     <h2
       class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
     >
-      Sign in to your account
+      Bienvenido
     </h2>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form class="space-y-6" action="#" method="POST">
-      <div>
-        <label
-          for="email"
-          class="block text-sm font-medium leading-6 text-gray-900"
-          >Email address</label
+    <form
+      nz-form
+      [formGroup]="signInForm"
+      class="login-form"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item>
+        <nz-form-control
+          nzErrorTip="Por favor ingrese su nombre de usuario!"
+          class="custom-error-tip"
         >
-        <div class="mt-2">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            required
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
-      </div>
-
-      <div>
-        <div class="flex items-center justify-between">
-          <label
-            for="password"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Password</label
+          <nz-input-group nzPrefixIcon="user" class="login-input">
+            <input
+              type="text"
+              nz-input
+              formControlName="username"
+              placeholder="Username"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          nzErrorTip="Por favor ingrese su contraseña!"
+          class="custom-error-tip"
+        >
+          <nz-input-group
+            nzPrefixIcon="lock"
+            [nzSuffix]="suffixTemplate"
+            class="login-input"
           >
-          <div class="text-sm">
-            <a
-              href="#"
-              class="font-semibold text-indigo-600 hover:text-indigo-500"
-              >Forgot password?</a
-            >
-          </div>
-        </div>
-        <div class="mt-2">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autocomplete="current-password"
-            required
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
-          type="submit"
-          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Sign in
-        </button>
-      </div>
-    </form>
-
-    <p class="mt-10 text-center text-sm text-gray-500">
-      Not a member?
-      <a
-        href="#"
-        class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-        >Start a 14 day free trial</a
+            <input
+              [type]="passwordVisible ? 'text' : 'password'"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+            />
+            <ng-template #suffixTemplate>
+              <span
+                nz-icon
+                [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                (click)="passwordVisible = !passwordVisible"
+              ></span>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <button
+        [nzLoading]="loading | async"
+        nz-button
+        class="login-form-button login-form-margin"
+        [nzType]="'primary'"
+        id="login"
       >
-    </p>
+        Iniciar Sesión
+      </button>
+    </form>
   </div>
 </div>
