@@ -1,0 +1,58 @@
+<div style="margin: 30px;">
+    <nz-row [nzGutter]="16" style="margin: 0;">
+        <nz-col span="24">
+            <h2>
+                Explora Nuestra Selección Exclusiva de Productos
+            </h2>
+            <p>
+                En nuestro catálogo encontrarás una amplia variedad de productos de alta calidad, pensados para
+                satisfacer todas tus necesidades. Descubre lo mejor en tecnología, moda, hogar y mucho más. ¡Encuentra
+                el producto perfecto para ti!
+            </p>
+        </nz-col>
+
+        <nz-divider></nz-divider>
+
+        <nz-col span="24" style="margin-bottom: 40px;">
+            <nz-row [ngStyle]="{'flex-wrap': categories.length <= 8 ? 'wrap' : 'nowrap'}" style="display: flex; gap: 5px; justify-content: flex-start; 
+                       overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; 
+                       scrollbar-width: none; -ms-overflow-style: none; width: 100%;">
+                <nz-col *ngFor="let category of categories" [nzSpan]="4"
+                    style="text-align: center; flex-shrink: 0; padding: 0; flex-basis: 20%; min-width: 150px;">
+                    <div style="text-align: center; margin-bottom: 5px;" (click)="selectCategory(category.id)">
+                        <i nz-icon nzType="laptop" style="font-size: 40px; color: #3f51b5;"></i>
+                        <h3 class="category-name"
+                            style="margin-top: 5px; font-size: 1.2rem; color: #333; cursor: pointer;">
+                            {{category.name}}
+                        </h3>
+                        <div style="height: 3px; width: 100%; 
+                               background-color: transparent; 
+                               margin-top: 5px;"
+                            [style.background-color]="category.id == selectedCategoryId()? '#3f51b5' : 'transparent'">
+                        </div>
+                    </div>
+                </nz-col>
+            </nz-row>
+        </nz-col>
+
+        <nz-col span="24">
+            <nz-row [nzGutter]="16">
+                <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="8" [nzLg]="8"
+                    class="product-card" style="margin-top: 10px;">
+                    <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
+                        [nzCover]="coverTemplate">
+                        <nz-card-meta [nzTitle]="product.name" [nzDescription]="''+product.description"></nz-card-meta>
+                    </nz-card>
+
+                    <ng-template #coverTemplate>
+                        <div style="padding: 50px;">
+                            <img alt="product" [src]="product.productFiles[0].url" class="product-image"
+                                style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;" />
+                        </div>
+                    </ng-template>
+                </nz-col>
+            </nz-row>
+        </nz-col>
+
+    </nz-row>
+</div>

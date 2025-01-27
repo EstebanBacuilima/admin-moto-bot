@@ -1,10 +1,10 @@
-export class Establishment {
-    constructor(public id: number,
+export class Service {
+    constructor(
+        public id: number,
         public code: string,
         public name: string,
+        public icon: string,
         public active: boolean,
-        public latitude: number,
-        public longitude: number,
         public changedActive: boolean = false,
         public description?: string,
         public creationDate?: Date,
