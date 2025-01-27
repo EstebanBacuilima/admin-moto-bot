@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
-import { publicGuard } from './core/public.guard';
-import { authGuard } from './core/auth.guard';
+import { publicGuardService } from './core/public.guard';
+import { authGuardService } from './core/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/public/chat-bot', pathMatch: 'full' },
   {
     path: 'public',
-    canActivate: [publicGuard],
+   // canActivate: [publicGuardService],
     loadChildren: () => import('./presentation/pages/public/public.routes'),
   },
   {
     path: 'admin',
-    canActivate: [authGuard],
+   // canActivate: [authGuardService],
     loadChildren: () => import('./presentation/pages/private/private.routes'),
   },
   {

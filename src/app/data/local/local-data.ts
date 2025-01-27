@@ -12,6 +12,11 @@ export class LocalData {
     return userJson ? JSON.parse(userJson) : null;
   }
 
+  getSimpleToken(): String {
+    const token = localStorage.getItem(PreferenceKeyConst.tokenKey);
+    return token ? token : '';
+  }
+
   setUser(user: User | null): void {
     if (user === null) {
       localStorage.removeItem(PreferenceKeyConst.currentUserKey);
