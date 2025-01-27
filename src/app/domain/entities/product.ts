@@ -1,4 +1,4 @@
-import { ProductFile } from './product-file';
+import { ProductFile } from "./product_file";
 
 export class Product {
   constructor(
