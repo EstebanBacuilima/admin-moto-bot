@@ -19,8 +19,8 @@
             <tr>
                 <td>{{ establishment.name }}</td>
                 <td>{{ establishment.description ?? "-" }}</td>
-                <td>{{ establishment.latitude ?? "-" }}</td>
-                <td>{{ establishment.longitude ?? "-" }}</td>
+                <td>{{ establishment.latitude}}</td>
+                <td>{{ establishment.longitude}}</td>
 
                 <td style="text-align: center">
                     <nz-switch [ngModel]="establishment.active" [nzLoading]="establishment.changedActive"

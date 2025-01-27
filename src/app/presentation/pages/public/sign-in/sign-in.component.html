@@ -1,74 +1,46 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img
-      class="mx-auto h-10 w-auto"
-      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-      alt="Your Company"
-    />
-    <h2
-      class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-    >
-      Bienvenido
-    </h2>
-  </div>
+<div class="flex min-h-screen flex-col justify-center items-center px-6 py-12 bg-gray-50">
+  <div class="w-full max-w-sm bg-white rounded-lg shadow-lg p-6">
+    <div class="text-center">
+      <div class="mx-auto h-12 w-12 flex items-center justify-center bg-indigo-600 rounded-full shadow-lg">
+        <span class="text-white text-2xl font-bold">🤖</span>
+      </div>
+      <h2 class="mt-4 text-3xl font-bold text-gray-900">
+        Motobot
+      </h2>
+      <p class="mt-2 text-sm text-gray-600">
+        Bienvenido a Motobot, tu asistente inteligente diseñado para brindar respuestas rápidas, precisas y
+        personalizadas. ¡Comencemos!
+      </p>
+    </div>
 
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form
-      nz-form
-      [formGroup]="signInForm"
-      class="login-form"
-      (ngSubmit)="submitForm()"
-    >
-      <nz-form-item>
-        <nz-form-control
-          nzErrorTip="Por favor ingrese su nombre de usuario!"
-          class="custom-error-tip"
-        >
-          <nz-input-group nzPrefixIcon="user" class="login-input">
-            <input
-              type="text"
-              nz-input
-              formControlName="username"
-              placeholder="Username"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control
-          nzErrorTip="Por favor ingrese su contraseña!"
-          class="custom-error-tip"
-        >
-          <nz-input-group
-            nzPrefixIcon="lock"
-            [nzSuffix]="suffixTemplate"
-            class="login-input"
-          >
-            <input
-              [type]="passwordVisible ? 'text' : 'password'"
-              nz-input
-              formControlName="password"
-              placeholder="Password"
-            />
-            <ng-template #suffixTemplate>
-              <span
-                nz-icon
-                [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-                (click)="passwordVisible = !passwordVisible"
-              ></span>
-            </ng-template>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <button
-        [nzLoading]="loading | async"
-        nz-button
-        class="login-form-button login-form-margin"
-        [nzType]="'primary'"
-        id="login"
-      >
-        Iniciar Sesión
-      </button>
-    </form>
+    <div class="mt-8">
+      <form nz-form [formGroup]="signInForm" class="space-y-4" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Por favor ingrese su nombre de usuario!" class="custom-error-tip">
+            <nz-input-group nzPrefixIcon="user" class="login-input">
+              <input type="text" nz-input formControlName="username" placeholder="Nombre de usuario"
+                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Por favor ingrese su contraseña!" class="custom-error-tip">
+            <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate" class="login-input">
+              <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password"
+                placeholder="Contraseña"
+                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+              <ng-template #suffixTemplate>
+                <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                  (click)="passwordVisible = !passwordVisible"></span>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <button [nzLoading]="loading | async" nz-button class="login-form-button login-form-margin" [nzType]="'primary'"
+          id="login">
+          Iniciar Sesión
+        </button>
+      </form>
+    </div>
   </div>
 </div>

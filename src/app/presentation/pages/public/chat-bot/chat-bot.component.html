@@ -3,6 +3,7 @@
   <nz-sider class="sider" [nzWidth]="250" nzTheme="light">
     <div class="sider-header">
       <h3>Chats</h3>
+      <br />
       <button class="input-radius" nz-button nzType="primary" nzBlock>
         Nuevo Chat
       </button>
@@ -10,8 +11,8 @@
     <ul class="chat-list">
       @for (chat of chats; track $index) {
       <li class="chat-item" (click)="selectChat(chat)">
-        <nz-avatar nzText="{{ chat.name[0] }}"></nz-avatar>
-        <span>{{ chat.name }}</span>
+        <nz-avatar nzText="{{ chat.chatName[0] }}"></nz-avatar>
+        <span>{{ chat.chatName }}</span>
       </li>
       }
     </ul>
@@ -22,14 +23,25 @@
     <!-- Content -->
     <nz-content class="chat-content">
       <div class="chat-header">
-        <h3>{{ selectedChat?.name || "Selecciona un chat" }}</h3>
+        <h3>{{ selectedChat?.chatName || "Bienvenido" }}</h3>
       </div>
-      <div class="messages">
-        @for (message of messages; track $index) {
-        <div [class.sent]="message.sent">
-          <span>{{ message.text }}</span>
+      <div class="messages-container">
+        <div *ngIf="messages.length === 0" class="no-messages">
+          <div class="welcome-icon">👋</div>
+          <h2>¡Bienvenido a tu chat!</h2>
+          <p>Aquí podrás conversar y compartir información.</p>
         </div>
-        }
+        <div *ngFor="let message of messages" class="message-wrapper">
+          <div
+            class="message"
+            [ngClass]="{
+              sent: message.type === chatTypeEnum.user,
+              received: message.type === chatTypeEnum.bot
+            }"
+          >
+            <span>{{ message.text }}</span>
+          </div>
+        </div>
       </div>
     </nz-content>
 
@@ -45,6 +57,7 @@
           nz-input
           [(ngModel)]="newMessage"
           placeholder="Escribe tu mensaje..."
+          (keyup.enter)="sendMessage()"
         />
       </nz-input-group>
       <ng-template #suffixButton>
@@ -52,6 +65,7 @@
           class="input-radius"
           nz-button
           nzType="primary"
+          [nzLoading]="sending"
           (click)="sendMessage()"
         >
           Enviar
