@@ -4,7 +4,7 @@
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
-        <h1>Ant Design Of Angular</h1>
+        <h1>MotobotIA</h1>
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
@@ -38,6 +38,16 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <a>Clientes</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Servicios" nzIcon="form">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/catalog">Catalogo de productos</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/catalog-service">Catalogo de servicios</a>
           </li>
         </ul>
       </li>

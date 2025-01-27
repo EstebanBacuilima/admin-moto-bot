@@ -11,8 +11,9 @@ export class Product {
     public changedActive: boolean = false,
     public active: boolean,
     public productFiles: ProductFile[] = [],
+    public price: number,
     public description?: string,
     public creationDate?: Date,
     public updateDate?: Date
-  ) {}
+  ) { }
 }

@@ -41,6 +41,7 @@ export class ServiceListComponent {
     name: [null, [Validators.required, Validators.minLength(3)]],
     description: [null, [Validators.minLength(2)]],
     icon: [null, [Validators.required]],
+    price: [null, [Validators.required]],
     active: [true, [Validators.required]],
   });
 
@@ -154,6 +155,7 @@ export class ServiceListComponent {
       ?.setValue(this.selectedService?.description);
     this.serviceForm.get('active')?.setValue(this.selectedService?.active);
     this.serviceForm.get('icon')?.setValue(this.selectedService?.icon);
+    this.serviceForm.get('price')?.setValue(this.selectedService?.price);
   }
 
   private getService(): Service {
@@ -164,6 +166,7 @@ export class ServiceListComponent {
       this.serviceForm.get('icon')?.value,
       this.serviceForm.get('active')?.value,
       false,
+      this.serviceForm.get('price')?.value,
       this.serviceForm.get('description')?.value
     );
   }
