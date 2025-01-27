@@ -1,4 +1,3 @@
-import { CategoryListComponent } from './category-list/category-list.component';
 import { Routes } from '@angular/router';
 
 const privateRoutes: Routes = [
@@ -28,6 +27,20 @@ const privateRoutes: Routes = [
         loadComponent: () =>
           import('./category-list/category-list.component').then(
             (m) => m.CategoryListComponent
+          ),
+      },
+      {
+        path: 'service-list',
+        loadComponent: () =>
+          import('./service-list/service-list.component').then(
+            (m) => m.ServiceListComponent
+          ),
+      },
+      {
+        path: 'establishment-list',
+        loadComponent: () =>
+          import('./establishment-list/establishment-list.component').then(
+            (m) => m.EstablishmentListComponent
           ),
       },
       {

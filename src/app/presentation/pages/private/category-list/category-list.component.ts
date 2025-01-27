@@ -1,9 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ResponsiveService } from '../../../../services/responsive-service';
-import { BehaviorSubject, finalize } from 'rxjs';
-import { DefaultResponse } from '../../../../domain/common/default-response';
-import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -11,9 +7,13 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
+import { BehaviorSubject, finalize } from 'rxjs';
 import { CategoryService } from '../../../../data/src/category.service';
+import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Category } from '../../../../domain/entities/category';
+import { NgZorroAntdModule } from '../../../../ng-zorro.module';
+import { ResponsiveService } from '../../../../services/responsive-service';
+import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 
 @Component({
   selector: 'app-category-list',

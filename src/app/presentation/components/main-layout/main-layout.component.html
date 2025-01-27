@@ -1,24 +1,13 @@
 <nz-layout class="app-layout">
-  <nz-sider
-    class="menu-sidebar"
-    nzCollapsible
-    nzWidth="256px"
-    nzBreakpoint="md"
-    [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null"
-  >
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
         <h1>Ant Design Of Angular</h1>
       </a>
     </div>
-    <ul
-      nz-menu
-      nzTheme="dark"
-      nzMode="inline"
-      [nzInlineCollapsed]="isCollapsed"
-    >
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-submenu nzOpen nzTitle="Administración" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -32,7 +21,7 @@
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a>Establecimientos</a>
+            <a routerLink="/admin/establishment-list">Establecimientos</a>
           </li>
           <li nz--item nzMatchRouter>
             <a>Usuarios</a>
@@ -45,7 +34,7 @@
             <a>Citas</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Servicios</a>
+            <a routerLink="/admin/service-list">Services</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a>Clientes</a>
@@ -54,15 +43,12 @@
       </li>
     </ul>
   </nz-sider>
+
   <nz-layout>
     <nz-header>
       <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <span
-            class="trigger"
-            nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          ></span>
+          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
         </span>
       </div>
     </nz-header>
@@ -71,5 +57,7 @@
         <router-outlet></router-outlet>
       </div>
     </nz-content>
+
   </nz-layout>
+
 </nz-layout>

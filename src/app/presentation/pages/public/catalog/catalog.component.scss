@@ -1,0 +1,43 @@
+ @keyframes fadeInUp {
+     0% {
+         opacity: 0;
+         transform: translateY(20px);
+     }
+
+     100% {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ /* Animación para las tarjetas de producto */
+ .product-card {
+     opacity: 0;
+     transform: translateY(30px);
+     animation: fadeInUp 0.8s ease-out forwards;
+ }
+
+ /* Hover effect for product cards */
+ .nz-card:hover {
+     transform: scale(1.05);
+     transition: transform 0.3s ease;
+ }
+
+ /* Aplicar efecto hover solo a la imagen */
+ .product-image {
+     transition: transform 0.3s ease-in-out;
+     /* Suave transición */
+ }
+
+ /* Aumentar la imagen al pasar el ratón por encima */
+ .product-image:hover {
+     transform: scale(1.1);
+     /* Aumenta la imagen al 110% */
+ }
+
+
+ //Categories
+ .category-name:hover {
+     color: #ff9a8b !important;
+     cursor: pointer;
+ }
