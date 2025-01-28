@@ -21,11 +21,20 @@ import { AuthService } from '../../../../data/src/auth.service';
 import { RegisterRequest } from '../../../../domain/models/register-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TokenResponse } from '../../../../domain/models/toke-response';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { SignInRequest } from '../../../../domain/models/sign-in-request';
+import { UserChat } from '../../../../domain/entities/user-chat';
 
 @Component({
   selector: 'app-chat-bot',
   standalone: true,
-  imports: [CommonModule, NgZorroAntdModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    NgZorroAntdModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzIconModule,
+  ],
   templateUrl: './chat-bot.component.html',
   styleUrl: './chat-bot.component.scss',
 })
@@ -51,7 +60,10 @@ export class ChatBotComponent implements OnInit {
 
   // Register the user
   public registerForm: FormGroup;
+  public singInForm: FormGroup;
+
   public openModal = false;
+  public openModalLogin = false;
 
   constructor(private formBuilder: FormBuilder) {
     this.registerForm = this.formBuilder.group({
@@ -62,6 +74,11 @@ export class ChatBotComponent implements OnInit {
       password: [null, [Validators.required]],
       photoUrl: [null],
       phoneNumber: [null, [Validators.minLength(10)]],
+    });
+
+    this.singInForm = this.formBuilder.group({
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required]],
     });
   }
 
@@ -74,6 +91,7 @@ export class ChatBotComponent implements OnInit {
   }
 
   register() {
+    if (!this.validateForm()) return;
     this.registerLoading = true;
     this.authService
       .register(this.getRegisterRequest())
@@ -81,11 +99,9 @@ export class ChatBotComponent implements OnInit {
       .subscribe({
         next: (resp) => {
           if (resp.statusCode !== 200) return;
-          const token = resp.data.token;
-          if (token === null) return;
           this.tokenResponse = resp.data;
           this.message.success('Bienvenido');
-          this.localData.setToken(token);
+          this.localData.setToken(this.tokenResponse?.token || '');
           this.localData.setTokenResponde(resp.data);
           this.isLogin = true;
           this.listChatsByCurrentUser();
@@ -98,8 +114,46 @@ export class ChatBotComponent implements OnInit {
       });
   }
 
+  public singIn(): void {
+    if (!this.singValidateForm()) return;
+    this.registerLoading = true;
+    this.authService
+      .authenticate(
+        new SignInRequest(
+          this.singInForm.value.email,
+          this.singInForm.value.password
+        )
+      )
+      .pipe(finalize(() => (this.registerLoading = false)))
+      .subscribe({
+        next: (response) => {
+          if (response && response.statusCode === 200) {
+            this.tokenResponse = response.data;
+            this.message.success('Bienvenido');
+            this.localData.setToken(this.tokenResponse?.token || '');
+            this.localData.setTokenResponde(response.data);
+            this.isLogin = true;
+            this.listChatsByCurrentUser();
+            this.openModalLogin = false;
+          }
+        },
+        error: (_) => {
+          this.registerLoading = false;
+          this.openModalLogin = false;
+        },
+      });
+  }
+
   openModalRegister() {
     this.openModal = true;
+  }
+
+  openModalLoginView() {
+    this.openModalLogin = true;
+  }
+
+  closeLogin() {
+    this.openModalLogin = false;
   }
 
   cancel() {
@@ -110,6 +164,17 @@ export class ChatBotComponent implements OnInit {
     if (!this.isLogin) {
       this.openModal = true;
       return;
+    } else {
+      this.loadingChats = true;
+      this.userChatService
+        .create(new UserChat('', 'Nuevo chat'))
+        .subscribe((resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          this.chats.push(this.defaultResponse.data);
+          this.selectChat(this.defaultResponse.data);
+          this.loadingChats = false;
+        });
     }
   }
 
@@ -123,6 +188,7 @@ export class ChatBotComponent implements OnInit {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
           this.chats = this.defaultResponse.data;
+          this.validateIdAlreadyExistsChat();
         },
         error: () => {
           this.loadingChats = false;
@@ -139,7 +205,7 @@ export class ChatBotComponent implements OnInit {
     if (!this.selectedChat) return;
     this.loadingMessages = true;
     this.userChatService
-      .findByCode(this.selectedChat?.code)
+      .listByChatCode(this.selectedChat?.code)
       .pipe(finalize(() => (this.loadingMessages = false)))
       .subscribe({
         next: (resp) => {
@@ -154,19 +220,14 @@ export class ChatBotComponent implements OnInit {
   }
 
   validateIdAlreadyExistsChat() {
-    if (this.selectedChat != null) {
+    if (this.chats.length > 0) {
+      // Validate if the chat already exists
+      this.selectedChat = this.chats[0];
+      this.findMessagesByChat();
       return true;
     } else {
       // Create new chat
-      this.chats.push({
-        id: 0,
-        code: '0001',
-        uddi: 'FIRST-001',
-        chatName: 'Nuevo Chat',
-        active: true,
-        messages: [],
-      });
-      this.selectedChat = this.chats[this.chats.length - 1];
+      this.createChat();
       return true;
     }
   }
@@ -177,8 +238,7 @@ export class ChatBotComponent implements OnInit {
       return;
     }
     this.scrollToBottom();
-    this.validateIdAlreadyExistsChat();
-    if (this.newMessage.trim() !== '' && this.selectedChat != null) {
+    if (this.newMessage.trim() !== '') {
       this.sending = true;
       // Add the user message to the chat
       this.messages.push({
@@ -194,6 +254,7 @@ export class ChatBotComponent implements OnInit {
           next: (resp) => {
             if (resp.statusCode !== 200) return;
             this.defaultResponse = resp;
+            console.log(this.defaultResponse);
             let chatResponse: ChatResponse = this.defaultResponse.data;
             // Add the bot response to the chat
             this.messages.push({
@@ -202,11 +263,9 @@ export class ChatBotComponent implements OnInit {
               type: chatResponse.type,
             });
             this.newMessage = '';
-            this.scrollToBottom();
           },
           error: () => {
             this.sending = false;
-            this.scrollToBottom();
           },
         });
     }
@@ -238,6 +297,15 @@ export class ChatBotComponent implements OnInit {
     };
   }
 
+  logout() {
+    this.authService.signOut();
+    this.isLogin = false;
+    this.tokenResponse = null;
+    this.messages = [];
+    this.chats = [];
+    this.selectedChat = null;
+  }
+
   /**
    * It loops through all the form controls and marks them as dirty and updates their validity
    * @returns A boolean value.
@@ -250,5 +318,15 @@ export class ChatBotComponent implements OnInit {
       });
     }
     return this.registerForm.valid;
+  }
+
+  private singValidateForm(): boolean {
+    for (const i in this.singInForm.controls) {
+      this.singInForm.controls[i].markAsDirty();
+      this.singInForm.controls[i].updateValueAndValidity({
+        onlySelf: true,
+      });
+    }
+    return this.singInForm.valid;
   }
 }

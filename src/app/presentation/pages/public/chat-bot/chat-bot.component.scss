@@ -15,6 +15,35 @@
   text-align: center;
 }
 
+.chat-content {
+  padding: 16px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-section {
+  flex: 1;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.right-section {
+  margin-bottom: 8px;
+}
+
+.right-section button {
+  margin-top: 8px;
+}
+
 .chat-list {
   list-style: none;
   padding: 0;
@@ -71,6 +100,12 @@
 .message-wrapper {
   display: flex;
   width: 100%;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .message {

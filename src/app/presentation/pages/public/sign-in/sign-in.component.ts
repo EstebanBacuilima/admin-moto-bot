@@ -66,6 +66,7 @@ export class SignInComponent {
             this.message.success('Bienvenido');
             this.localData.setToken(token);
             this.loading.next(false);
+
             this.router.navigate(['/admin']);
           }
         },
