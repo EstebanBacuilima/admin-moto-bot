@@ -46,6 +46,11 @@ export class ProductService {
       `${this.apiURL}/${this.typePath}/list`
     );
   }
+  listAll(): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(
+      `${this.apiURL}/${this.typePath}/list-all`
+    );
+  }
 
   listByCategoryId(id: number): Observable<DefaultResponse> {
     return this.http.get<DefaultResponse>(

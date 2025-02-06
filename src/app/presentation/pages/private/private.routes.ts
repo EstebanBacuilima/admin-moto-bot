@@ -44,11 +44,23 @@ const privateRoutes: Routes = [
           ),
       },
       {
+        path: 'product-list',
+        loadComponent: () =>
+          import('./product-list/product-list.component').then(
+            (m) => m.ProductListComponent
+          ),
+      },
+      {
         path: 'catalog-service',
         loadComponent: () =>
           import('./catalog-service/catalog-service.component').then(
             (m) => m.CatalogServiceComponent
           ),
+      },
+      {
+        path: 'catalog',
+        loadComponent: () =>
+          import('../public/catalog/catalog.component').then((m) => m.CatalogComponent),
       },
       {
         path: '**',
