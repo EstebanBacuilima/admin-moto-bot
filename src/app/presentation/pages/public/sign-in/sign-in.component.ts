@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { PrimeNgModule } from '../../../../designs/primeng.module';
 import {
   FormBuilder,
   FormGroup,
@@ -9,12 +8,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../../data/src/auth.service';
-import { BehaviorSubject } from 'rxjs';
-import { SignInRequest } from '../../../../domain/models/sign-in-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NgZorroAntdModule } from '../../../../ng-zorro.module';
+import { BehaviorSubject } from 'rxjs';
 import { LocalData } from '../../../../data/local/local-data';
+import { AuthService } from '../../../../data/src/auth.service';
+import { PrimeNgModule } from '../../../../designs/primeng.module';
+import { SignInRequest } from '../../../../domain/models/sign-in-request';
+import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 
 @Component({
   selector: 'app-sign-in',
@@ -79,5 +79,9 @@ export class SignInComponent {
 
   togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
   }
 }
