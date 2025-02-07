@@ -1,0 +1,72 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzFooter]="modalFooter"
+  nzTitle="Agregar imagen"
+  (nzOnCancel)="onMainModalCancel()"
+>
+  <ng-container *nzModalContent>
+    <nz-tabset>
+      <ng-container *ngFor="let tab of tabs; let i = index">
+        <nz-tab [nzTitle]="titleTemplate">
+          <ng-template #titleTemplate>
+            <span nz-icon [nzType]="tab.icon"></span>
+            {{ tab.name }}
+          </ng-template>
+
+          <span style="padding-bottom: 10px">{{ tab.name }}</span>
+          <br />
+
+          <ng-container *ngIf="i === 0">
+            <app-simple-file (outputUrl)="urlEmit($event)"></app-simple-file>
+
+            <div class="contentButtom">
+              <button
+                [disabled]="!urlFile"
+                nz-button
+                (click)="handleUpload(urlFile)"
+                class="buttom"
+              >
+                <span nz-icon nzType="cloud-upload" nzTheme="outline"></span>
+                Guardar
+              </button>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="i === 1">
+            <input
+              nz-input
+              placeholder="Url"
+              pattern="^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$"
+              required
+              #urlInput="ngModel"
+              [(ngModel)]="url"
+              type="text"
+            />
+            <div *ngIf="urlInput.invalid && urlInput.touched">
+              <small *ngIf="urlInput.errors?.['required']"
+                >La URL es obligatoria.</small
+              >
+              <small *ngIf="urlInput.errors?.['pattern']"
+                >Ingrese una URL válida.</small
+              >
+            </div>
+
+            <div class="contentButtom">
+              <button
+                [disabled]="!urlInput.valid"
+                nz-button
+                (click)="handleUpload(url)"
+                class="buttom"
+              >
+                <span nz-icon nzType="cloud-upload" nzTheme="outline"></span>
+                Guardar
+              </button>
+            </div>
+          </ng-container>
+        </nz-tab>
+      </ng-container>
+    </nz-tabset>
+  </ng-container>
+
+  <ng-template #modalFooter> </ng-template>
+</nz-modal>
