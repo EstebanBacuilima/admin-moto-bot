@@ -35,27 +35,36 @@ export class ServiceListComponent {
   public searchText: string = '';
   public openModal = false;
   public selectedService: Service | null = null;
-  public icons: string[] = ["ico1", "icon2"];
 
   public serviceForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
     description: [null, [Validators.minLength(2)]],
-    icon: [null, [Validators.required]],
-    price: [null, [Validators.required]],
-    active: [true, [Validators.required]],
+    price: [null, [Validators.required,]],
+    active: [true, [Validators.required,]],
   });
 
-  public listOfColumn = [{
-    title: 'Nombre',
-    compare: (a: Service, b: Service) => a.name ? a.name.localeCompare(b.name) : 0,
-    priority: false,
-  },
-  {
-    title: 'Descripción',
-    compare: (a: Service, b: Service) =>
-      a.description ? a.description.localeCompare(b.description ?? '') : 0,
-    priority: 1,
-  },
+  public listOfColumn = [
+    {
+      title: 'Nombre',
+      compare: (a: Service, b: Service) => a.name ? a.name.localeCompare(b.name) : 0,
+      priority: false,
+    },
+    {
+      title: 'Descripción',
+      compare: (a: Service, b: Service) =>
+        a.description ? a.description.localeCompare(b.description ?? '') : 0,
+      priority: 1,
+    },
+    {
+      title: 'Precio',
+      compare: (a: Service, b: Service) => a.price - b.price,
+      priority: 1,
+    },
+    {
+      title: 'Image',
+      compare: (a: Service, b: Service) => (a.image ?? '').localeCompare(b.image ?? ''),
+      priority: false,
+    },
   ];
 
   ngOnInit(): void {
@@ -65,7 +74,7 @@ export class ServiceListComponent {
   public list() {
     this.loading$.next(true);
     this.serviceService
-      .list()
+      .list(this.searchText)
       .pipe(finalize(() => this.loading$.next(false)))
       .subscribe({
         next: (resp) => {
@@ -91,10 +100,10 @@ export class ServiceListComponent {
   }
 
   public saveOrUpdate(): void {
-    if (!this.validateForm()) {
-      return;
-    }
+    if (!this.validateForm()) return;
+
     if (this.saving()) return;
+
     this.saving.set(true);
     if (this.selectedService) {
       this.update();
@@ -102,6 +111,7 @@ export class ServiceListComponent {
       this.create();
     }
   }
+
   private update(): void {
     this.serviceService
       .update(this.getService())
@@ -154,7 +164,6 @@ export class ServiceListComponent {
       .get('description')
       ?.setValue(this.selectedService?.description);
     this.serviceForm.get('active')?.setValue(this.selectedService?.active);
-    this.serviceForm.get('icon')?.setValue(this.selectedService?.icon);
     this.serviceForm.get('price')?.setValue(this.selectedService?.price);
   }
 
@@ -163,7 +172,7 @@ export class ServiceListComponent {
       this.selectedService?.id ?? 0,
       this.selectedService?.code ?? '',
       this.serviceForm.get('name')?.value,
-      this.serviceForm.get('icon')?.value,
+      this.selectedService?.image ?? '',
       this.serviceForm.get('active')?.value,
       false,
       this.serviceForm.get('price')?.value,
@@ -179,11 +188,20 @@ export class ServiceListComponent {
 
   public add() {
     this.openModal = true;
+    this.resetForm();
+    this.serviceForm.get('active')?.setValue(true);
+
+  }
+
+  public resetForm() {
+    if (this.serviceForm) {
+      this.serviceForm.reset();
+    }
   }
 
   public cancel() {
     this.openModal = false;
-    this.selectedService = null;
+    this.resetForm();
     this.list();
   }
 }

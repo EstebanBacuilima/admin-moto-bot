@@ -33,8 +33,8 @@ export class ServiceService {
         );
     }
 
-    list(): Observable<DefaultResponse> {
-        return this.http.get<DefaultResponse>(`${this.apiURL}/${this.typePath}/list`);
+    list(value?: string): Observable<DefaultResponse> {
+        return this.http.get<DefaultResponse>(`${this.apiURL}/${this.typePath}/list?value=${value}`);
     }
 
     update(service: Service): Observable<DefaultResponse> {

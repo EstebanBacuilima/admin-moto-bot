@@ -3,7 +3,7 @@ export class Service {
         public id: number,
         public code: string,
         public name: string,
-        public icon: string,
+        public image: string,
         public active: boolean,
         public changedActive: boolean = false,
         public price: number,
