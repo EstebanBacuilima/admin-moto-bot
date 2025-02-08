@@ -41,13 +41,13 @@ export class CatalogServiceComponent {
   public services: Service[] = [];
 
   ngOnInit(): void {
-    this.listCategories();
+    this.list();
   }
 
-  public listCategories() {
+  public list() {
     this.loading$.next(true);
     this.serviceService
-      .list()
+      .listActive()
       .pipe(finalize(() => this.loading$.next(false)))
       .subscribe({
         next: (resp) => {
