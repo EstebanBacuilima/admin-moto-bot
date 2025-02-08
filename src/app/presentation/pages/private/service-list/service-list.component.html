@@ -19,6 +19,11 @@
             <tr>
                 <td>{{ service.name }}</td>
                 <td>{{ service.description ?? "-" }}</td>
+                <td>$ {{ service.price }}</td>
+                <td>
+                    <img [src]="service.image" alt="" width="70" height="70">
+                </td>
+
 
                 <td style="text-align: center">
                     <nz-switch [ngModel]="service.active" [nzLoading]="service.changedActive"
@@ -43,17 +48,7 @@
             <nz-col nzXs="24" nzMd="20">
                 <form nz-form [formGroup]="serviceForm">
                     <nz-row [nzGutter]="[12, 12]">
-                        <nz-col nzXs="24" nzMd="12">
-                            <nz-form-item>
-                                <nz-form-label nzRequired nzSpan="24">Icono</nz-form-label>
-                                <nz-form-control nzErrorTip="Icono no válido">
-                                    <nz-select formControlName="icon" nzPlaceHolder="Seleccione Icono"
-                                        style="width: 100%;">
-                                        <nz-option [nzValue]="l" [nzLabel]="l" *ngFor="let l of icons"></nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </nz-col>
+
                         <nz-col nzXs="24" nzMd="12">
                             <nz-form-item>
                                 <nz-form-label nzRequired nzSpan="24">Nombre</nz-form-label>
@@ -66,14 +61,14 @@
                         <nz-col nzXs="24" nzMd="12">
                             <nz-form-item>
                                 <nz-form-label nzRequired nzSpan="24">Precio</nz-form-label>
-                                <nz-form-control nzErrorTip="Nombre no válido" class="custom-error-tip-left">
+                                <nz-form-control nzErrorTip="Precio no válido" class="custom-error-tip-left">
                                     <input class="input-radius" type="number" nz-input formControlName="price"
-                                        placeholder="10 " />
+                                        pattern="^\d{1,7}(\.\d{1,2})?$" placeholder="Ej: 1234567.89" />
                                 </nz-form-control>
                             </nz-form-item>
                         </nz-col>
 
-                        <nz-col nzXs="24" nzMd="12">
+                        <nz-col nzXs="24" nzMd="24">
                             <nz-form-item>
                                 <nz-form-label nzSpan="24">Descripción</nz-form-label>
                                 <nz-form-control nzErrorTip="Descripción no válido">
@@ -84,16 +79,6 @@
                             </nz-form-item>
                         </nz-col>
 
-                        @if (selectedService) {
-                        <nz-col nzSpan="24">
-                            <nz-form-item>
-                                <nz-form-label nzRequired nzSpan="24">Estado</nz-form-label>
-                                <label formControlName="active" nz-checkbox>{{
-                                    serviceForm.get("active")?.value ? "ACTIVO" : "INACTIVO"
-                                    }}</label>
-                            </nz-form-item>
-                        </nz-col>
-                        }
                     </nz-row>
                 </form>
             </nz-col>

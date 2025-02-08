@@ -37,6 +37,13 @@ const privateRoutes: Routes = [
           ),
       },
       {
+        path: 'motorcycle-issue-list',
+        loadComponent: () =>
+          import('./motorcycle-issue-list/motorcycle-issue-list.component').then(
+            (m) => m.MotorcycleIssueListComponent
+          ),
+      },
+      {
         path: 'establishment-list',
         loadComponent: () =>
           import('./establishment-list/establishment-list.component').then(

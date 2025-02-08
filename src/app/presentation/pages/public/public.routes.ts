@@ -12,11 +12,11 @@ const publicRoutes: Routes = [
     loadComponent: () =>
       import('./sign-in/sign-in.component').then((m) => m.SignInComponent),
   },
-  {
-    path: 'catalog',
-    loadComponent: () =>
-      import('./catalog/catalog.component').then((m) => m.CatalogComponent),
-  },
+  // {
+  //   path: 'catalog',
+  //   loadComponent: () =>
+  //     import('./catalog/catalog.component').then((m) => m.CatalogComponent),
+  // },
   {
     path: '**',
     redirectTo: '/chat-bot',
