@@ -14,6 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
+import { SimpleFileComponent } from '../../../common/simple-file/simple-file.component';
 
 @Component({
   selector: 'app-bran-list',
@@ -24,6 +25,7 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     CommonModule,
     ReactiveFormsModule,
     SimplePageHeaderComponent,
+    SimpleFileComponent,
   ],
   templateUrl: './brand-list.component.html',
   styleUrl: './brand-list.component.scss',
@@ -46,6 +48,7 @@ export class BrandListComponent implements OnInit {
     name: [null, [Validators.required, Validators.minLength(3)]],
     description: [null, [Validators.minLength(5)]],
     active: [true, [Validators.required]],
+    logo: [null],
   });
 
   public listOfColumn = [
@@ -158,6 +161,7 @@ export class BrandListComponent implements OnInit {
       .get('description')
       ?.setValue(this.selectedBrand?.description);
     this.brandForm.get('active')?.setValue(this.selectedBrand?.active);
+    this.brandForm.get('logo')?.setValue(this.selectedBrand?.logo);
   }
 
   private getBrand(): Brand {
@@ -167,8 +171,13 @@ export class BrandListComponent implements OnInit {
       this.brandForm.get('name')?.value,
       false,
       this.brandForm.get('active')?.value,
-      this.brandForm.get('description')?.value
+      this.brandForm.get('description')?.value,
+      this.brandForm.get('logo')?.value
     );
+  }
+
+  updateLogoUrl(url: string): void {
+    this.brandForm.get('logo')?.setValue(url);
   }
 
   public onEdit(brand: Brand) {

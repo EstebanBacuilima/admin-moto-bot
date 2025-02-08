@@ -16,7 +16,7 @@ export class FileService {
   uploadFiles(fileList: any[]): Observable<DefaultResponse> {
     const formData = new FormData();
     fileList.forEach((file: any) => {
-      formData.append('file', file, file.path);
+      formData.append('files', file, file.path);
     });
     return this.http.post<DefaultResponse>(
       `${this.apiURL}/file/bulk-create`,
