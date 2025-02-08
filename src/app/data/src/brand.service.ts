@@ -15,7 +15,7 @@ export class BrandService {
   changeState(active: boolean, code: string): Observable<DefaultResponse> {
     return this.http.patch<DefaultResponse>(
       `${this.apiURL}/brand/modify/change-state/${code}`,
-      { active: active }
+      active
     );
   }
 
