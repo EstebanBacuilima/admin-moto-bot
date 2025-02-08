@@ -31,6 +31,14 @@
     <tbody>
       @for (brand of roleTable.data; track brand.id) {
       <tr>
+        <td>
+          <img
+            nz-image
+            [nzSrc]="brand.logo || defaultImage"
+            (error)="onImageError($event)"
+            alt="Logo"
+          />
+        </td>
         <td>{{ brand.name }}</td>
         <td>{{ brand.description ?? "-" }}</td>
         <td style="text-align: center">
