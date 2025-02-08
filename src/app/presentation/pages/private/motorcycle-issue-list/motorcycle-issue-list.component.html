@@ -1,0 +1,99 @@
+<app-simple-page-header title="InconvenienteS" searchPlaceholder="Buscar Inconvenientes" (add)="add()"
+    (searchChange)="onSearchChanged($event)"></app-simple-page-header>
+
+<nz-card>
+    <nz-table #roleTable [nzData]="motorcycleIssues" nzSize="small" nzTableLayout="fixed"
+        [nzScroll]="{ x: responsiveService.isMobile() ? '600px' : '' }" [nzLoading]="loading$.value"
+        [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+                    {{ column.title }}
+                </th>
+                <th [nzWidth]="'15%'" style="text-align: center">Estado</th>
+                <th [nzWidth]="'15%'" style="text-align: center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of roleTable.data; track item.id) {
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.issueDescription }}</td>
+                <td>{{ item.possibleCauses ?? "-" }}</td>
+                <td>{{ item.solutionSuggestion ?? "-" }}</td>
+
+
+                <td style="text-align: center">
+                    <nz-switch [ngModel]="item.active" [nzLoading]="item.changedActive"
+                        (ngModelChange)="onActiveChange(item, $event)"></nz-switch>
+                </td>
+                <td style="text-align: center">
+                    <button nz-button nzSize="small" nzType="default" nzShape="circle" (click)="onEdit(item)">
+                        <span nz-icon nzType="edit" nzTheme="outline"></span>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+</nz-card>
+
+<!-- Modal to create or edit service -->
+<nz-modal [(nzVisible)]="openModal" [nzTitle]="selectedMotorcycleIssue ? 'Editar Inconveniente' : 'Crear Inconveniente'"
+    (nzOnCancel)="cancel()" (nzOnOk)="saveOrUpdate()">
+    <ng-container *nzModalContent>
+        <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
+            <nz-col nzXs="24" nzMd="20">
+                <form nz-form [formGroup]="motorcycleIssueForm">
+                    <nz-row [nzGutter]="[12, 12]">
+
+                        <nz-col nzXs="24" nzMd="12">
+                            <nz-form-item>
+                                <nz-form-label nzRequired nzSpan="24">Nivel de problema</nz-form-label>
+                                <nz-form-control nzErrorTip="Nivel no válido" class="custom-error-tip-left">
+                                    <input class="input-radius" type="number" nz-input formControlName="severityLevel"
+                                        placeholder="10" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </nz-col>
+
+
+                        <nz-col nzXs="24" nzMd="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="24">Descripción</nz-form-label>
+                                <nz-form-control nzErrorTip="Descripción no válido">
+                                    <textarea class="input-radius" formControlName="issueDescription" nz-input
+                                        [nzAutosize]="{ minRows: 1, maxRows: 4 }">
+                                    </textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </nz-col>
+
+                        <nz-col nzXs="24" nzMd="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="24">Posibles causas</nz-form-label>
+                                <nz-form-control nzErrorTip="Posible causa no válido">
+                                    <textarea class="input-radius" formControlName="possibleCauses" nz-input
+                                        [nzAutosize]="{ minRows: 1, maxRows: 4 }">
+                                                                </textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </nz-col>
+
+                        <nz-col nzXs="24" nzMd="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="24">Solución sugerida</nz-form-label>
+                                <nz-form-control nzErrorTip="Solución sugerida no válido">
+                                    <textarea class="input-radius" formControlName="solutionSuggestion" nz-input
+                                        [nzAutosize]="{ minRows: 1, maxRows: 4 }">
+                                                                    </textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </nz-col>
+
+                    </nz-row>
+                </form>
+            </nz-col>
+        </nz-row>
+    </ng-container>
+</nz-modal>
