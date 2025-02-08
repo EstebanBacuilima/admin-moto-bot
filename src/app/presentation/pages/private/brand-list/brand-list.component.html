@@ -120,17 +120,6 @@
                 ></app-simple-file>
               </nz-form-item>
             </nz-col>
-            <!-- If active the chain. -->
-            @if (selectedBrand) {
-            <nz-col nzSpan="24">
-              <nz-form-item>
-                <nz-form-label nzRequired nzSpan="24">Estado</nz-form-label>
-                <label formControlName="active" nz-checkbox>{{
-                  brandForm.get("active")?.value ? "ACTIVO" : "INACTIVO"
-                }}</label>
-              </nz-form-item>
-            </nz-col>
-            }
           </nz-row>
         </form>
       </nz-col>
