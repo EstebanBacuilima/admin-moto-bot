@@ -37,6 +37,11 @@ export class ServiceService {
         return this.http.get<DefaultResponse>(`${this.apiURL}/${this.typePath}/list?value=${value}`);
     }
 
+    listActive(value?: string): Observable<DefaultResponse> {
+        value = value ? value : '';
+        return this.http.get<DefaultResponse>(`${this.apiURL}/${this.typePath}/list-active?value=${value}`);
+    }
+
     update(service: Service): Observable<DefaultResponse> {
         return this.http.put<DefaultResponse>(
             `${this.apiURL}/${this.typePath}/update/${service.code}`,
