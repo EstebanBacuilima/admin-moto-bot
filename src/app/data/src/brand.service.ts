@@ -12,10 +12,10 @@ export class BrandService {
   private readonly apiURL = environment.API_URL;
   private readonly http = inject(HttpClient);
 
-  changeState(state: boolean, code: string): Observable<DefaultResponse> {
+  changeState(active: boolean, code: string): Observable<DefaultResponse> {
     return this.http.patch<DefaultResponse>(
       `${this.apiURL}/brand/modify/change-state/${code}`,
-      { state }
+      active
     );
   }
 

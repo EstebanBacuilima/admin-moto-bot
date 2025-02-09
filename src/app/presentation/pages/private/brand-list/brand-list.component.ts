@@ -43,6 +43,7 @@ export class BrandListComponent implements OnInit {
   public searchText: string = '';
   public opendModal = false;
   public selectedBrand: Brand | null = null;
+  public defaultImage: string = '';
 
   public brandForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
@@ -52,6 +53,12 @@ export class BrandListComponent implements OnInit {
   });
 
   public listOfColumn = [
+    {
+      title: 'Logo',
+      compare: (a: Brand, b: Brand) =>
+        a.name ? a.name.localeCompare(b.name) : 0,
+      priority: false,
+    },
     {
       title: 'Nombre',
       compare: (a: Brand, b: Brand) =>
@@ -194,5 +201,10 @@ export class BrandListComponent implements OnInit {
     this.opendModal = false;
     this.selectedBrand = null;
     this.list();
+  }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    target.src = this.defaultImage;
   }
 }

@@ -1,5 +1,5 @@
 <app-simple-page-header
-  title="Macas"
+  title="Marcas"
   searchPlaceholder="Buscar Marcas"
   (add)="add()"
   (searchChange)="onSearchChanged($event)"
@@ -31,6 +31,14 @@
     <tbody>
       @for (brand of roleTable.data; track brand.id) {
       <tr>
+        <td>
+          <img
+            nz-image
+            [nzSrc]="brand.logo || defaultImage"
+            (error)="onImageError($event)"
+            alt="Logo"
+          />
+        </td>
         <td>{{ brand.name }}</td>
         <td>{{ brand.description ?? "-" }}</td>
         <td style="text-align: center">
@@ -112,17 +120,6 @@
                 ></app-simple-file>
               </nz-form-item>
             </nz-col>
-            <!-- If active the chain. -->
-            @if (selectedBrand) {
-            <nz-col nzSpan="24">
-              <nz-form-item>
-                <nz-form-label nzRequired nzSpan="24">Estado</nz-form-label>
-                <label formControlName="active" nz-checkbox>{{
-                  brandForm.get("active")?.value ? "ACTIVO" : "INACTIVO"
-                }}</label>
-              </nz-form-item>
-            </nz-col>
-            }
           </nz-row>
         </form>
       </nz-col>
