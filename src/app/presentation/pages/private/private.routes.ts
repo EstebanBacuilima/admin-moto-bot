@@ -58,6 +58,13 @@ const privateRoutes: Routes = [
           ),
       },
       {
+        path: 'attribute-list',
+        loadComponent: () =>
+          import('./attribute-list/attribute-list.component').then(
+            (m) => m.AttributeListComponent
+          ),
+      },
+      {
         path: 'catalog-service',
         loadComponent: () =>
           import('./catalog-service/catalog-service.component').then(
