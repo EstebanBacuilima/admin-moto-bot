@@ -108,7 +108,6 @@ export class ProductListComponent {
         )
       );
     });
-    console.log(this.productImages);
   }
 
   ngOnInit(): void {

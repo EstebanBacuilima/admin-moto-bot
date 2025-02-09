@@ -22,7 +22,6 @@ export class MultipleUploadFileComponent {
 
   public loading = false;
   public previewImages: string[] = [];
-  public savedFiles: string[] = [];
   public fileList: NzUploadFile[] = [];
   public totalDeleted = 0;
 
@@ -31,16 +30,11 @@ export class MultipleUploadFileComponent {
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {
-    this.fileList = [...this.fileList, file];
+    this.fileList = [file];
     this.previewFile(file);
+    this.uploadFile(this.fileList);
     return false;
   };
-
-  handleChange(event: NzUploadChangeParam): void {
-    if (event.type === 'success') {
-      this.previewFile(event.file);
-    }
-  }
 
   /** Upload file */
   private uploadFile(fileList: any): void {
@@ -51,9 +45,8 @@ export class MultipleUploadFileComponent {
       .subscribe({
         next: (response) => {
           if (response.statusCode !== 200) return;
-          this.savedFiles = response.data;
-          this.previewImages = this.savedFiles;
-          this.outputUrls.emit(this.previewImages ?? []);
+          this.previewImages = response.data;
+          this.updatePreviewImages(this.previewImages);
           this.message.success('Imagenes subida exitosamente');
         },
         error: () => {
@@ -63,13 +56,21 @@ export class MultipleUploadFileComponent {
       });
   }
 
+  updatePreviewImages(urls: string[]): void {
+    if (!urls) return;
+    if (this.previewImages.find((url) => url === urls[0])) return;
+    console.log(this.previewImages + '1');
+    this.previewImages = [...this.previewImages, ...urls];
+    console.log(this.previewImages + '2');
+    this.outputUrls.emit(this.previewImages);
+  }
+
   previewFile(file: NzUploadFile): void {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.previewImages.push(e.target.result);
     };
     reader.readAsDataURL(file as any);
-    this.uploadFile(this.fileList);
   }
 
   deleteFile(index: number): void {

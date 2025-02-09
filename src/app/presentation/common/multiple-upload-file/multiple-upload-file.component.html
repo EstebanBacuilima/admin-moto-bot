@@ -1,12 +1,11 @@
 <nz-upload
   nzType="drag"
-  [nzMultiple]="true"
+  [nzMultiple]="false"
   [nzSize]="20480"
   [(nzFileList)]="fileList"
   [nzBeforeUpload]="beforeUpload"
   [nzShowUploadList]="false"
   nzAccept="image/*"
-  (nzChange)="handleChange($event)"
 >
   <ng-container *ngIf="loading; else uploadContent">
     <p class="ant-upload-drag-icon">
