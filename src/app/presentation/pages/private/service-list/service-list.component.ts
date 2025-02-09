@@ -197,6 +197,8 @@ export class ServiceListComponent {
     if (this.serviceForm) {
       this.serviceForm.reset();
     }
+    this.selectedService = null;
+
   }
 
   public cancel() {
