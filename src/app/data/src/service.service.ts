@@ -17,7 +17,7 @@ export class ServiceService {
     changeState(state: boolean, code: string): Observable<DefaultResponse> {
         return this.http.patch<DefaultResponse>(
             `${this.apiURL}/${this.typePath}/modify/change-state/${code}`,
-            { state }
+            state
         );
     }
     create(service: Service): Observable<DefaultResponse> {
