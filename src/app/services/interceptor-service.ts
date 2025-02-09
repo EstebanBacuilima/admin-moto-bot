@@ -1,4 +1,3 @@
-import { AuthService } from './../data/src/auth.service';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -18,6 +17,7 @@ import {
   throwError,
 } from 'rxjs';
 import { LocalData } from '../data/local/local-data';
+import { AuthService } from './../data/src/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +52,7 @@ export class InterceptorService implements HttpInterceptor {
             }
             return throwError(() => error);
           }),
-          finalize(() => {})
+          finalize(() => { })
         );
       })
     );
@@ -87,6 +87,7 @@ export class InterceptorService implements HttpInterceptor {
       return 'Ya existe un registro: ' + errorCode.split('-').pop();
     }
     const data: { [key: string]: string } = {
+      'name-is-already-exists': 'El nombre ya existe',
       'user-not-found': 'Usuario no encontrado',
       'wrong-password': 'Contraseña incorrecta',
       'insecure-password': 'Contraseña insegura',
