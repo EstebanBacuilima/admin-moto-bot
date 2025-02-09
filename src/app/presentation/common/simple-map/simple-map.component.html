@@ -1,6 +1,6 @@
 <div class="google-map-container">
-    <google-map [zoom]="zoom" [width]="mapWidth" [height]="mapHeight" [center]="googleMapsCenter"
+    <google-map [zoom]="zoom" [width]="mapWidth" [height]="mapHeight" [center]="googleMapsCenter" [options]="options"
         (mapClick)="onMapClick($event)">
-        <map-marker *ngFor="let position of markerPositions" [position]="position"></map-marker>
+        <!-- <map-marker *ngFor="let position of markerPositions" [position]="position"></map-marker> -->
     </google-map>
 </div>

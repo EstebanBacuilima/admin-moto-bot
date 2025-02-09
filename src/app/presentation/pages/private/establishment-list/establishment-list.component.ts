@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { Router } from '@angular/router';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { EstablishmentService } from '../../../../data/src/establishment.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
@@ -14,12 +16,14 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
 @Component({
   selector: 'app-establishment-list',
   standalone: true,
-  imports: [NgZorroAntdModule,
+  imports: [
+    NgZorroAntdModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
     SimplePageHeaderComponent,
-    SimpleMapComponent],
+    SimpleMapComponent,
+    GoogleMapsModule],
   templateUrl: './establishment-list.component.html',
   styleUrl: './establishment-list.component.scss'
 })
@@ -27,6 +31,8 @@ export class EstablishmentListComponent {
   private readonly establishmentService = inject(EstablishmentService);
   public readonly responsiveService = inject(ResponsiveService);
   private readonly formBuilder = inject(FormBuilder);
+
+  private readonly router = inject(Router);
 
   public loading$ = new BehaviorSubject<boolean>(false);
   public saving = signal(false);
@@ -210,4 +216,10 @@ export class EstablishmentListComponent {
     this.establishmentForm.get('latitude')?.setValue(coordinate.latitude);
     this.establishmentForm.get('longitude')?.setValue(coordinate.longitude);
   }
+
+  options: google.maps.MapOptions = {
+    mapId: "DEMO_MAP_ID",
+    center: { lat: -31, lng: 147 },
+    zoom: 4,
+  };
 }
