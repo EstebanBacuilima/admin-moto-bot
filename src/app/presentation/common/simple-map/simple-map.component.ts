@@ -57,4 +57,12 @@ export class SimpleMapComponent {
       this.onSelectedCoordinate.emit(coordinate);
     }
   }
+
+
+  options: google.maps.MapOptions = {
+    mapId: "DEMO_MAP_ID",
+    center: { lat: -31, lng: 147 },
+    zoom: 4,
+  };
+
 }
