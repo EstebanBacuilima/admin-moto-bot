@@ -29,15 +29,23 @@
       </tr>
     </thead>
     <tbody>
-      @for (brand of roleTable.data; track brand.id) {
+      @for (category of roleTable.data; track category.id) {
       <tr>
-        <td>{{ brand.name }}</td>
-        <td>{{ brand.description ?? "-" }}</td>
+        <td>
+          <img
+            nz-image
+            [nzSrc]="category.logo || defaultImage"
+            (error)="onImageError($event)"
+            alt="Logo"
+          />
+        </td>
+        <td>{{ category.name }}</td>
+        <td>{{ category.description ?? "-" }}</td>
         <td style="text-align: center">
           <nz-switch
-            [ngModel]="brand.active"
-            [nzLoading]="brand.changedActive"
-            (ngModelChange)="onActiveChange(brand, $event)"
+            [ngModel]="category.active"
+            [nzLoading]="category.changedActive"
+            (ngModelChange)="onActiveChange(category, $event)"
           ></nz-switch>
         </td>
         <td style="text-align: center">
@@ -46,7 +54,7 @@
             nzSize="small"
             nzType="default"
             nzShape="circle"
-            (click)="onEdit(brand)"
+            (click)="onEdit(category)"
           >
             <span nz-icon nzType="edit" nzTheme="outline"></span>
           </button>
@@ -102,17 +110,16 @@
                 </nz-form-control>
               </nz-form-item>
             </nz-col>
-            <!-- If active the chain. -->
-            @if (selectedCategory) {
-            <nz-col nzSpan="24">
+            <!-- The logo of the campaign. -->
+            <nz-col nzXs="24" nzMd="12">
               <nz-form-item>
-                <nz-form-label nzRequired nzSpan="24">Estado</nz-form-label>
-                <label formControlName="active" nz-checkbox>{{
-                  categoryForm.get("active")?.value ? "ACTIVO" : "INACTIVO"
-                }}</label>
+                <nz-form-label nzSpan="24">Logo</nz-form-label>
+                <app-simple-file
+                  (outputUrl)="updateLogoUrl($event)"
+                  [inputUrl]="categoryForm.get('logo')?.value ?? ''"
+                ></app-simple-file>
               </nz-form-item>
             </nz-col>
-            }
           </nz-row>
         </form>
       </nz-col>

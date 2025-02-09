@@ -15,7 +15,7 @@ export class CategoryService {
   changeState(state: boolean, code: string): Observable<DefaultResponse> {
     return this.http.patch<DefaultResponse>(
       `${this.apiURL}/category/modify/change-state/${code}`,
-      { state }
+      state
     );
   }
   create(category: Category): Observable<DefaultResponse> {
@@ -43,7 +43,9 @@ export class CategoryService {
   }
 
   listProductsByCategoryId(id: number): Observable<DefaultResponse> {
-    return this.http.get<DefaultResponse>(`${this.apiURL}/product/list-by-category?id=${id}`);
+    return this.http.get<DefaultResponse>(
+      `${this.apiURL}/product/list-by-category?id=${id}`
+    );
   }
 
   listProducts(): Observable<DefaultResponse> {

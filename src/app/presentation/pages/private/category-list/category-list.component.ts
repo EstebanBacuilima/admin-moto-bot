@@ -14,6 +14,7 @@ import { Category } from '../../../../domain/entities/category';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
+import { SimpleFileComponent } from '../../../common/simple-file/simple-file.component';
 
 @Component({
   selector: 'app-category-list',
@@ -24,6 +25,7 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     CommonModule,
     ReactiveFormsModule,
     SimplePageHeaderComponent,
+    SimpleFileComponent,
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss',
@@ -41,6 +43,7 @@ export class CategoryListComponent {
   public searchText: string = '';
   public opendModal = false;
   public selectedCategory: Category | null = null;
+  public defaultImage = '';
 
   public categoryForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
@@ -49,6 +52,12 @@ export class CategoryListComponent {
   });
 
   public listOfColumn = [
+    {
+      title: 'Logo',
+      compare: (a: Category, b: Category) =>
+        a.name ? a.name.localeCompare(b.name) : 0,
+      priority: false,
+    },
     {
       title: 'Nombre',
       compare: (a: Category, b: Category) =>
@@ -157,6 +166,7 @@ export class CategoryListComponent {
     this.categoryForm
       .get('description')
       ?.setValue(this.selectedCategory?.description);
+    this.categoryForm.get('logo')?.setValue(this.selectedCategory?.logo);
     this.categoryForm.get('active')?.setValue(this.selectedCategory?.active);
   }
 
@@ -167,7 +177,8 @@ export class CategoryListComponent {
       this.categoryForm.get('name')?.value,
       false,
       this.categoryForm.get('active')?.value,
-      this.categoryForm.get('description')?.value
+      this.categoryForm.get('description')?.value,
+      this.categoryForm.get('logo')?.value
     );
   }
 
@@ -185,5 +196,14 @@ export class CategoryListComponent {
     this.opendModal = false;
     this.selectedCategory = null;
     this.list();
+  }
+
+  updateLogoUrl(url: string): void {
+    this.categoryForm.get('logo')?.setValue(url);
+  }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    target.src = this.defaultImage;
   }
 }
