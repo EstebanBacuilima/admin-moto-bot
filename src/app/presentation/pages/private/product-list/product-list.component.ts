@@ -21,6 +21,7 @@ import { ResponsiveService } from '../../../../services/responsive-service';
 import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 import { ProductFile } from '../../../../domain/entities/product_file';
 import { MultipleUploadFileComponent } from '../../../common/multiple-upload-file/multiple-upload-file.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-product-list',
@@ -32,6 +33,7 @@ import { MultipleUploadFileComponent } from '../../../common/multiple-upload-fil
     ReactiveFormsModule,
     SimplePageHeaderComponent,
     MultipleUploadFileComponent,
+    NzIconModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -58,7 +60,6 @@ export class ProductListComponent {
   public searchText: string = '';
   public openModal = false;
   public selectedProduct: Product | null = null;
-  public icons: string[] = ['ico1', 'icon2'];
 
   public productForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
@@ -283,7 +284,7 @@ export class ProductListComponent {
     this.list();
   }
 
-  public generateProductSku(length: number = 15): string {
+  public generateSku(length: number = 15) {
     const chars =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let code = '';
@@ -292,7 +293,6 @@ export class ProductListComponent {
       const randomIndex = Math.floor(Math.random() * chars.length);
       code += chars[randomIndex];
     }
-
-    return code;
+    this.productForm.get('sku')?.setValue(code);
   }
 }
