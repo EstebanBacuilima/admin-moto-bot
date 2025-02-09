@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, finalize } from 'rxjs';
-import { ServiceService } from '../../../../data/src/service.service';
+import { AttributeService } from '../../../../data/src/attribute.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
-import { Service } from '../../../../domain/entities/service';
+import { Attribute } from '../../../../domain/entities/attribute';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 
 @Component({
-  selector: 'app-service-list',
+  selector: 'app-attribute-list',
   standalone: true,
   imports: [
     NgZorroAntdModule,
@@ -18,11 +18,12 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     CommonModule,
     ReactiveFormsModule,
     SimplePageHeaderComponent],
-  templateUrl: './service-list.component.html',
-  styleUrl: './service-list.component.scss'
+  templateUrl: './attribute-list.component.html',
+  styleUrl: './attribute-list.component.scss'
 })
-export class ServiceListComponent {
-  private readonly serviceService = inject(ServiceService);
+export class AttributeListComponent {
+  // private readonly serviceService = inject(ServiceService);
+  private readonly attributeService = inject(AttributeService);
   public readonly responsiveService = inject(ResponsiveService);
   private readonly formBuilder = inject(FormBuilder);
 
@@ -30,40 +31,33 @@ export class ServiceListComponent {
   public saving = signal(false);
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
-  public services: Service[] = [];
+  public attributes: Attribute[] = [];
   private searchDebounceTimer: any;
   public searchText: string = '';
   public openModal = false;
-  public selectedService: Service | null = null;
+  public selectedAttribute: Attribute | null = null;
 
-  public serviceForm: UntypedFormGroup = this.formBuilder.group({
+  public attributeForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
-    description: [null, [Validators.minLength(2)]],
-    price: [null, [Validators.required,]],
-    active: [true, [Validators.required,]],
+    description: [null]
   });
 
   public listOfColumn = [
     {
+      title: 'ID',
+      compare: (a: Attribute, b: Attribute) => a.id ? a.id : 0,
+      priority: false,
+    },
+    {
       title: 'Nombre',
-      compare: (a: Service, b: Service) => a.name ? a.name.localeCompare(b.name) : 0,
+      compare: (a: Attribute, b: Attribute) => a.name ? a.name.localeCompare(b.name) : 0,
       priority: false,
     },
     {
       title: 'Descripción',
-      compare: (a: Service, b: Service) =>
+      compare: (a: Attribute, b: Attribute) =>
         a.description ? a.description.localeCompare(b.description ?? '') : 0,
       priority: 1,
-    },
-    {
-      title: 'Precio',
-      compare: (a: Service, b: Service) => a.price - b.price,
-      priority: 1,
-    },
-    {
-      title: 'Image',
-      compare: (a: Service, b: Service) => (a.image ?? '').localeCompare(b.image ?? ''),
-      priority: false,
     },
   ];
 
@@ -73,28 +67,28 @@ export class ServiceListComponent {
 
   public list() {
     this.loading$.next(true);
-    this.serviceService
+    this.attributeService
       .list(this.searchText)
       .pipe(finalize(() => this.loading$.next(false)))
       .subscribe({
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.services = this.defaultResponse.data)
+          return (this.attributes = this.defaultResponse.data)
         },
-        error: () => (this.services = [])
+        error: () => (this.attributes = [])
       })
   }
 
-  public onActiveChange(service: Service, state: boolean) {
-    service.changedActive = true;
-    this.serviceService
-      .changeState(state, service.code)
-      .pipe(finalize(() => (service.changedActive = false)))
+  public onActiveChange(attribute: Attribute, state: boolean) {
+    attribute.changedActive = true;
+    this.attributeService
+      .changeState(state, attribute.code)
+      .pipe(finalize(() => (attribute.changedActive = false)))
       .subscribe({
         next: (response) => {
           if (response.statusCode !== 200) return;
-          service.active = state;
+          attribute.active = state;
         },
       });
   }
@@ -105,7 +99,7 @@ export class ServiceListComponent {
     if (this.saving()) return;
 
     this.saving.set(true);
-    if (this.selectedService) {
+    if (this.selectedAttribute) {
       this.update();
     } else {
       this.create();
@@ -113,8 +107,8 @@ export class ServiceListComponent {
   }
 
   private update(): void {
-    this.serviceService
-      .update(this.getService())
+    this.attributeService
+      .update(this.getAttribute())
       .pipe(finalize(() => this.saving.set(false)))
       .subscribe({
         next: (response) => {
@@ -126,8 +120,8 @@ export class ServiceListComponent {
   }
 
   private create(): void {
-    this.serviceService
-      .create(this.getService())
+    this.attributeService
+      .create(this.getAttribute())
       .pipe(finalize(() => this.saving.set(false)))
       .subscribe({
         next: (response) => {
@@ -149,39 +143,33 @@ export class ServiceListComponent {
   }
 
   private validateForm(): boolean {
-    for (const i in this.serviceForm.controls) {
-      this.serviceForm.controls[i].markAsDirty();
-      this.serviceForm.controls[i].updateValueAndValidity({
+    for (const i in this.attributeForm.controls) {
+      this.attributeForm.controls[i].markAsDirty();
+      this.attributeForm.controls[i].updateValueAndValidity({
         onlySelf: true,
       });
     }
-    return this.serviceForm.valid;
+    return this.attributeForm.valid;
   }
 
   private fillForm(): void {
-    this.serviceForm.get('name')?.setValue(this.selectedService?.name);
-    this.serviceForm
-      .get('description')
-      ?.setValue(this.selectedService?.description);
-    this.serviceForm.get('active')?.setValue(this.selectedService?.active);
-    this.serviceForm.get('price')?.setValue(this.selectedService?.price);
+    this.attributeForm.get('name')?.setValue(this.selectedAttribute?.name);
+    this.attributeForm.get('description')?.setValue(this.selectedAttribute?.description);
   }
 
-  private getService(): Service {
-    return new Service(
-      this.selectedService?.id ?? 0,
-      this.selectedService?.code ?? '',
-      this.serviceForm.get('name')?.value,
-      this.selectedService?.image ?? '',
-      this.serviceForm.get('active')?.value,
-      false,
-      this.serviceForm.get('price')?.value,
-      this.serviceForm.get('description')?.value
+  private getAttribute(): Attribute {
+    return new Attribute(
+      this.selectedAttribute?.id ?? 0,
+      this.selectedAttribute?.code ?? '',
+      this.attributeForm.get('name')?.value,
+      this.selectedAttribute?.active ?? true,
+      this.attributeForm.get('description')?.value,
+      false
     );
   }
 
-  public onEdit(service: Service) {
-    this.selectedService = service;
+  public onEdit(attribute: Attribute) {
+    this.selectedAttribute = attribute;
     this.openModal = true;
     this.fillForm();
   }
@@ -189,16 +177,15 @@ export class ServiceListComponent {
   public add() {
     this.openModal = true;
     this.resetForm();
-    this.serviceForm.get('active')?.setValue(true);
+    this.attributeForm.get('active')?.setValue(true);
 
   }
 
   public resetForm() {
-    if (this.serviceForm) {
-      this.serviceForm.reset();
+    if (this.attributeForm) {
+      this.attributeForm.reset();
     }
-    this.selectedService = null;
-
+    this.selectedAttribute = null;
   }
 
   public cancel() {

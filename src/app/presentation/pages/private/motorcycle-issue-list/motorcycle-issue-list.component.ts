@@ -200,6 +200,8 @@ export class MotorcycleIssueListComponent {
     if (this.motorcycleIssueForm) {
       this.motorcycleIssueForm.reset();
     }
+    this.selectedMotorcycleIssue = null;
+
   }
 
   public cancel() {

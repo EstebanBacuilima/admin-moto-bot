@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { DefaultResponse } from '../../domain/common/default-response';
 import { Brand } from '../../domain/entities/brand';
 

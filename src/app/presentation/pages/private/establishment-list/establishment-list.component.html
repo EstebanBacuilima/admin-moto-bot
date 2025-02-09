@@ -88,16 +88,14 @@
                             </nz-form-item>
                         </nz-col>
 
-                        @if (selectedEstablishment) {
-                        <nz-col nzSpan="24">
-                            <nz-form-item>
-                                <nz-form-label nzRequired nzSpan="24">Estado</nz-form-label>
-                                <label formControlName="active" nz-checkbox>{{
-                                    establishmentForm.get("active")?.value ? "ACTIVO" : "INACTIVO"
-                                    }}</label>
-                            </nz-form-item>
-                        </nz-col>
-                        }
+                        <ng-container>
+                            <div style="justify-content: center">
+                                <app-simple-map [coordinate]="coordinate"
+                                    (onSelectedCoordinate)="onSelectedCoordinate($event)"></app-simple-map>
+                            </div>
+                        </ng-container>
+
+
                     </nz-row>
                 </form>
             </nz-col>

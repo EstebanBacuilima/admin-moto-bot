@@ -5,8 +5,10 @@ import { BehaviorSubject, finalize } from 'rxjs';
 import { EstablishmentService } from '../../../../data/src/establishment.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Establishment } from '../../../../domain/entities/establishment';
+import { Coordinate } from '../../../../domain/models/coordinate';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
+import { SimpleMapComponent } from '../../../common/simple-map/simple-map.component';
 import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 
 @Component({
@@ -16,7 +18,8 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    SimplePageHeaderComponent],
+    SimplePageHeaderComponent,
+    SimpleMapComponent],
   templateUrl: './establishment-list.component.html',
   styleUrl: './establishment-list.component.scss'
 })
@@ -194,5 +197,17 @@ export class EstablishmentListComponent {
     this.openModal = false;
     this.selectedEstablishment = null;
     this.list();
+  }
+
+  public coordinate: Coordinate = {
+    title: '',
+    label: '',
+    latitude: 0,
+    longitude: 0,
+  };
+
+  public onSelectedCoordinate(coordinate: Coordinate) {
+    this.establishmentForm.get('latitude')?.setValue(coordinate.latitude);
+    this.establishmentForm.get('longitude')?.setValue(coordinate.longitude);
   }
 }
