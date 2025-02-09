@@ -100,10 +100,20 @@
                           style="width: 100%"
                         >
                           <nz-option
+                            nzCustomContent
                             [nzValue]="b.id"
                             [nzLabel]="b.name"
                             *ngFor="let b of brands"
-                          ></nz-option>
+                          >
+                            <div class="option-content">
+                              <img
+                                [src]="b.logo"
+                                [alt]="b.logo"
+                                class="brand-logo"
+                              />
+                              <span class="brand-name">{{ b.name }}</span>
+                            </div>
+                          </nz-option>
                         </nz-select>
                       </nz-form-control>
                     </nz-form-item>
@@ -120,10 +130,20 @@
                           style="width: 100%"
                         >
                           <nz-option
+                            nzCustomContent
                             [nzValue]="c.id"
                             [nzLabel]="c.name"
                             *ngFor="let c of categories"
-                          ></nz-option>
+                          >
+                            <div class="option-content">
+                              <img
+                                [src]="c.logo"
+                                [alt]="c.logo"
+                                class="brand-logo"
+                              />
+                              <span class="brand-name">{{ c.name }}</span>
+                            </div></nz-option
+                          >
                         </nz-select>
                       </nz-form-control>
                     </nz-form-item>
@@ -154,13 +174,22 @@
                         nzErrorTip="Sku no válido"
                         class="custom-error-tip-left"
                       >
-                        <input
-                          class="input-radius"
-                          type="text"
-                          nz-input
-                          formControlName="sku"
-                          placeholder="213215 "
-                        />
+                        <nz-input-group [nzCompact]="true">
+                          <input
+                            class="input-radius"
+                            type="text"
+                            nz-input
+                            formControlName="sku"
+                            placeholder="213215"
+                          />
+                          <button
+                            nz-button
+                            nzType="primary"
+                            (click)="generateSku()"
+                          >
+                            <span nz-icon nzType="reload"></span>
+                          </button>
+                        </nz-input-group>
                       </nz-form-control>
                     </nz-form-item>
                   </nz-col>
@@ -212,12 +241,6 @@
             [inputUrls]="productImageUrls"
             (outputUrls)="onProductFilesChange($event)"
           ></app-multiple-upload-file>
-        </div>
-      </nz-col>
-      <nz-col nzXs="24" nzMd="12">
-        <div class="layout-container">
-          <nz-descriptions nzTitle="Características" nzLayout="vertical">
-          </nz-descriptions>
         </div>
       </nz-col>
     </nz-row>

@@ -32,6 +32,7 @@ export class MultipleUploadFileComponent {
   beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = [file];
     this.previewFile(file);
+    console.log(this.fileList + ' - the NzUploadFile');
     this.uploadFile(this.fileList);
     return false;
   };
@@ -46,6 +47,7 @@ export class MultipleUploadFileComponent {
         next: (response) => {
           if (response.statusCode !== 200) return;
           this.previewImages = response.data;
+          console.log(this.previewImages);
           this.updatePreviewImages(this.previewImages);
           this.message.success('Imagenes subida exitosamente');
         },
