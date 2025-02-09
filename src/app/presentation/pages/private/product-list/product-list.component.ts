@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { BrandService } from '../../../../data/src/brand.service';
 import { CategoryService } from '../../../../data/src/category.service';
@@ -13,7 +19,8 @@ import { Service } from '../../../../domain/entities/service';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
-
+import { ProductFile } from '../../../../domain/entities/product_file';
+import { MultipleUploadFileComponent } from '../../../common/multiple-upload-file/multiple-upload-file.component';
 
 @Component({
   selector: 'app-product-list',
@@ -23,10 +30,11 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    SimplePageHeaderComponent
+    SimplePageHeaderComponent,
+    MultipleUploadFileComponent,
   ],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss'
+  styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent {
   private readonly productService = inject(ProductService);
@@ -41,15 +49,16 @@ export class ProductListComponent {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public products: Product[] = [];
+  public productImages: ProductFile[] = [];
+  public productImageUrls: string[] = [];
   public categories: Category[] = [];
   public brands: Brand[] = [];
-
 
   private searchDebounceTimer: any;
   public searchText: string = '';
   public openModal = false;
   public selectedProduct: Product | null = null;
-  public icons: string[] = ["ico1", "icon2"];
+  public icons: string[] = ['ico1', 'icon2'];
 
   public productForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
@@ -61,18 +70,46 @@ export class ProductListComponent {
     sku: [true, [Validators.required]],
   });
 
-  public listOfColumn = [{
-    title: 'Nombre',
-    compare: (a: Service, b: Service) => a.name ? a.name.localeCompare(b.name) : 0,
-    priority: false,
-  },
-  {
-    title: 'Descripción',
-    compare: (a: Service, b: Service) =>
-      a.description ? a.description.localeCompare(b.description ?? '') : 0,
-    priority: 1,
-  },
+  public listOfColumn = [
+    {
+      title: 'Imágenes',
+      compare: (a: Service, b: Service) =>
+        a.name ? a.name.localeCompare(b.name) : 0,
+      priority: false,
+    },
+    {
+      title: 'Nombre',
+      compare: (a: Service, b: Service) =>
+        a.name ? a.name.localeCompare(b.name) : 0,
+      priority: false,
+    },
+    {
+      title: 'Descripción',
+      compare: (a: Service, b: Service) =>
+        a.description ? a.description.localeCompare(b.description ?? '') : 0,
+      priority: 1,
+    },
   ];
+
+  public onProductFilesChange(urls: string[]): void {
+    // Set the product images
+    this.productImages = [];
+    urls.forEach((url) => {
+      this.productImages.push(
+        new ProductFile(
+          0,
+          this.selectedProduct?.id ?? 0,
+          '',
+          url,
+          '',
+          true,
+          new Date(),
+          new Date()
+        )
+      );
+    });
+    console.log(this.productImages);
+  }
 
   ngOnInit(): void {
     this.listBrands();
@@ -89,10 +126,10 @@ export class ProductListComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.products = this.defaultResponse.data)
+          return (this.products = this.defaultResponse.data);
         },
-        error: () => (this.products = [])
-      })
+        error: () => (this.products = []),
+      });
   }
 
   // List Brands
@@ -105,10 +142,10 @@ export class ProductListComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.brands = this.defaultResponse.data)
+          return (this.brands = this.defaultResponse.data);
         },
-        error: () => (this.brands = [])
-      })
+        error: () => (this.brands = []),
+      });
   }
 
   // List Categories
@@ -121,10 +158,10 @@ export class ProductListComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.categories = this.defaultResponse.data)
+          return (this.categories = this.defaultResponse.data);
         },
-        error: () => (this.categories = [])
-      })
+        error: () => (this.categories = []),
+      });
   }
 
   public onActiveChange(product: Product, state: boolean) {
@@ -152,6 +189,7 @@ export class ProductListComponent {
       this.create();
     }
   }
+
   private update(): void {
     this.productService
       .update(this.getProduct())
@@ -204,10 +242,14 @@ export class ProductListComponent {
       .get('description')
       ?.setValue(this.selectedProduct?.description);
     this.productForm.get('active')?.setValue(this.selectedProduct?.active);
-    this.productForm.get('category_id')?.setValue(this.selectedProduct?.categoryId);
+    this.productForm
+      .get('category_id')
+      ?.setValue(this.selectedProduct?.categoryId);
     this.productForm.get('brand_id')?.setValue(this.selectedProduct?.brandId);
     this.productForm.get('price')?.setValue(this.selectedProduct?.price);
     this.productForm.get('sku')?.setValue(this.selectedProduct?.sku);
+    this.productImages = this.selectedProduct?.productFiles ?? [];
+    this.productImageUrls = this.productImages.map((image) => image.url);
   }
 
   private getProduct(): Product {
@@ -220,7 +262,7 @@ export class ProductListComponent {
       this.productForm.get('sku')?.value,
       false,
       this.productForm.get('active')?.value,
-      [],
+      this.productImages,
       this.productForm.get('price')?.value,
       this.productForm.get('description')?.value
     );
@@ -240,5 +282,18 @@ export class ProductListComponent {
     this.openModal = false;
     this.selectedProduct = null;
     this.list();
+  }
+
+  public generateProductSku(length: number = 15): string {
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let code = '';
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      code += chars[randomIndex];
+    }
+
+    return code;
   }
 }

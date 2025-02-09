@@ -1,0 +1,44 @@
+<nz-upload
+  nzType="drag"
+  [nzMultiple]="true"
+  [nzSize]="20480"
+  [(nzFileList)]="fileList"
+  [nzBeforeUpload]="beforeUpload"
+  [nzShowUploadList]="false"
+  nzAccept="image/*"
+  (nzChange)="handleChange($event)"
+>
+  <ng-container *ngIf="loading; else uploadContent">
+    <p class="ant-upload-drag-icon">
+      <i nz-icon nzType="loading" nzSpin></i>
+    </p>
+    <p class="ant-upload-text">Cargando archivo...</p>
+  </ng-container>
+
+  <ng-template #uploadContent>
+    <p class="ant-upload-drag-icon">
+      <i nz-icon nzType="inbox"></i>
+    </p>
+    <p class="ant-upload-text">Adjuntar archivos</p>
+    <p class="ant-upload-hint">Click o arrastra archivos para cargarlos</p>
+  </ng-template>
+</nz-upload>
+
+<!-- Images -->
+<div class="image-grid">
+  @for (image of previewImages; track $index) {
+  <div class="image-item">
+    <img [src]="image" alt="Vista previa" />
+    <button
+      class="delete-button"
+      nz-button
+      nzType="primary"
+      nzShape="circle"
+      nzDanger
+      (click)="deleteFile($index)"
+    >
+      <span nz-icon nzType="delete"></span>
+    </button>
+  </div>
+  }
+</div>
