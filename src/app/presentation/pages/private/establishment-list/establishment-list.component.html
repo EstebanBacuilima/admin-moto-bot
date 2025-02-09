@@ -37,6 +37,13 @@
     </nz-table>
 </nz-card>
 
+<ng-container>
+    <div style="justify-content: center">
+        <app-simple-map [coordinate]="coordinate"
+            (onSelectedCoordinate)="onSelectedCoordinate($event)"></app-simple-map>
+    </div>
+
+</ng-container>
 
 <!-- Modal to create or edit establishment -->
 <nz-modal [(nzVisible)]="openModal"
@@ -93,7 +100,6 @@
                                 <app-simple-map [coordinate]="coordinate"
                                     (onSelectedCoordinate)="onSelectedCoordinate($event)"></app-simple-map>
                             </div>
-                            <google-map height="600px" width="800px" [options]="options"> </google-map>
 
                         </ng-container>
 
