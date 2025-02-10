@@ -1,11 +1,12 @@
+import { HomeComponent } from './home/home.component';
 import { Routes } from '@angular/router';
 
 const publicRoutes: Routes = [
   { path: '', redirectTo: '/chat-bot', pathMatch: 'full' },
   {
-    path: 'chat-bot',
+    path: 'home',
     loadComponent: () =>
-      import('./chat-bot/chat-bot.component').then((m) => m.ChatBotComponent),
+      import('./home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'sign-in',
