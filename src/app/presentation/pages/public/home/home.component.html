@@ -1,0 +1,99 @@
+<nz-layout class="app-layout h-screen">
+  <!-- Header -->
+  <nz-header>Header</nz-header>
+
+  <!-- Main Layout -->
+  <nz-layout>
+    <!-- Content -->
+    <nz-content class="content">
+      <!-- chatbot button -->
+      <button class="chatbot-button" (click)="openChatbot()">
+        <span>🤖</span>
+      </button>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+<!-- Chatbot Drawer -->
+<nz-drawer
+  [nzSize]="'large'"
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzClosable]="false"
+  [nzVisible]="openChatbotModal"
+  nzPlacement="right"
+  nzTitle="Moto Botcito"
+  [nzFooter]="footerTemplate"
+  (nzOnClose)="closeChatbot()"
+>
+  <ng-container *nzDrawerContent>
+    <nz-card>
+      <div class="messages-container">
+        <div *ngIf="messages.length === 0" class="no-messages">
+          <div class="welcome-icon">🤖</div>
+          <h2>¡Bienvenido a tu MotoBotcito!</h2>
+          <p>Aquí podrás conversar y compartir información.</p>
+        </div>
+
+        <!-- Chat -->
+        <div
+          *ngFor="let message of messages"
+          class="message-wrapper"
+          [ngClass]="{
+            'user-message': message.type === chatTypeEnum.user,
+            'bot-message': message.type === chatTypeEnum.bot
+          }"
+        >
+          <!-- Bot -->
+          <div
+            *ngIf="message.type === chatTypeEnum.bot"
+            class="avatar bot-avatar"
+          >
+            🤖
+          </div>
+
+          <div class="message">
+            <span *ngIf="message.type === chatTypeEnum.user">{{
+              message.text
+            }}</span>
+            <span
+              *ngIf="message.type === chatTypeEnum.bot"
+              [innerHTML]="message.text"
+            ></span>
+          </div>
+
+          <!-- User -->
+          <div
+            *ngIf="message.type === chatTypeEnum.user"
+            class="avatar user-avatar"
+          >
+            👤
+          </div>
+        </div>
+      </div>
+    </nz-card>
+  </ng-container>
+</nz-drawer>
+
+<!-- Footer -->
+<ng-template #footerTemplate>
+  <div style="display: flex; gap: 8px; align-items: center">
+    <nz-input-group class="input-radius" nzSize="large">
+      <input
+        type="text"
+        nz-input
+        [(ngModel)]="newMessage"
+        placeholder="Escribe tu consulta..."
+        (keyup.enter)="sendMessage()"
+      />
+    </nz-input-group>
+    <button
+      class="input-radius"
+      nz-button
+      nzType="primary"
+      [nzLoading]="sending"
+      (click)="sendMessage()"
+    >
+      Enviar
+    </button>
+  </div>
+</ng-template>
