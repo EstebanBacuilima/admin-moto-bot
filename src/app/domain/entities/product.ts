@@ -1,4 +1,7 @@
-import { ProductFile } from "./product_file";
+import { Brand } from "./brand";
+import { Category } from "./category";
+import { ProductAttribute } from "./product_attribute";
+import { ProductImage } from "./product_image";
 
 export class Product {
   constructor(
@@ -10,8 +13,11 @@ export class Product {
     public sku: string,
     public changedActive: boolean = false,
     public active: boolean,
-    public productFiles: ProductFile[] = [],
+    public productImages: ProductImage[] = [],
+    public productAttributes: ProductAttribute[] = [],
     public price: number,
+    public brand?: Brand,
+    public category?: Category,
     public description?: string,
     public creationDate?: Date,
     public updateDate?: Date

@@ -1,0 +1,103 @@
+.product-detail-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.product-image img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+/* Contenedor Principal */
+.marketplace-product-card {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Encabezado */
+.product-header {
+    background-color: #003366;
+    color: white;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Contenido Principal */
+.product-content {
+    padding: 20px;
+}
+
+.product-carousel .carousel {
+    height: 350px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-content img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+
+/* Detalles del Producto */
+.product-details h1 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.product-details p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: #666;
+}
+
+.product-details .product-price span {
+    font-size: 24px;
+    color: #ff4d4f;
+}
+
+/* Tabs */
+.tabs-container {
+    margin-top: 40px;
+}
+
+.tabs-container nz-card {
+    box-shadow: none;
+}
+
+.brand-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.brand-info img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}

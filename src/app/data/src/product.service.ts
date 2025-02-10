@@ -30,7 +30,7 @@ export class ProductService {
 
   findByCode(code: string): Observable<DefaultResponse> {
     return this.http.get<DefaultResponse>(
-      `${this.apiURL}/${this.typePath}/get-by-code/${code}`
+      `${this.apiURL}/${this.typePath}/find/by-code/${code}`
     );
   }
 

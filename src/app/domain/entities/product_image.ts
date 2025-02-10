@@ -1,4 +1,4 @@
-export class ProductFile {
+export class ProductImage {
     constructor(
         public id: number,
         public productId: number,

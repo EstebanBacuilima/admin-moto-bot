@@ -19,7 +19,7 @@
       <tr>
         <td>
           <nz-carousel [nzDots]="false">
-            @for (item of product.productFiles; track $index) {
+            @for (item of product.productImages; track $index) {
             <div nz-carousel-content>
               <img [src]="item.url" alt="Producto" style="width: 80px; height: 80px; object-fit: cover" />
             </div>

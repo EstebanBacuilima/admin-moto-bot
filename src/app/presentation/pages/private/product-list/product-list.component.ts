@@ -20,7 +20,7 @@ import { Brand } from '../../../../domain/entities/brand';
 import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
 import { ProductAttribute } from '../../../../domain/entities/product_attribute';
-import { ProductFile } from '../../../../domain/entities/product_file';
+import { ProductImage } from '../../../../domain/entities/product_image';
 import { Service } from '../../../../domain/entities/service';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
@@ -59,7 +59,7 @@ export class ProductListComponent {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public products: Product[] = [];
-  public productImages: ProductFile[] = [];
+  public productImages: ProductImage[] = [];
   public productImageUrls: string[] = [];
   public categories: Category[] = [];
   public brands: Brand[] = [];
@@ -138,7 +138,7 @@ export class ProductListComponent {
     this.productImages = [];
     urls.forEach((url) => {
       this.productImages.push(
-        new ProductFile(
+        new ProductImage(
           0,
           this.selectedProduct?.id ?? 0,
           '',
@@ -289,7 +289,7 @@ export class ProductListComponent {
     this.productForm.get('brand_id')?.setValue(this.selectedProduct?.brandId);
     this.productForm.get('price')?.setValue(this.selectedProduct?.price);
     this.productForm.get('sku')?.setValue(this.selectedProduct?.sku);
-    this.productImages = this.selectedProduct?.productFiles ?? [];
+    this.productImages = this.selectedProduct?.productImages ?? [];
     this.productImageUrls = this.productImages.map((image) => image.url);
   }
 

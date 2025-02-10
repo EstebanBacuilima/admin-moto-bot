@@ -1,0 +1,71 @@
+<nz-card class="marketplace-product-card">
+    <div class="product-header">
+        <nav class="breadcrumb-nav">
+            <span>{{ product?.category?.name }} / {{ product?.name }}</span>
+        </nav>
+    </div>
+
+    <div nz-row [nzGutter]="24" class="product-content">
+        <div nz-col [nzSpan]="12" class="product-carousel">
+            <nz-carousel nzAutoPlay class="carousel">
+                <ng-container *ngFor="let item of product?.productImages; let i = index">
+                    <div nz-carousel-content class="carousel-content">
+                        <img [src]="item.url" alt="Product Image {{ i + 1 }}" />
+                    </div>
+                </ng-container>
+            </nz-carousel>
+        </div>
+
+        <div nz-col [nzSpan]="12" class="product-details">
+            <h1 class="product-sku">REF: {{ product?.sku }}</h1>
+            <h1 class="product-name">{{ product?.name }}</h1>
+            <p><strong>Categoría:</strong> {{ product?.category?.name }}</p>
+            <p><strong>Marca:</strong> {{ product?.brand?.name }}</p>
+            <p><em>{{ product?.brand?.description }}</em></p>
+            <p class="product-price">
+                <strong>Precio:</strong> <span>${{ product?.price }}</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+        <nz-card>
+            <nz-tabset>
+                <nz-tab nzTitle="Características">
+                    <nz-table #basicTable [nzBordered]="true" [nzData]="product?.productAttributes ?? []"
+                        [nzSize]="'middle'">
+                        <thead>
+                            <tr>
+                                <th nzWidth="30%">Especificación</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let spec of product?.productAttributes">
+                                <td>{{ spec.attribute.name }}</td>
+                                <td>{{ spec.value }}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-tab>
+                <nz-tab nzTitle="Descripción">
+                    <p>{{ product?.description }}</p>
+                </nz-tab>
+                <nz-tab nzTitle="Marca">
+                    <div class="brand-info">
+                        <img [src]="product?.brand?.logo" alt="{{ product?.brand?.name }}" />
+                        <p><strong>Nombre:</strong> {{ product?.brand?.name }}</p>
+                        <p><strong>Descripción:</strong> {{ product?.brand?.description }}</p>
+                    </div>
+                </nz-tab>
+                <nz-tab nzTitle="Categoría">
+                    <div class="brand-info">
+                        <img [src]="product?.category?.logo" alt="{{ product?.category?.name }}" />
+                        <p><strong>Nombre:</strong> {{ product?.category?.name }}</p>
+                        <p><strong>Descripción:</strong> {{ product?.category?.description }}</p>
+                    </div>
+                </nz-tab>
+            </nz-tabset>
+        </nz-card>
+    </div>
+</nz-card>
