@@ -7,21 +7,25 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { BehaviorSubject, finalize } from 'rxjs';
+import { AttributeService } from '../../../../data/src/attribute.service';
 import { BrandService } from '../../../../data/src/brand.service';
 import { CategoryService } from '../../../../data/src/category.service';
 import { ProductService } from '../../../../data/src/product.service';
+import { ProductAttributeService } from '../../../../data/src/product_attribute.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
+import { Attribute } from '../../../../domain/entities/attribute';
 import { Brand } from '../../../../domain/entities/brand';
 import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
+import { ProductAttribute } from '../../../../domain/entities/product_attribute';
+import { ProductFile } from '../../../../domain/entities/product_file';
 import { Service } from '../../../../domain/entities/service';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
-import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
-import { ProductFile } from '../../../../domain/entities/product_file';
 import { MultipleUploadFileComponent } from '../../../common/multiple-upload-file/multiple-upload-file.component';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 
 @Component({
   selector: 'app-product-list',
@@ -43,10 +47,14 @@ export class ProductListComponent {
   private readonly brandService = inject(BrandService);
   private readonly categoryService = inject(CategoryService);
 
+  private readonly productAttributeService = inject(ProductAttributeService);
+  private readonly attributeService = inject(AttributeService);
+
   public readonly responsiveService = inject(ResponsiveService);
   private readonly formBuilder = inject(FormBuilder);
 
   public loading$ = new BehaviorSubject<boolean>(false);
+  public loadingPa$ = new BehaviorSubject<boolean>(false);
   public saving = signal(false);
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
@@ -55,11 +63,23 @@ export class ProductListComponent {
   public productImageUrls: string[] = [];
   public categories: Category[] = [];
   public brands: Brand[] = [];
+  public attributes: Attribute[] = [];
+  public productAttributes: ProductAttribute[] = [];
 
   private searchDebounceTimer: any;
   public searchText: string = '';
   public openModal = false;
   public selectedProduct: Product | null = null;
+
+  // Product Attribute
+  public currentProductId = 0;
+
+  public openProductAttributes = false;
+  public openProductAttributeForm = false;
+
+  public selectedProductAttribute: ProductAttribute | null = null;
+
+  public isEditProductAttribute = false;
 
   public productForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
@@ -69,6 +89,11 @@ export class ProductListComponent {
     price: [null, [Validators.required]],
     active: [true, [Validators.required]],
     sku: [true, [Validators.required]],
+  });
+
+  public productAttributeForm: UntypedFormGroup = this.formBuilder.group({
+    attribute_id: [null, [Validators.required]],
+    value: [null, [Validators.required]],
   });
 
   public listOfColumn = [
@@ -88,6 +113,22 @@ export class ProductListComponent {
       title: 'Descripción',
       compare: (a: Service, b: Service) =>
         a.description ? a.description.localeCompare(b.description ?? '') : 0,
+      priority: 1,
+    },
+  ];
+
+  public listOfColumnAttributes = [
+    {
+      title: 'Atributo',
+
+      compare: (a: ProductAttribute, b: ProductAttribute) =>
+        a.attribute.name ? a.attribute.name.localeCompare(a.attribute.name) : 0,
+      priority: false,
+    },
+    {
+      title: 'Valor del atributo',
+      compare: (a: ProductAttribute, b: ProductAttribute) =>
+        a.value ? a.value.localeCompare(b.value ?? '') : 0,
       priority: 1,
     },
   ];
@@ -216,13 +257,13 @@ export class ProductListComponent {
       });
   }
 
-  public onSearchChanged(value: string) {
+  public onSearchChanged(value: string, isProduct: boolean) {
     this.searchText = value;
     if (this.searchDebounceTimer) {
       clearTimeout(this.searchDebounceTimer);
     }
     this.searchDebounceTimer = setTimeout(() => {
-      this.list();
+      isProduct ? this.list() : this.listProductAttributes();
     }, 800);
   }
 
@@ -294,5 +335,166 @@ export class ProductListComponent {
       code += chars[randomIndex];
     }
     this.productForm.get('sku')?.setValue(code);
+  }
+
+  // Open product Attribute
+  // public openProductAttributes = false;
+  // public openProductAttributeForm = false;
+
+  // public selectedProductAttribute = ProductAttribute || null;
+
+  public onProductAttributes(product: Product) {
+    this.currentProductId = product.id;
+    this.listProductAttributes();
+    this.listAttributes();
+    this.openProductAttributes = true;
+  }
+
+  public cancelProductAttributes() {
+    this.openProductAttributes = false;
+  }
+
+  public listProductAttributes() {
+    this.loadingPa$.next(true);
+    this.productAttributeService
+      .listByProduct(this.currentProductId, this.searchText)
+      .pipe(finalize(() => this.loadingPa$.next(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          return (this.productAttributes = this.defaultResponse.data);
+        },
+        error: () => (this.productAttributes = []),
+      });
+  }
+
+  public listAttributes() {
+    this.loadingPa$.next(true);
+    this.attributeService
+      .list()
+      .pipe(finalize(() => this.loadingPa$.next(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          return (this.attributes = this.defaultResponse.data);
+        },
+        error: () => (this.attributes = []),
+      });
+  }
+
+  public onActiveChangeProductAttribute(productAttribute: ProductAttribute, state: boolean) {
+    productAttribute.changedActive = true;
+    this.productAttributeService
+      .changeState(state, productAttribute.productId, productAttribute.attributeId)
+      .pipe(finalize(() => (productAttribute.changedActive = false)))
+      .subscribe({
+        next: (response) => {
+          if (response.statusCode !== 200) return;
+          productAttribute.active = state;
+        },
+      });
+  }
+
+  public saveOrUpdateProductAttribute(): void {
+    if (!this.validateProductAttributeForm()) {
+      return;
+    }
+    if (this.saving()) return;
+    this.saving.set(true);
+    if (this.selectedProductAttribute) {
+      this.updateProductAttribute();
+    } else {
+      this.createProductAttribute();
+    }
+  }
+
+  private updateProductAttribute(): void {
+    this.productAttributeService
+      .update(this.getProductAttribute())
+      .pipe(finalize(() => this.saving.set(false)))
+      .subscribe({
+        next: (response) => {
+          if (response.statusCode !== 200) return;
+          this.openProductAttributeForm = false;
+          this.listProductAttributes();
+        },
+      });
+  }
+
+  private createProductAttribute(): void {
+    this.productAttributeService
+      .create(this.getProductAttribute())
+      .pipe(finalize(() => this.saving.set(false)))
+      .subscribe({
+        next: (response) => {
+          if (response.statusCode !== 200) return;
+          this.openProductAttributeForm = false;
+          this.listProductAttributes();
+        },
+      });
+  }
+
+  private validateProductAttributeForm(): boolean {
+    for (const i in this.productAttributeForm.controls) {
+      this.productAttributeForm.controls[i].markAsDirty();
+      this.productAttributeForm.controls[i].updateValueAndValidity({
+        onlySelf: true,
+      });
+    }
+    return this.productAttributeForm.valid;
+  }
+
+  private getProductAttribute(): ProductAttribute {
+    return new ProductAttribute(
+      this.currentProductId,
+      this.productAttributeForm.get('attribute_id')?.value,
+      this.productAttributeForm.get('value')?.value,
+      this.selectedProductAttribute?.active ?? true,
+      {} as Attribute,
+      false
+    );
+  }
+
+  private fillProductAttributeForm(): void {
+    this.productAttributeForm.get('value')?.setValue(this.selectedProductAttribute?.value);
+    this.productAttributeForm
+      .get('attribute_id')
+      ?.setValue(this.selectedProductAttribute?.attributeId);
+
+  }
+
+  public onEditProductAttribute(productAttribute: ProductAttribute) {
+    this.selectedProductAttribute = productAttribute;
+    this.openProductAttributeForm = true;
+    // this.isEditProductAttribute = true;
+    this.productAttributeForm.get('attribute_id')?.disable();
+
+    this.fillProductAttributeForm();
+  }
+
+  public addProductAttribute() {
+    this.openProductAttributeForm = true;
+    this.resetProductAttributeForm();
+    // this.isEditProductAttribute = false;
+
+    this.productAttributeForm.get('attribute_id')?.enable();
+    // this.serviceForm.get('active')?.setValue(true);
+
+  }
+
+  public cancelProductAttribute() {
+    this.openProductAttributeForm = false;
+    this.resetProductAttributeForm();
+    // this.list();
+  }
+
+  public resetProductAttributeForm() {
+    if (this.productAttributeForm) {
+      this.productAttributeForm.reset();
+    }
+    this.selectedProductAttribute = null;
+
   }
 }

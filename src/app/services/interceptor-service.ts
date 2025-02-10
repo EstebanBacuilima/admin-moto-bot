@@ -99,6 +99,7 @@ export class InterceptorService implements HttpInterceptor {
         'El email ingresado esta siendo usado por otra persona',
       'phone-number-in-use-by-another-person':
         'El número de telefono ingresado esta siendo usado por otra persona',
+      'attribute-already-exists': 'Atributo ya existe',
       forbidden: 'Prohibido',
       unauthorized: 'No autorizado',
     };
