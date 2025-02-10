@@ -34,6 +34,7 @@ export class AttributeService {
     }
 
     list(value?: string): Observable<DefaultResponse> {
+        value = value ? value : '';
         return this.http.get<DefaultResponse>(`${this.apiURL}/${this.typePath}/list?value=${value}`);
     }
 

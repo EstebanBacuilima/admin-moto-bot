@@ -158,15 +158,6 @@ export class ServiceListComponent {
     return this.serviceForm.valid;
   }
 
-  private fillForm(): void {
-    this.serviceForm.get('name')?.setValue(this.selectedService?.name);
-    this.serviceForm
-      .get('description')
-      ?.setValue(this.selectedService?.description);
-    this.serviceForm.get('active')?.setValue(this.selectedService?.active);
-    this.serviceForm.get('price')?.setValue(this.selectedService?.price);
-  }
-
   private getService(): Service {
     return new Service(
       this.selectedService?.id ?? 0,
@@ -178,6 +169,15 @@ export class ServiceListComponent {
       this.serviceForm.get('price')?.value,
       this.serviceForm.get('description')?.value
     );
+  }
+
+  private fillForm(): void {
+    this.serviceForm.get('name')?.setValue(this.selectedService?.name);
+    this.serviceForm
+      .get('description')
+      ?.setValue(this.selectedService?.description);
+    this.serviceForm.get('active')?.setValue(this.selectedService?.active);
+    this.serviceForm.get('price')?.setValue(this.selectedService?.price);
   }
 
   public onEdit(service: Service) {

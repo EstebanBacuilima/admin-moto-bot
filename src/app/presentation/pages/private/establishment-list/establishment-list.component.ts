@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
-import { GoogleMapsModule } from '@angular/google-maps';
 import { Router } from '@angular/router';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { EstablishmentService } from '../../../../data/src/establishment.service';
@@ -22,8 +21,7 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     CommonModule,
     ReactiveFormsModule,
     SimplePageHeaderComponent,
-    SimpleMapComponent,
-    GoogleMapsModule],
+    SimpleMapComponent],
   templateUrl: './establishment-list.component.html',
   styleUrl: './establishment-list.component.scss'
 })
@@ -48,8 +46,17 @@ export class EstablishmentListComponent {
     name: [null, [Validators.required, Validators.minLength(3)]],
     description: [null, [Validators.minLength(2)]],
     active: [true, [Validators.required]],
-    latitude: [null, [Validators.required]],
-    longitude: [null, [Validators.required]],
+    // latitude: [null, [Validators.required]],
+    // longitude: [null, [Validators.required]],
+
+    latitude: [
+      null,
+      [Validators.required, Validators.pattern(/[+-]?([0-9]*[.])?[0-9]+/)],
+    ],
+    longitude: [
+      null,
+      [Validators.required, Validators.pattern(/[+-]?([0-9]*[.])?[0-9]+/)],
+    ],
   });
 
   public listOfColumn = [{
@@ -217,9 +224,4 @@ export class EstablishmentListComponent {
     this.establishmentForm.get('longitude')?.setValue(coordinate.longitude);
   }
 
-  options: google.maps.MapOptions = {
-    mapId: "DEMO_MAP_ID",
-    center: { lat: -31, lng: 147 },
-    zoom: 4,
-  };
 }

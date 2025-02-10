@@ -1,27 +1,13 @@
-<app-simple-page-header
-  title="Productos"
-  searchPlaceholder="Buscar Productos"
-  (add)="add()"
-  (searchChange)="onSearchChanged($event)"
-></app-simple-page-header>
+<app-simple-page-header title="Productos" searchPlaceholder="Buscar Productos" (add)="add()"
+  (searchChange)="onSearchChanged($event, true)"></app-simple-page-header>
 
 <nz-card>
-  <nz-table
-    #roleTable
-    [nzData]="products"
-    nzSize="small"
-    nzTableLayout="fixed"
-    [nzScroll]="{ x: responsiveService.isMobile() ? '600px' : '' }"
-    [nzLoading]="loading$.value"
-    [nzFrontPagination]="false"
-  >
+  <nz-table #roleTable [nzData]="products" nzSize="small" nzTableLayout="fixed"
+    [nzScroll]="{ x: responsiveService.isMobile() ? '600px' : '' }" [nzLoading]="loading$.value"
+    [nzFrontPagination]="false">
     <thead>
       <tr>
-        <th
-          *ngFor="let column of listOfColumn"
-          [nzSortFn]="column.compare"
-          [nzSortPriority]="column.priority"
-        >
+        <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
           {{ column.title }}
         </th>
         <th [nzWidth]="'15%'" style="text-align: center">Estado</th>
@@ -35,11 +21,7 @@
           <nz-carousel [nzDots]="false">
             @for (item of product.productFiles; track $index) {
             <div nz-carousel-content>
-              <img
-                [src]="item.url"
-                alt="Producto"
-                style="width: 80px; height: 80px; object-fit: cover"
-              />
+              <img [src]="item.url" alt="Producto" style="width: 80px; height: 80px; object-fit: cover" />
             </div>
             }
           </nz-carousel>
@@ -47,20 +29,14 @@
         <td>{{ product.name }}</td>
         <td>{{ product.description ?? "-" }}</td>
         <td style="text-align: center">
-          <nz-switch
-            [ngModel]="product.active"
-            [nzLoading]="product.changedActive"
-            (ngModelChange)="onActiveChange(product, $event)"
-          ></nz-switch>
+          <nz-switch [ngModel]="product.active" [nzLoading]="product.changedActive"
+            (ngModelChange)="onActiveChange(product, $event)"></nz-switch>
         </td>
         <td style="text-align: center">
-          <button
-            nz-button
-            nzSize="small"
-            nzType="default"
-            nzShape="circle"
-            (click)="onEdit(product)"
-          >
+          <button nz-button nzSize="small" nzType="default" nzShape="circle" (click)="onEdit(product)">
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+          <button nz-button nzSize="small" nzType="default" nzShape="circle" (click)="onProductAttributes(product)">
             <span nz-icon nzType="edit" nzTheme="outline"></span>
           </button>
         </td>
@@ -71,13 +47,8 @@
 </nz-card>
 
 <!-- Modal to create or edit product -->
-<nz-modal
-  [(nzVisible)]="openModal"
-  [nzTitle]="selectedProduct ? 'Editar Producto' : 'Crear Producto'"
-  (nzOnCancel)="cancel()"
-  (nzOnOk)="saveOrUpdate()"
-  nzWidth="1500px"
->
+<nz-modal [(nzVisible)]="openModal" nzTitle="selectedProduct ? 'Editar Producto' : 'Crear Producto'"
+  (nzOnCancel)="cancel()" (nzOnOk)="saveOrUpdate()" nzWidth="1500px">
   <ng-container *nzModalContent>
     <nz-row [nzGutter]="[12, 12]">
       <nz-col nzXs="24" nzMd="12">
@@ -90,27 +61,12 @@
                 <nz-row [nzGutter]="[12, 12]">
                   <nz-col nzXs="24" nzMd="12">
                     <nz-form-item>
-                      <nz-form-label nzRequired nzSpan="24"
-                        >Marca</nz-form-label
-                      >
+                      <nz-form-label nzRequired nzSpan="24">Marca</nz-form-label>
                       <nz-form-control nzErrorTip="Marca no válido">
-                        <nz-select
-                          formControlName="brand_id"
-                          nzPlaceHolder="Seleccione Marca"
-                          style="width: 100%"
-                        >
-                          <nz-option
-                            nzCustomContent
-                            [nzValue]="b.id"
-                            [nzLabel]="b.name"
-                            *ngFor="let b of brands"
-                          >
+                        <nz-select formControlName="brand_id" nzPlaceHolder="Seleccione Marca" style="width: 100%">
+                          <nz-option nzCustomContent [nzValue]="b.id" [nzLabel]="b.name" *ngFor="let b of brands">
                             <div class="option-content">
-                              <img
-                                [src]="b.logo"
-                                [alt]="b.logo"
-                                class="brand-logo"
-                              />
+                              <img [src]="b.logo" [alt]="b.logo" class="brand-logo" />
                               <span class="brand-name">{{ b.name }}</span>
                             </div>
                           </nz-option>
@@ -120,73 +76,36 @@
                   </nz-col>
                   <nz-col nzXs="24" nzMd="12">
                     <nz-form-item>
-                      <nz-form-label nzRequired nzSpan="24"
-                        >Categoría</nz-form-label
-                      >
+                      <nz-form-label nzRequired nzSpan="24">Categoría</nz-form-label>
                       <nz-form-control nzErrorTip="Marca no válido">
-                        <nz-select
-                          formControlName="category_id"
-                          nzPlaceHolder="Seleccione Categoría"
-                          style="width: 100%"
-                        >
-                          <nz-option
-                            nzCustomContent
-                            [nzValue]="c.id"
-                            [nzLabel]="c.name"
-                            *ngFor="let c of categories"
-                          >
+                        <nz-select formControlName="category_id" nzPlaceHolder="Seleccione Categoría"
+                          style="width: 100%">
+                          <nz-option nzCustomContent [nzValue]="c.id" [nzLabel]="c.name" *ngFor="let c of categories">
                             <div class="option-content">
-                              <img
-                                [src]="c.logo"
-                                [alt]="c.logo"
-                                class="brand-logo"
-                              />
+                              <img [src]="c.logo" [alt]="c.logo" class="brand-logo" />
                               <span class="brand-name">{{ c.name }}</span>
-                            </div></nz-option
-                          >
+                            </div>
+                          </nz-option>
                         </nz-select>
                       </nz-form-control>
                     </nz-form-item>
                   </nz-col>
                   <nz-col nzXs="24" nzMd="12">
                     <nz-form-item>
-                      <nz-form-label nzRequired nzSpan="24"
-                        >Nombre</nz-form-label
-                      >
-                      <nz-form-control
-                        nzErrorTip="Nombre no válido"
-                        class="custom-error-tip-left"
-                      >
-                        <input
-                          class="input-radius"
-                          type="text"
-                          nz-input
-                          formControlName="name"
-                          placeholder="Tornillos "
-                        />
+                      <nz-form-label nzRequired nzSpan="24">Nombre</nz-form-label>
+                      <nz-form-control nzErrorTip="Nombre no válido" class="custom-error-tip-left">
+                        <input class="input-radius" type="text" nz-input formControlName="name"
+                          placeholder="Tornillos " />
                       </nz-form-control>
                     </nz-form-item>
                   </nz-col>
                   <nz-col nzXs="24" nzMd="12">
                     <nz-form-item>
                       <nz-form-label nzRequired nzSpan="24">Sku</nz-form-label>
-                      <nz-form-control
-                        nzErrorTip="Sku no válido"
-                        class="custom-error-tip-left"
-                      >
+                      <nz-form-control nzErrorTip="Sku no válido" class="custom-error-tip-left">
                         <nz-input-group [nzCompact]="true">
-                          <input
-                            class="input-radius"
-                            type="text"
-                            nz-input
-                            formControlName="sku"
-                            placeholder="213215"
-                          />
-                          <button
-                            nz-button
-                            nzType="primary"
-                            (click)="generateSku()"
-                          >
+                          <input class="input-radius" type="text" nz-input formControlName="sku" placeholder="213215" />
+                          <button nz-button nzType="primary" (click)="generateSku()">
                             <span nz-icon nzType="reload"></span>
                           </button>
                         </nz-input-group>
@@ -195,20 +114,9 @@
                   </nz-col>
                   <nz-col nzXs="24" nzMd="12">
                     <nz-form-item>
-                      <nz-form-label nzRequired nzSpan="24"
-                        >Precio</nz-form-label
-                      >
-                      <nz-form-control
-                        nzErrorTip="Nombre no válido"
-                        class="custom-error-tip-left"
-                      >
-                        <input
-                          class="input-radius"
-                          type="number"
-                          nz-input
-                          formControlName="price"
-                          placeholder="10 "
-                        />
+                      <nz-form-label nzRequired nzSpan="24">Precio</nz-form-label>
+                      <nz-form-control nzErrorTip="Nombre no válido" class="custom-error-tip-left">
+                        <input class="input-radius" type="number" nz-input formControlName="price" placeholder="10 " />
                       </nz-form-control>
                     </nz-form-item>
                   </nz-col>
@@ -217,12 +125,8 @@
                     <nz-form-item>
                       <nz-form-label nzSpan="24">Descripción</nz-form-label>
                       <nz-form-control nzErrorTip="Descripción no válido">
-                        <textarea
-                          class="input-radius"
-                          formControlName="description"
-                          nz-input
-                          [nzAutosize]="{ minRows: 1, maxRows: 4 }"
-                        >
+                        <textarea class="input-radius" formControlName="description" nz-input
+                          [nzAutosize]="{ minRows: 1, maxRows: 4 }">
                         </textarea>
                       </nz-form-control>
                     </nz-form-item>
@@ -237,10 +141,103 @@
         <div class="layout-container">
           <nz-descriptions nzTitle="Imagenes" nzLayout="vertical">
           </nz-descriptions>
-          <app-multiple-upload-file
-            [inputUrls]="productImageUrls"
-            (outputUrls)="onProductFilesChange($event)"
-          ></app-multiple-upload-file>
+          <app-multiple-upload-file [inputUrls]="productImageUrls"
+            (outputUrls)="onProductFilesChange($event)"></app-multiple-upload-file>
+        </div>
+      </nz-col>
+    </nz-row>
+  </ng-container>
+</nz-modal>
+
+<!-- Modal list attributes -->
+<nz-modal [(nzVisible)]="openProductAttributes" nzTitle="Listado de Características"
+  (nzOnCancel)="cancelProductAttributes()" nzWidth="1500px">
+  <ng-container *nzModalContent>
+    <app-simple-page-header title="Características" searchPlaceholder="Buscar Características"
+      (add)="addProductAttribute()" (searchChange)="onSearchChanged($event, false)"></app-simple-page-header>
+    <nz-card>
+      <nz-table #roleTable [nzData]="productAttributes" nzSize="small" nzTableLayout="fixed"
+        [nzScroll]="{ x: responsiveService.isMobile() ? '600px' : '' }" [nzLoading]="loadingPa$.value"
+        [nzFrontPagination]="false">
+        <thead>
+          <tr>
+            <th *ngFor="let column of listOfColumnAttributes" [nzSortFn]="column.compare"
+              [nzSortPriority]="column.priority">
+              {{ column.title }}
+            </th>
+            <th [nzWidth]="'15%'" style="text-align: center">Estado</th>
+            <th [nzWidth]="'15%'" style="text-align: center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (proAttrib of roleTable.data; track $index) {
+          <tr>
+            <td>{{ proAttrib.attribute.name }}</td>
+            <td>{{ proAttrib.value }}</td>
+            <td style="text-align: center">
+              <nz-switch [ngModel]="proAttrib.active" [nzLoading]="proAttrib.changedActive"
+                (ngModelChange)="onActiveChangeProductAttribute(proAttrib, $event)"></nz-switch>
+            </td>
+            <td style="text-align: center">
+              <button nz-button nzSize="small" nzType="default" nzShape="circle"
+                (click)="onEditProductAttribute(proAttrib)">
+                <span nz-icon nzType="edit" nzTheme="outline"></span>
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </nz-table>
+    </nz-card>
+
+  </ng-container>
+</nz-modal>
+
+
+<!-- Modal to create product attribute -->
+<nz-modal [(nzVisible)]="openProductAttributeForm"
+  [nzTitle]="selectedProductAttribute ? 'Editar Característica' : 'Crear Característica'"
+  (nzOnCancel)="cancelProductAttribute()" (nzOnOk)="saveOrUpdateProductAttribute()" nzWidth="1500px">
+  <ng-container *nzModalContent>
+    <nz-row [nzGutter]="[12, 12]">
+      <nz-col nzXs="24" nzMd="12">
+        <div class="layout-container">
+          <nz-descriptions nzTitle="Datos de la Característica" nzLayout="vertical">
+          </nz-descriptions>
+          <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
+            <nz-col nzXs="24" nzMd="20">
+              <form nz-form [formGroup]="productAttributeForm">
+                <nz-row [nzGutter]="[12, 12]">
+                  <nz-col nzXs="24" nzMd="12">
+                    <nz-form-item>
+                      <nz-form-label nzRequired nzSpan="24">Características</nz-form-label>
+                      <nz-form-control nzErrorTip="Característica no válido">
+                        <nz-select formControlName="attribute_id" nzPlaceHolder="Seleccione Característica"
+                          style="width: 100%">
+                          <nz-option nzCustomContent [nzValue]="b.id" [nzLabel]="b.name" *ngFor="let b of attributes">
+                            <div class="option-content">
+                              <span class="brand-name">{{ b.name }}</span>
+                            </div>
+                          </nz-option>
+                        </nz-select>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </nz-col>
+
+                  <nz-col nzXs="24" nzMd="12">
+                    <nz-form-item>
+                      <nz-form-label nzSpan="24">Valor</nz-form-label>
+                      <nz-form-control nzErrorTip="Valor no válido">
+                        <textarea class="input-radius" formControlName="value" nz-input
+                          [nzAutosize]="{ minRows: 1, maxRows: 4 }" placeholder="Ejemplo: MODELO DE EJEMPLO">
+                        </textarea>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </nz-col>
+                </nz-row>
+              </form>
+            </nz-col>
+          </nz-row>
         </div>
       </nz-col>
     </nz-row>
