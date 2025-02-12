@@ -37,21 +37,13 @@
     </nz-table>
 </nz-card>
 
-<ng-container>
-    <div style="justify-content: center">
-        <app-simple-map [coordinate]="coordinate"
-            (onSelectedCoordinate)="onSelectedCoordinate($event)"></app-simple-map>
-    </div>
-
-</ng-container>
-
 <!-- Modal to create or edit establishment -->
 <nz-modal [(nzVisible)]="openModal"
     [nzTitle]="selectedEstablishment ? 'Editar Establecimiento' : 'Crear Establecimiento'" (nzOnCancel)="cancel()"
     (nzOnOk)="saveOrUpdate()">
     <ng-container *nzModalContent>
         <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
-            <nz-col nzXs="24" nzMd="20">
+            <nz-col>
                 <form nz-form [formGroup]="establishmentForm">
                     <nz-row [nzGutter]="[12, 12]">
                         <nz-col nzXs="24" nzMd="12">
@@ -77,8 +69,8 @@
 
                         <nz-col nzXs="24" nzMd="12">
                             <nz-form-item>
-                                <nz-form-label nzRequired nzSpan="24">Punto X</nz-form-label>
-                                <nz-form-control nzErrorTip="Punto X no válido" class="custom-error-tip-left">
+                                <nz-form-label nzRequired nzSpan="24">Latitud</nz-form-label>
+                                <nz-form-control nzErrorTip="Latitud no válido" class="custom-error-tip-left">
                                     <input class="input-radius" type="text" nz-input formControlName="latitude"
                                         placeholder="-2.886924" />
                                 </nz-form-control>
@@ -87,23 +79,21 @@
 
                         <nz-col nzXs="24" nzMd="12">
                             <nz-form-item>
-                                <nz-form-label nzRequired nzSpan="24">Punto Y</nz-form-label>
-                                <nz-form-control nzErrorTip="Punto Y no válido" class="custom-error-tip-left">
+                                <nz-form-label nzRequired nzSpan="24">Longitud</nz-form-label>
+                                <nz-form-control nzErrorTip="Longitud no válido" class="custom-error-tip-left">
                                     <input class="input-radius" type="text" nz-input formControlName="longitude"
                                         placeholder="-78.982517" />
                                 </nz-form-control>
                             </nz-form-item>
                         </nz-col>
-
-                        <ng-container>
-                            <div style="justify-content: center">
-                                <app-simple-map [coordinate]="coordinate"
-                                    (onSelectedCoordinate)="onSelectedCoordinate($event)"></app-simple-map>
-                            </div>
-
-                        </ng-container>
-
-
+                        <nz-col nzXs="24" nzMd="24">
+                            <ng-container>
+                                <div style="justify-content: center;">
+                                    <app-simple-map [coordinate]="coordinate"
+                                        (onSelectedCoordinate)="onSelectedCoordinate($event)"></app-simple-map>
+                                </div>
+                            </ng-container>
+                        </nz-col>
                     </nz-row>
                 </form>
             </nz-col>

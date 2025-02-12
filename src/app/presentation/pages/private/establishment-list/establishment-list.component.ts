@@ -46,15 +46,13 @@ export class EstablishmentListComponent {
     name: [null, [Validators.required, Validators.minLength(3)]],
     description: [null, [Validators.minLength(2)]],
     active: [true, [Validators.required]],
-    // latitude: [null, [Validators.required]],
-    // longitude: [null, [Validators.required]],
 
     latitude: [
-      null,
+      { value: '', disabled: true },
       [Validators.required, Validators.pattern(/[+-]?([0-9]*[.])?[0-9]+/)],
     ],
     longitude: [
-      null,
+      { value: '', disabled: true },
       [Validators.required, Validators.pattern(/[+-]?([0-9]*[.])?[0-9]+/)],
     ],
   });

@@ -23,7 +23,7 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     ReactiveFormsModule,
     SimplePageHeaderComponent,
     NzCarouselModule,
-    NzTabsModule    //
+    NzTabsModule,
   ],
   styles: [
     `
@@ -80,4 +80,12 @@ export class ProductDetailComponent {
         error: () => (this.product = null)
       });
   }
+
+  openWhatsApp() {
+    const phoneNumber = "1234567890";
+    const message = encodeURIComponent("Hola, quiero más información.");
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  }
+
+
 }
