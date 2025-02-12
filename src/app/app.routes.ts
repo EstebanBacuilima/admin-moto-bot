@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/public/chat-bot', pathMatch: 'full' },
+  { path: '', redirectTo: '/public/home', pathMatch: 'full' },
   {
     path: 'public',
     // canActivate: [publicGuardService],
@@ -14,6 +14,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/public/chat-bot',
+    redirectTo: '/public/home',
   },
 ];

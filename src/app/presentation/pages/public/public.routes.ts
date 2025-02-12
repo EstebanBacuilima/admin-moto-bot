@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 const publicRoutes: Routes = [
-  { path: '', redirectTo: '/chat-bot', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
     loadComponent: () =>
@@ -15,11 +15,13 @@ const publicRoutes: Routes = [
   {
     path: 'product-detail/:code',
     loadComponent: () =>
-      import('./product-detail/product-detail.component').then((m) => m.ProductDetailComponent),
+      import('./product-detail/product-detail.component').then(
+        (m) => m.ProductDetailComponent
+      ),
   },
   {
     path: '**',
-    redirectTo: '/chat-bot',
+    redirectTo: '/home',
   },
 ];
 
