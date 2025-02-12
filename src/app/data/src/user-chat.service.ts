@@ -23,7 +23,7 @@ export class UserChatService {
 
   createUserQuey(request: UserQueryRequestDto): Observable<DefaultResponse> {
     return this.http.post<DefaultResponse>(
-      `${this.apiURL}/${this.typePath}/user-query`,
+      `${this.apiURL}/${this.typePath}/query`,
       request
     );
   }

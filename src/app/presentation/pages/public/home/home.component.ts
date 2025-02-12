@@ -10,8 +10,6 @@ import { UserChatService } from '../../../../data/src/user-chat.service';
 import { ChatTypeEnum } from '../../../../domain/enums/chat-type-enum';
 import { finalize } from 'rxjs';
 import { UserQueryRequestDto } from '../../../../domain/models/user-query-request-dto';
-import { UserChat } from '../../../../domain/entities/user-chat';
-import { Chat } from '../../../../domain/models/chat';
 
 @Component({
   selector: 'app-home',
@@ -36,11 +34,9 @@ export class HomeComponent {
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public messages: ChatResponse[] = [];
   public chatTypeEnum = ChatTypeEnum;
-  public selectedChat?: Chat | null;
 
   openChatbot() {
     this.openChatbotModal = true;
-    this.createChat();
   }
 
   closeChatbot() {
@@ -55,10 +51,6 @@ export class HomeComponent {
   }
 
   sendMessage() {
-    if (this.selectedChat === null) {
-      this.message.error('Lo sentimos, servicio no disponible');
-      return;
-    }
     this.scrollToBottom();
     if (this.newMessage.trim() !== '') {
       this.sending = true;
@@ -92,19 +84,9 @@ export class HomeComponent {
     }
   }
 
-  createChat() {
-    this.userChatService
-      .create(new UserChat('', 'Nuevo chat'))
-      .subscribe((resp) => {
-        if (resp.statusCode !== 200) return;
-        this.defaultResponse = resp;
-        this.selectedChat = this.defaultResponse.data;
-      });
-  }
-
   getMessage(): UserQueryRequestDto {
     return {
-      chatCode: this.selectedChat?.code || '',
+      chatCode: '',
       userQuery: this.newMessage,
     };
   }
