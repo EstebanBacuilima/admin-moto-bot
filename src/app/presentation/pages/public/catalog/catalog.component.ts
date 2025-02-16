@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -36,6 +37,7 @@ import { ResponsiveService } from '../../../../services/responsive-service';
 })
 export class CatalogComponent {
   private readonly categoryService = inject(CategoryService);
+  private readonly router = inject(Router);
   private readonly productService = inject(ProductService);
   public readonly responsiveService = inject(ResponsiveService);
 
@@ -101,5 +103,9 @@ export class CatalogComponent {
   selectCategory(id: number) {
     this.selectedCategoryId.set(id)
     this.listProductsByCategory(id);
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
   }
 }
