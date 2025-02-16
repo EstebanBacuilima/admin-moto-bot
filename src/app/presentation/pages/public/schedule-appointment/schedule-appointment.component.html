@@ -1,0 +1,147 @@
+<div style="justify-content: center; margin: auto">
+  <nz-card>
+    <nz-steps [nzCurrent]="current">
+      @for (step of this.steps; track step.id) {
+      <nz-step
+        [nzTitle]="step.title"
+        [nzDescription]="step.description"
+        [nzPercentage]="step.async ? step.percentage : null"
+      >
+      </nz-step>
+      }
+    </nz-steps>
+
+    <nz-card class="steps-content">
+      @if (current == 0) {
+      <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
+        <nz-col nzXs="24" nzMd="20">
+          <form nz-form [formGroup]="customerForm">
+            <nz-row [nzGutter]="[12, 12]">
+              <!-- The id card -->
+              <nz-col nzXs="24" nzMd="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzSpan="24"
+                    >Identificación</nz-form-label
+                  >
+                  <nz-form-control
+                    nzErrorTip="Identificación no válido"
+                    class="custom-error-tip-left"
+                  >
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="idCard"
+                      placeholder="Ejemplo: 0105957811"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </nz-col>
+            </nz-row>
+            <nz-row [nzGutter]="[12, 12]">
+              <!-- The first name -->
+              <nz-col nzXs="24" nzMd="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzSpan="24">Nombres</nz-form-label>
+                  <nz-form-control
+                    nzErrorTip="Nombre no válido"
+                    class="custom-error-tip-left"
+                  >
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="firstName"
+                      placeholder="Ejemplo: Esteban"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </nz-col>
+              <!-- The last name -->
+              <nz-col nzXs="24" nzMd="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzSpan="24"
+                    >Apellidos</nz-form-label
+                  >
+                  <nz-form-control nzErrorTip="Apellidos no válidos">
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="lastName"
+                      placeholder="Ejemplo: Bacuilima"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </nz-col>
+            </nz-row>
+            <nz-row [nzGutter]="[12, 12]">
+              <!-- The mail -->
+              <nz-col nzXs="24" nzMd="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzSpan="24">Correo</nz-form-label>
+                  <nz-form-control
+                    nzErrorTip="Correo no válido"
+                    class="custom-error-tip-left"
+                  >
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="email"
+                      placeholder="Ejemplo: correo@gmail.co."
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </nz-col>
+              <!-- The password -->
+              <nz-col nzXs="24" nzMd="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzSpan="24"
+                    >Contraseña</nz-form-label
+                  >
+                  <nz-form-control nzErrorTip="Contraseña no válido">
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="password"
+                      placeholder="Ejemplo: Abc123.@"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </nz-col>
+            </nz-row>
+          </form>
+        </nz-col>
+      </nz-row>
+      }
+    </nz-card>
+
+    <div class="steps-action">
+      @if (current > 0) {
+      <button nz-button nzType="default" (click)="pre()">
+        <span>Atras</span>
+      </button>
+      } @if (current < 2) {
+      <button
+        nz-button
+        nzType="default"
+        (click)="next()"
+        [nzLoading]="processing"
+      >
+        <span>Siguiente</span>
+      </button>
+      } @if (current === 2) {
+      <button
+        nz-button
+        nzType="primary"
+        (click)="done()"
+        [nzLoading]="processing"
+      >
+        <span>Guardar</span>
+      </button>
+      }
+    </div>
+  </nz-card>
+</div>

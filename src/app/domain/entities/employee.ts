@@ -1,6 +1,6 @@
 import { Person } from './people';
 
-export class Customer {
+export class Employee {
   constructor(
     public id: number,
     public personId: number,

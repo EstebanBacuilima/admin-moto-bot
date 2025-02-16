@@ -25,6 +25,13 @@ const publicRoutes: Routes = [
       ),
   },
   {
+    path: 'schedule-appointment',
+    loadComponent: () =>
+      import('./schedule-appointment/schedule-appointment.component').then(
+        (m) => m.ScheduleAppointmentComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '/home',
   },
