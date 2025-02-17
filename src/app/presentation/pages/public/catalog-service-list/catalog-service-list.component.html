@@ -1,0 +1,9 @@
+<nz-tabset (nzSelectedIndexChange)="onTabClick($event)" nzCentered>
+    <nz-tab nzTitle="Todo"></nz-tab>
+    @for (item of services; track item.id) {
+    <!-- <li>{{ item.name }}</li> -->
+    <nz-tab [nzTitle]="item.name"></nz-tab>
+    } @empty {
+    <li>There are no items.</li>
+    }
+</nz-tabset>

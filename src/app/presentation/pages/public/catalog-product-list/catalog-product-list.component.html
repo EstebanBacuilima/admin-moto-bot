@@ -3,12 +3,10 @@
 
         <nz-col span="24">
             <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
-                Explora Nuestra Selección Exclusiva de Productos
+                {{category?.name}}
             </h2>
             <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">
-                En nuestro catálogo encontrarás una amplia variedad de productos de alta calidad, pensados para
-                satisfacer todas tus necesidades. Descubre lo mejor en tecnología, moda, hogar y mucho más. ¡Encuentra
-                el producto perfecto para ti!
+                {{category?.description ?? ''}}
             </p>
         </nz-col>
 

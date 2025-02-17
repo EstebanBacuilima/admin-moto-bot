@@ -6,16 +6,36 @@ const publicRoutes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./home/home.component').then((m) => m.HomeComponent),
+    children: [
+      { path: '', redirectTo: 'catalog', pathMatch: 'full' },
+      {
+        path: 'catalog',
+        loadComponent: () =>
+          import('./catalog/catalog.component').then((m) => m.CatalogComponent),
+      },
+      {
+        path: 'catalog/:code',
+        loadComponent: () =>
+          import('./catalog-product-list/catalog-product-list.component').then((m) => m.CatalogProductListComponent),
+      },
+      {
+        path: 'product-detail/:code',
+        loadComponent: () =>
+          import('./product-detail/product-detail.component').then(
+            (m) => m.ProductDetailComponent
+          ),
+      },
+      {
+        path: '**',
+        redirectTo: 'catalog',
+
+      },
+    ]
   },
   {
     path: 'sign-in',
     loadComponent: () =>
       import('./sign-in/sign-in.component').then((m) => m.SignInComponent),
-  },
-  {
-    path: 'catalog',
-    loadComponent: () =>
-      import('./catalog/catalog.component').then((m) => m.CatalogComponent),
   },
   {
     path: 'product-detail/:code',
@@ -24,9 +44,15 @@ const publicRoutes: Routes = [
         (m) => m.ProductDetailComponent
       ),
   },
+  // {
+  //   path: 'catalog',
+  //   loadComponent: () =>
+  //     import('./catalog/catalog.component').then((m) => m.CatalogComponent),
+  // },
   {
     path: '**',
     redirectTo: '/home',
+
   },
 ];
 

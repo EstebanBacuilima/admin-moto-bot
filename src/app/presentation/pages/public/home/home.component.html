@@ -4,8 +4,13 @@
 
   <!-- Main Layout -->
   <nz-layout>
+
     <!-- Content -->
     <nz-content class="content">
+      <app-catalog-service-list></app-catalog-service-list>
+
+      <router-outlet></router-outlet>
+
       <!-- chatbot button -->
       <button class="chatbot-button" (click)="openChatbot()">
         <span>🤖</span>
@@ -15,16 +20,8 @@
 </nz-layout>
 
 <!-- Chatbot Drawer -->
-<nz-drawer
-  [nzSize]="'large'"
-  [nzBodyStyle]="{ overflow: 'auto' }"
-  [nzClosable]="false"
-  [nzVisible]="openChatbotModal"
-  nzPlacement="right"
-  nzTitle="Moto Botcito"
-  [nzFooter]="footerTemplate"
-  (nzOnClose)="closeChatbot()"
->
+<nz-drawer [nzSize]="'large'" [nzBodyStyle]="{ overflow: 'auto' }" [nzClosable]="false" [nzVisible]="openChatbotModal"
+  nzPlacement="right" nzTitle="Moto Botcito" [nzFooter]="footerTemplate" (nzOnClose)="closeChatbot()">
   <ng-container *nzDrawerContent>
     <nz-card>
       <div class="messages-container">
@@ -35,37 +32,24 @@
         </div>
 
         <!-- Chat -->
-        <div
-          *ngFor="let message of messages"
-          class="message-wrapper"
-          [ngClass]="{
+        <div *ngFor="let message of messages" class="message-wrapper" [ngClass]="{
             'user-message': message.type === chatTypeEnum.user,
             'bot-message': message.type === chatTypeEnum.bot
-          }"
-        >
+          }">
           <!-- Bot -->
-          <div
-            *ngIf="message.type === chatTypeEnum.bot"
-            class="avatar bot-avatar"
-          >
+          <div *ngIf="message.type === chatTypeEnum.bot" class="avatar bot-avatar">
             🤖
           </div>
 
           <div class="message">
             <span *ngIf="message.type === chatTypeEnum.user">{{
               message.text
-            }}</span>
-            <span
-              *ngIf="message.type === chatTypeEnum.bot"
-              [innerHTML]="message.text"
-            ></span>
+              }}</span>
+            <span *ngIf="message.type === chatTypeEnum.bot" [innerHTML]="message.text"></span>
           </div>
 
           <!-- User -->
-          <div
-            *ngIf="message.type === chatTypeEnum.user"
-            class="avatar user-avatar"
-          >
+          <div *ngIf="message.type === chatTypeEnum.user" class="avatar user-avatar">
             👤
           </div>
         </div>
@@ -78,21 +62,10 @@
 <ng-template #footerTemplate>
   <div style="display: flex; gap: 8px; align-items: center">
     <nz-input-group class="input-radius" nzSize="large">
-      <input
-        type="text"
-        nz-input
-        [(ngModel)]="newMessage"
-        placeholder="Escribe tu consulta..."
-        (keyup.enter)="sendMessage()"
-      />
+      <input type="text" nz-input [(ngModel)]="newMessage" placeholder="Escribe tu consulta..."
+        (keyup.enter)="sendMessage()" />
     </nz-input-group>
-    <button
-      class="input-radius"
-      nz-button
-      nzType="primary"
-      [nzLoading]="sending"
-      (click)="sendMessage()"
-    >
+    <button class="input-radius" nz-button nzType="primary" [nzLoading]="sending" (click)="sendMessage()">
       Enviar
     </button>
   </div>

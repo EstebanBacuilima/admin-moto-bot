@@ -27,7 +27,7 @@ export class CategoryService {
 
   findByCode(code: string): Observable<DefaultResponse> {
     return this.http.get<DefaultResponse>(
-      `${this.apiURL}/category/get-by-code/${code}`
+      `${this.apiURL}/category/find/by?code=${code}`
     );
   }
 
@@ -45,6 +45,12 @@ export class CategoryService {
   listProductsByCategoryId(id: number): Observable<DefaultResponse> {
     return this.http.get<DefaultResponse>(
       `${this.apiURL}/product/list-by-category?id=${id}`
+    );
+  }
+
+  listProductsByCategoryCode(code: string): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(
+      `${this.apiURL}/product/list-by-category-code?code=${code}`
     );
   }
 
