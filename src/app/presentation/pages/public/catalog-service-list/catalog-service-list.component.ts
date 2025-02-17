@@ -65,7 +65,7 @@ export class CatalogServiceListComponent {
     } else {
       const category = this.services[index - 1];
 
-      this.router.navigate(['/public/home/catalog/' + category.code], { state: { category } });
+      this.router.navigate(['/public/home/catalog/' + category.code]);
     }
   }
 }
