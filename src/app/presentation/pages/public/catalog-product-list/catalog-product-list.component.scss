@@ -26,12 +26,27 @@
  }
 
  .product-image:hover {
-     transform: scale(1.1);
+     transform: scale(0.9);
  }
 
 
- //Categories
- .category-name:hover {
-     color: #ff9a8b !important;
-     cursor: pointer;
+ // Price
+ .price-container {
+     text-align: center;
+     font-family: Arial, sans-serif;
+     margin-top: 20px;
+ }
+
+ .discounted-price {
+     font-size: 24px;
+     font-weight: bold;
+     color: #00AEEF;
+     /* Azul llamativo */
+ }
+
+ .original-price {
+     font-size: 14px;
+     text-decoration: line-through;
+     color: #999;
+     /* Gris tenue */
  }

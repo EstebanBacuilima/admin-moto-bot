@@ -19,6 +19,7 @@ export class Product {
     public brand?: Brand,
     public category?: Category,
     public description?: string,
+    public percentage?: number,
     public creationDate?: Date,
     public updateDate?: Date
   ) { }

@@ -61,7 +61,6 @@ export class CatalogServiceListComponent {
   onTabClick(index: number): void {
     if (index === 0) {
       this.router.navigate(['/public/home/catalog'],);
-
     } else {
       const category = this.services[index - 1];
 

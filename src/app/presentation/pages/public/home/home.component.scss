@@ -2,6 +2,36 @@
 //   text-align: center;
 // }
 
+
+nz-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  /* Ajusta según la altura del header */
+  background: white;
+  z-index: 1000;
+}
+
+app-catalog-service-list {
+  position: fixed;
+  top: 60px;
+  /* Debe estar justo debajo del header */
+  left: 0;
+  width: 100%;
+  height: 50px;
+  /* Ajusta la altura del contenedor */
+  background: white;
+  z-index: 999;
+}
+
+/* Ajustar el contenido para evitar que se solape */
+nz-content {
+  margin-top: 110px;
+  /* Suma la altura del header y el catálogo */
+}
+
 .app-layout {
   display: flex;
   height: 100vh;
