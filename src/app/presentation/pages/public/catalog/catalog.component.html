@@ -1,3 +1,5 @@
+<app-carousel></app-carousel>
+
 <div style="margin: 30px;">
     <nz-row [nzGutter]="16" style="margin: 0;">
 
@@ -16,7 +18,7 @@
 
         <nz-col span="24">
             <nz-row [nzGutter]="16" style="margin: 0;">
-                <ng-container *ngIf="products.length > 0; else noProductsTemplate">
+                <ng-container>
                     <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6"
                         class="product-card" style="margin-top: 10px;">
                         <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
@@ -40,11 +42,7 @@
                     </nz-col>
                 </ng-container>
 
-                <ng-template #noProductsTemplate>
-                    <nz-col span="24" style="text-align: center; margin-top: 20px;">
-                        <h3 style="font-size: 1.5rem; color: #555;">No se encontraron productos en esta categoría.</h3>
-                    </nz-col>
-                </ng-template>
+
             </nz-row>
         </nz-col>
 

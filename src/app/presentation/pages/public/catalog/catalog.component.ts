@@ -16,6 +16,7 @@ import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
 import { ResponsiveService } from '../../../../services/responsive-service';
+import { CarouselComponent } from '../../../common/carousel/carousel.component';
 
 
 @Component({
@@ -30,7 +31,8 @@ import { ResponsiveService } from '../../../../services/responsive-service';
     NzCarouselModule,
     NzIconModule,
     NzTabsModule,
-    NzDividerModule
+    NzDividerModule,
+    CarouselComponent
   ],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']

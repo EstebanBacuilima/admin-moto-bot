@@ -35,6 +35,10 @@ export class CategoryService {
     return this.http.get<DefaultResponse>(`${this.apiURL}/category/list`);
   }
 
+  listByContainingProducts(): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(`${this.apiURL}/category/list/by-xistence-of-products`);
+  }
+
   update(category: Category): Observable<DefaultResponse> {
     return this.http.put<DefaultResponse>(
       `${this.apiURL}/category/update/${category.code}`,

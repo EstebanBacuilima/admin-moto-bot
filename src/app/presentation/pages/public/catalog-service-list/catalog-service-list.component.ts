@@ -33,7 +33,6 @@ export class CatalogServiceListComponent {
   public readonly responsiveService = inject(ResponsiveService);
   private readonly router = inject(Router);
 
-
   public loading$ = new BehaviorSubject<boolean>(false);
   public saving = signal(false);
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
@@ -46,7 +45,7 @@ export class CatalogServiceListComponent {
   public list() {
     this.loading$.next(true);
     this.categoryService
-      .list()
+      .listByContainingProducts()
       .pipe(finalize(() => this.loading$.next(false)))
       .subscribe({
         next: (resp) => {
