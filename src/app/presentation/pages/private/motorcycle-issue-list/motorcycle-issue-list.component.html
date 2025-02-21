@@ -45,18 +45,24 @@
         <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
             <nz-col nzXs="24" nzMd="20">
                 <form nz-form [formGroup]="motorcycleIssueForm">
-                    <nz-row [nzGutter]="[12, 12]">
+                    <nz-row [nzGutter]="[10, 12]">
 
-                        <nz-col nzXs="24" nzMd="12">
+                        <nz-col nzXs="24" nzMd="24">
                             <nz-form-item>
-                                <nz-form-label nzRequired nzSpan="24">Nivel de problema</nz-form-label>
-                                <nz-form-control nzErrorTip="Nivel no válido" class="custom-error-tip-left">
-                                    <input class="input-radius" type="number" nz-input formControlName="severityLevel"
-                                        placeholder="10" />
+                                <nz-form-label nzRequired nzSpan="24">Características</nz-form-label>
+                                <nz-form-control nzErrorTip="Nivel no válido">
+                                    <nz-select formControlName="severityLevel" nzPlaceHolder="Seleccione Nivel "
+                                        style="width: 100%">
+                                        <nz-option nzCustomContent [nzValue]="b.id" [nzLabel]="b.value"
+                                            *ngFor="let b of listSeverityLeve">
+                                            <div class="option-content">
+                                                <span class="brand-name">{{ b.value }}</span>
+                                            </div>
+                                        </nz-option>
+                                    </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                         </nz-col>
-
 
                         <nz-col nzXs="24" nzMd="24">
                             <nz-form-item>
@@ -87,6 +93,18 @@
                                     <textarea class="input-radius" formControlName="solutionSuggestion" nz-input
                                         [nzAutosize]="{ minRows: 1, maxRows: 4 }">
                                                                     </textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </nz-col>
+
+                        <nz-col nzXs="24" nzMd="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="24">Palabras claves</nz-form-label>
+                                <nz-form-control nzErrorTip="Palabras claves no validas">
+                                    <textarea class="input-radius" formControlName="keyword" nz-input
+                                        [nzAutosize]="{ minRows: 3, maxRows: 4 }"
+                                        placeholder="Eje: MOTO, moto, Moto, mot">
+                                                                                            </textarea>
                                 </nz-form-control>
                             </nz-form-item>
                         </nz-col>

@@ -17,7 +17,7 @@ export class MotorcycleIssueService {
     changeState(state: boolean, code: string): Observable<DefaultResponse> {
         return this.http.patch<DefaultResponse>(
             `${this.apiURL}/${this.typePath}/modify/change-state/${code}`,
-            { state }
+            state
         );
     }
     create(motorcycleIssue: MotorcycleIssue): Observable<DefaultResponse> {

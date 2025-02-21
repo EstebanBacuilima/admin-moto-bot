@@ -8,6 +8,7 @@ export class MotorcycleIssue {
         public severityLevel: number,
         public active: boolean,
         public changedActive: boolean = false,
+        public keyword?: string,
 
     ) { }
 }

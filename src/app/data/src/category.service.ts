@@ -36,7 +36,7 @@ export class CategoryService {
   }
 
   listByContainingProducts(): Observable<DefaultResponse> {
-    return this.http.get<DefaultResponse>(`${this.apiURL}/category/list/by-xistence-of-products`);
+    return this.http.get<DefaultResponse>(`${this.apiURL}/category/list/by-existence-of-products`);
   }
 
   update(category: Category): Observable<DefaultResponse> {
