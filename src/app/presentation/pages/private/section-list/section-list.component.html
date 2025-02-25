@@ -1,4 +1,5 @@
-<app-product-section-dialog #productDialog></app-product-section-dialog>
+<app-product-section-dialog #productDialog [sectionId]="selectedSectionId"
+    (onClose)="onDialogClosed($event)"></app-product-section-dialog>
 
 <app-simple-page-header title="Secciones" searchPlaceholder="Buscar Secciones" (add)=" add()"
     (searchChange)="onSearchChanged($event)"></app-simple-page-header>
@@ -24,13 +25,8 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.description }}</td>
                 <td> {{item.endDate | date: 'dd-MM-yyyy'}} </td>
-                <!-- <td>
-                    <div class="product-quantity">
-                        <nz-tag nzColor="success">{{item.totalProduct ?? 0}}</nz-tag>
-                    </div>
-                </td> -->
 
-                <td (click)="openDialog()">
+                <td (click)="openDialog(item.id)">
                     <div class="product-quantity">
                         <nz-tag nzColor="success">{{item.totalProduct ?? 0}}</nz-tag>
                     </div>
@@ -63,7 +59,7 @@
                                 <nz-form-label nzRequired nzSpan="24">Nombre</nz-form-label>
                                 <nz-form-control nzErrorTip="Nombre no válido" class="custom-error-tip-left">
                                     <input class="input-radius" type="text" nz-input formControlName="name"
-                                        placeholder="Tornillos " />
+                                        placeholder="Productos Top" />
                                 </nz-form-control>
                             </nz-form-item>
                         </nz-col>
@@ -73,7 +69,8 @@
                                 <nz-form-label nzSpan="24">Descripción</nz-form-label>
                                 <nz-form-control nzErrorTip="Descripción no válido">
                                     <textarea class="input-radius" formControlName="description" nz-input
-                                        [nzAutosize]="{ minRows: 1, maxRows: 4 }">
+                                        [nzAutosize]="{ minRows: 1, maxRows: 4 }"
+                                        placeholder="Los mejores del mercado ">
                                     </textarea>
                                 </nz-form-control>
                             </nz-form-item>
@@ -81,10 +78,9 @@
 
                         <nz-col nzXs="24" nzMd="24">
                             <nz-form-item>
-                                <nz-form-label nzSpan="24">Descripción</nz-form-label>
+                                <nz-form-label nzSpan="24">Fecha Fin</nz-form-label>
                                 <nz-form-control nzErrorTip="Descripción no válido">
                                     <nz-date-picker formControlName="end_date"></nz-date-picker>
-
                                 </nz-form-control>
                             </nz-form-item>
                         </nz-col>

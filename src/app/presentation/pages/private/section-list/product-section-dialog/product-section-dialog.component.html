@@ -1,5 +1,6 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Modal Title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading" [nzWidth]="'600px'" [nzBodyStyle]="{ 'max-height': '400px', 'overflow-y': 'auto' }">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Añadir productos a la sección" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()" [nzOkLoading]="isOkLoading" [nzMaskClosable]="false" [nzKeyboard]="false" [nzWidth]="'600px'"
+    [nzBodyStyle]="{ 'max-height': '400px', 'overflow-y': 'auto' }">
 
     <ng-container *nzModalContent>
         <nz-list nzItemLayout="horizontal" [nzLoading]="!loading$">
@@ -8,8 +9,9 @@
                 <nz-list-item-meta [nzAvatar]="(product?.productImages?.length ? product.productImages[0].url : '')"
                     nzDescription="{{product.name}}">
                     <nz-list-item-meta-title>
-                        <div style="display: flex; justify-content: space-between;"><nz-switch
-                                [ngModel]="product.changedActive"></nz-switch>
+                        <div style="display: flex; justify-content: space-between;">
+                            <nz-switch [ngModel]="product.changedActive"
+                                (ngModelChange)="onToggleStatus(product)"></nz-switch>
                             <nz-tag [nzColor]="product.changedActive ? 'success' : 'warning'">{{product.changedActive ?
                                 "Activo" :
                                 "Inactivo"}}</nz-tag>

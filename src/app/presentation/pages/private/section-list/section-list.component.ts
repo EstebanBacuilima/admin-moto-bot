@@ -22,7 +22,9 @@ import { ProductSectionDialogComponent } from './product-section-dialog/product-
     SimplePageHeaderComponent,
     NzIconModule,
     NzTagModule,
-    ProductSectionDialogComponent],
+    ProductSectionDialogComponent,
+
+  ],
   templateUrl: './section-list.component.html',
   styleUrl: './section-list.component.scss',
 })
@@ -208,7 +210,6 @@ export class SectionListComponent {
     this.openModal = true;
     this.resetForm();
     this.sectionForm.get('active')?.setValue(true);
-
   }
 
   public resetForm() {
@@ -218,14 +219,29 @@ export class SectionListComponent {
     this.selectedSection = null;
 
   }
-
   public cancel() {
     this.openModal = false;
     this.resetForm();
     this.list();
   }
 
-  openDialog(): void {
+  public selectedSectionId: number = 0;
+  openDialog(id: number): void {
+    this.selectedSectionId = id;
     this.productDialog.showModal();
+  }
+
+  onDialogClosed(quantity: number): void {
+    if (this.selectedSectionId === 0 || quantity === 0) return;
+
+    const index = this.sections.findIndex(i => i.id = this.selectedSectionId);
+
+    if (index != -1) {
+      this.sections[index].totalProduct = quantity;
+    }
+
+    this.selectedSectionId = 0;
+
+    // this.productDialog = undefined as any;
   }
 }

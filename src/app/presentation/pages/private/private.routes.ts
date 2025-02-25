@@ -65,12 +65,13 @@ const privateRoutes: Routes = [
           ),
       },
       {
-        path: 'catalog-service',
+        path: 'section-list',
         loadComponent: () =>
-          import('./catalog-service/catalog-service.component').then(
-            (m) => m.CatalogServiceComponent
+          import('./section-list/section-list.component').then(
+            (m) => m.SectionListComponent
           ),
       },
+
       {
         path: '**',
         redirectTo: '/welcome',

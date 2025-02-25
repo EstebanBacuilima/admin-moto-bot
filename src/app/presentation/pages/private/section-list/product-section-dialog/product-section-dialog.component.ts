@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -15,7 +15,13 @@ import { ResponsiveService } from '../../../../../services/responsive-service';
 @Component({
   selector: 'app-product-section-dialog',
   standalone: true,
-  imports: [NzButtonModule, NzModalModule, NzButtonModule, NzListModule, NzSwitchModule, FormsModule, NzTagModule],
+  imports: [NzButtonModule,
+    NzModalModule,
+    NzButtonModule,
+    NzListModule,
+    NzSwitchModule,
+    FormsModule,
+    NzTagModule],
   templateUrl: './product-section-dialog.component.html',
   styleUrl: './product-section-dialog.component.scss'
 })
@@ -37,12 +43,19 @@ export class ProductSectionDialogComponent {
   isVisible = false;
   isOkLoading = false;
 
-  ngOnInit(): void {
-    this.productIdsBySection(1);
-    this.productList();
-    setTimeout(() => {
+  @Input('sectionId') sectionId: number = 0;
+
+  @Output() onClose: EventEmitter<number> = new EventEmitter<number>();
+
+  ngOnChanges(): void {
+    if (this.sectionId !== 0) {
+      this.productIdsBySection(this.sectionId);
+      this.productList();
+    }
+
+    if (this.productIds.length > 0 && this.productIds.length > 0) {
       this.buildProductSections();
-    }, 3000);
+    }
   }
 
   public productIdsBySection(sectionId: number) {
@@ -69,19 +82,23 @@ export class ProductSectionDialogComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.products = this.defaultResponse.data);
+          this.products = this.defaultResponse.data;
+          this.buildProductSections();
+
         },
         error: () => (this.products = []),
       });
   }
 
   public buildProductSections() {
+    // setTimeout(() => {
     const updatedProductList = this.products.map(product => ({
       ...product,
-      changeActive: this.productIds.includes(product.id) ? true : product.changedActive
+      changedActive: this.productIds.includes(product.id) ? true : false
     }));
-    console.log(updatedProductList);
     this.products = updatedProductList;
+    // }, 150);
+
   }
 
   showModal(): void {
@@ -91,14 +108,35 @@ export class ProductSectionDialogComponent {
   handleOk(): void {
     this.isOkLoading = true;
 
-    console.log(this.products);
-    // setTimeout(() => {
-    //   this.isVisible = false;
-    //   this.isOkLoading = false;
-    // }, 3000);
+    this.onBulkCreate();
+  }
+
+  public onBulkCreate() {
+    const productIds = this.products.filter(p => p.changedActive).map(p => p.id);
+
+    if (productIds.length === 0) this.handleCancel();
+
+    this.loading$.next(true);
+    this.productSectionService
+      .bulkCreate(productIds, this.sectionId)
+      .pipe(finalize(() => this.loading$.next(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          this.isVisible = false;
+          this.isOkLoading = false;
+          this.onClose.emit(productIds.length);
+        },
+        error: () => (this.isOkLoading = true)
+      })
   }
 
   handleCancel(): void {
     this.isVisible = false;
+  }
+
+  onToggleStatus(product: any) {
+    product.changedActive = !product.changedActive;
   }
 }
