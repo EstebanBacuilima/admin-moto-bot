@@ -1,0 +1,15 @@
+<!-- <nz-carousel nzAutoPlay [nzEffect]="effect" [nzLoop]="false">
+    @for (index of carouselImages; track index) {
+    <div nz-carousel-content>
+        <img alt="product" [src]="index" style="height: auto; object-fit: cover; border-radius: 10px;" />
+    </div>
+    }
+</nz-carousel> -->
+
+<nz-carousel class="small-carousel" nzAutoPlay [nzEffect]="effect" [nzLoop]="false">
+    @for (index of carouselImages; track index) {
+    <div nz-carousel-content>
+        <img alt="product" [src]="index" class="carousel-img" />
+    </div>
+    }
+</nz-carousel>

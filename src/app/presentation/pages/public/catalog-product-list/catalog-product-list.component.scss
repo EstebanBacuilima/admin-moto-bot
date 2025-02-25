@@ -1,0 +1,52 @@
+ @keyframes fadeInUp {
+     0% {
+         opacity: 0;
+         transform: translateY(20px);
+     }
+
+     100% {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .product-card {
+     opacity: 0;
+     transform: translateY(30px);
+     animation: fadeInUp 0.8s ease-out forwards;
+ }
+
+ .nz-card:hover {
+     transform: scale(1.05);
+     transition: transform 0.3s ease;
+ }
+
+ .product-image {
+     transition: transform 0.3s ease-in-out;
+ }
+
+ .product-image:hover {
+     transform: scale(0.9);
+ }
+
+
+ // Price
+ .price-container {
+     text-align: center;
+     font-family: Arial, sans-serif;
+     margin-top: 20px;
+ }
+
+ .discounted-price {
+     font-size: 24px;
+     font-weight: bold;
+     color: #00AEEF;
+     /* Azul llamativo */
+ }
+
+ .original-price {
+     font-size: 14px;
+     text-decoration: line-through;
+     color: #999;
+     /* Gris tenue */
+ }

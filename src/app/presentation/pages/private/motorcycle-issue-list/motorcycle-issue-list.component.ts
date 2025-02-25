@@ -42,6 +42,7 @@ export class MotorcycleIssueListComponent {
     possibleCauses: [null, [Validators.minLength(2)]],
     solutionSuggestion: [null, [Validators.required,]],
     severityLevel: [true, [Validators.required,]],
+    keyword: [null,],
   });
 
   public listOfColumn = [
@@ -168,6 +169,7 @@ export class MotorcycleIssueListComponent {
       ?.setValue(this.selectedMotorcycleIssue?.possibleCauses);
     this.motorcycleIssueForm.get('solutionSuggestion')?.setValue(this.selectedMotorcycleIssue?.solutionSuggestion);
     this.motorcycleIssueForm.get('severityLevel')?.setValue(this.selectedMotorcycleIssue?.severityLevel);
+    this.motorcycleIssueForm.get('keyword')?.setValue(this.selectedMotorcycleIssue?.keyword);
   }
 
   private getMotorcycleIssue(): MotorcycleIssue {
@@ -179,7 +181,8 @@ export class MotorcycleIssueListComponent {
       this.motorcycleIssueForm.get('solutionSuggestion')?.value,
       this.motorcycleIssueForm.get('severityLevel')?.value,
       this.selectedMotorcycleIssue?.active ?? true,
-      false
+      false,
+      this.motorcycleIssueForm.get('keyword')?.value,
     );
   }
 
@@ -209,4 +212,13 @@ export class MotorcycleIssueListComponent {
     this.resetForm();
     this.list();
   }
+
+  // Several level
+  public listSeverityLeve: any[] = [
+    { id: 1, value: 'MUY BAJO' },
+    { id: 2, value: 'BAJO' },
+    { id: 3, value: 'INTERMEDIO' },
+    { id: 4, value: 'MEDIO ALTO' },
+    { id: 5, value: 'ALTO' }
+  ];
 }

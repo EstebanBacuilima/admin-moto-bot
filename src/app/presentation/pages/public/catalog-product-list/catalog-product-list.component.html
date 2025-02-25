@@ -1,16 +1,12 @@
-<app-carousel></app-carousel>
-
 <div style="margin: 30px;">
     <nz-row [nzGutter]="16" style="margin: 0;">
 
         <nz-col span="24">
             <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
-                Explora Nuestra Selección Exclusiva de Productos
+                {{category?.name}}
             </h2>
             <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">
-                En nuestro catálogo encontrarás una amplia variedad de productos de alta calidad, pensados para
-                satisfacer todas tus necesidades. Descubre lo mejor en tecnología, moda, hogar y mucho más. ¡Encuentra
-                el producto perfecto para ti!
+                {{category?.description ?? ''}}
             </p>
         </nz-col>
 
@@ -18,22 +14,27 @@
 
         <nz-col span="24">
             <nz-row [nzGutter]="16" style="margin: 0;">
-                <ng-container>
+                <ng-container *ngIf="products.length > 0; else noProductsTemplate">
                     <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6"
                         class="product-card" style="margin-top: 10px;">
                         <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
                             [nzCover]="coverTemplate" (click)="navigateTo('/public/home/product-detail/'+product.code)">
-                            <nz-card-meta [nzTitle]="product.name"
-                                [nzDescription]="''+product.description"></nz-card-meta>
-                            <div class="price"
-                                style="padding: 10px; font-size: 16px; font-weight: bold; color: #4caf50;">
-                                Precio: {{ product.price | currency:'USD':'symbol' }}
+                            <nz-card-meta [nzTitle]="' ' +product?.brand?.name "
+                                [nzDescription]="''+product.name"></nz-card-meta>
+
+                            <div class="price-container">
+                                <div class="discounted-price">
+                                    {{ calculateDiscount(product.price, product.percentage) | currency:'USD':'symbol' }}
+                                </div>
+                                <div class="original-price">
+                                    {{ product.price | currency:'USD':'symbol' }}
+                                </div>
                             </div>
 
                         </nz-card>
 
                         <ng-template #coverTemplate>
-                            <div style="padding: 30px;">
+                            <div style="padding: 5px;">
                                 <img alt="product" [src]="product.productImages[0].url" class="product-image"
                                     style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;" />
                             </div>
@@ -42,7 +43,11 @@
                     </nz-col>
                 </ng-container>
 
-
+                <ng-template #noProductsTemplate>
+                    <nz-col span="24" style="text-align: center; margin-top: 20px;">
+                        <h3 style="font-size: 1.5rem; color: #555;">No se encontraron productos en esta categoría.</h3>
+                    </nz-col>
+                </ng-template>
             </nz-row>
         </nz-col>
 

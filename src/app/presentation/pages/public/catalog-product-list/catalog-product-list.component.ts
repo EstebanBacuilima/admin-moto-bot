@@ -16,14 +16,13 @@ import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
 import { ResponsiveService } from '../../../../services/responsive-service';
-import { CarouselComponent } from '../../../common/carousel/carousel.component';
+
 
 
 @Component({
-  selector: 'app-catalog',
+  selector: 'app-catalog-product-list',
   standalone: true,
-  imports: [
-    CommonModule,
+  imports: [CommonModule,
     NzAvatarModule,
     NzCardModule,
     NzButtonModule,
@@ -31,17 +30,14 @@ import { CarouselComponent } from '../../../common/carousel/carousel.component';
     NzCarouselModule,
     NzIconModule,
     NzTabsModule,
-    NzDividerModule,
-    CarouselComponent
-  ],
-  templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.scss']
+    NzDividerModule],
+  templateUrl: './catalog-product-list.component.html',
+  styleUrl: './catalog-product-list.component.scss'
 })
-export class CatalogComponent {
+export class CatalogProductListComponent {
   private readonly categoryService = inject(CategoryService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-
   private readonly productService = inject(ProductService);
   public readonly responsiveService = inject(ResponsiveService);
 
@@ -52,36 +48,18 @@ export class CatalogComponent {
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public products: Product[] = [];
   public categories: Category[] = [];
+  public category: Category | null = null;
 
   // @Input() category!: Category;
-  // public selectedCategory = signal<Category | null>(null);
-
   ngOnInit(): void {
-
-    // this.route.paramMap.subscribe(params => {
-    //   const code = params.get('code');
-    //   if (code) {
-    //     // this.(this.productCode);
-    //     this.listProductsByCategoryCode(code);
-    //   }
-    // });
+    this.route.paramMap.subscribe(params => {
+      const code = params.get('code');
+      if (code) {
+        this.getCategoryByCode(code);
+        this.listProductsByCategoryCode(code);
+      }
+    });
   }
-
-  public listCategories() {
-    this.loading$.next(true);
-    this.categoryService
-      .list()
-      .pipe(finalize(() => this.loading$.next(false)))
-      .subscribe({
-        next: (resp) => {
-          if (resp.statusCode !== 200) return;
-          this.defaultResponse = resp;
-          return (this.categories = this.defaultResponse.data)
-        },
-        error: () => (this.categories = [])
-      })
-  }
-
   public listProductsByCategoryCode(code: string) {
     this.loading$.next(true);
     this.categoryService
@@ -97,12 +75,28 @@ export class CatalogComponent {
       })
   }
 
-  selectCategory(id: number) {
-    this.selectedCategoryId.set(id)
-    // this.listProductsByCategory(id);
+  public getCategoryByCode(code: string) {
+    this.loading$.next(true);
+    this.categoryService
+      .findByCode(code)
+      .pipe(finalize(() => this.loading$.next(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          return (this.category = this.defaultResponse.data)
+        },
+        error: () => (this.category = null)
+      })
   }
 
   navigateTo(route: string): void {
     this.router.navigate([route]);
+  }
+
+
+  public calculateDiscount(price: number, discount?: number): number {
+    if (!discount) return price;
+    return price - (price * discount) / 100;
   }
 }

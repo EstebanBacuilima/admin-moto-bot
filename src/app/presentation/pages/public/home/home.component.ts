@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { DefaultResponse } from '../../../../domain/common/default-response';
-import { ChatResponse } from '../../../../domain/models/chat-response';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { UserChatService } from '../../../../data/src/user-chat.service';
-import { ChatTypeEnum } from '../../../../domain/enums/chat-type-enum';
 import { finalize } from 'rxjs';
+import { UserChatService } from '../../../../data/src/user-chat.service';
+import { DefaultResponse } from '../../../../domain/common/default-response';
+import { ChatTypeEnum } from '../../../../domain/enums/chat-type-enum';
+import { ChatResponse } from '../../../../domain/models/chat-response';
 import { UserQueryRequestDto } from '../../../../domain/models/user-query-request-dto';
+import { NgZorroAntdModule } from '../../../../ng-zorro.module';
+import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +22,8 @@ import { UserQueryRequestDto } from '../../../../domain/models/user-query-reques
     FormsModule,
     ReactiveFormsModule,
     NzIconModule,
+    RouterOutlet,
+    CatalogServiceListComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -71,7 +75,7 @@ export class HomeComponent {
             let chatResponse: ChatResponse = this.defaultResponse.data;
             // Add the bot response to the chat
             this.messages.push({
-              text: chatResponse.text,
+              text: chatResponse.text.replace('\n', ''),
               date: chatResponse.date,
               type: chatResponse.type,
             });
