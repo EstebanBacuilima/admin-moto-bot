@@ -37,6 +37,10 @@ export class SectionService {
         return this.http.get<DefaultResponse>(`${this.apiURL}/${this.typePath}/list?value=${value}`);
     }
 
+    listIncludingProduct(): Observable<DefaultResponse> {
+        return this.http.get<DefaultResponse>(`${this.apiURL}/${this.typePath}/list/including-product`);
+    }
+
     update(section: Section): Observable<DefaultResponse> {
         return this.http.put<DefaultResponse>(
             `${this.apiURL}/${this.typePath}/update/${section.code}`,

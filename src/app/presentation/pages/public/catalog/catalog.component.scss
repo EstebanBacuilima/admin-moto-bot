@@ -10,28 +10,6 @@
      }
  }
 
- .product-card {
-     opacity: 0;
-     transform: translateY(30px);
-     animation: fadeInUp 0.8s ease-out forwards;
- }
-
- .nz-card:hover {
-     transform: scale(1.05);
-     transition: transform 0.3s ease;
- }
-
- .product-image {
-     transition: transform 0.3s ease-in-out;
- }
-
- .product-image:hover {
-     transform: scale(1.1);
- }
-
-
- //Categories
- .category-name:hover {
-     color: #ff9a8b !important;
-     cursor: pointer;
+ p {
+     margin: 0;
  }

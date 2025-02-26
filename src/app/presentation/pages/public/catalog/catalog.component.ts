@@ -10,14 +10,13 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { BehaviorSubject, finalize } from 'rxjs';
-import { CategoryService } from '../../../../data/src/category.service';
 import { ProductService } from '../../../../data/src/product.service';
+import { SectionService } from '../../../../data/src/section.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
-import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
+import { Section } from '../../../../domain/entities/section';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { CarouselComponent } from '../../../common/carousel/carousel.component';
-
 
 @Component({
   selector: 'app-catalog',
@@ -32,13 +31,14 @@ import { CarouselComponent } from '../../../common/carousel/carousel.component';
     NzIconModule,
     NzTabsModule,
     NzDividerModule,
-    CarouselComponent
+    CarouselComponent,
+
   ],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent {
-  private readonly categoryService = inject(CategoryService);
+  private readonly sectionService = inject(SectionService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -51,56 +51,27 @@ export class CatalogComponent {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public products: Product[] = [];
-  public categories: Category[] = [];
-
-  // @Input() category!: Category;
-  // public selectedCategory = signal<Category | null>(null);
+  public sections: Section[] = [];
 
   ngOnInit(): void {
-
-    // this.route.paramMap.subscribe(params => {
-    //   const code = params.get('code');
-    //   if (code) {
-    //     // this.(this.productCode);
-    //     this.listProductsByCategoryCode(code);
-    //   }
-    // });
+    this.list();
   }
 
-  public listCategories() {
+  public list() {
     this.loading$.next(true);
-    this.categoryService
-      .list()
+    this.sectionService
+      .listIncludingProduct()
       .pipe(finalize(() => this.loading$.next(false)))
       .subscribe({
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.categories = this.defaultResponse.data)
+          return (this.sections = this.defaultResponse.data)
         },
-        error: () => (this.categories = [])
+        error: () => (this.sections = [])
       })
   }
 
-  public listProductsByCategoryCode(code: string) {
-    this.loading$.next(true);
-    this.categoryService
-      .listProductsByCategoryCode(code)
-      .pipe(finalize(() => this.loading$.next(false)))
-      .subscribe({
-        next: (resp) => {
-          if (resp.statusCode !== 200) return;
-          this.defaultResponse = resp;
-          return (this.products = this.defaultResponse.data)
-        },
-        error: () => (this.products = [])
-      })
-  }
-
-  selectCategory(id: number) {
-    this.selectedCategoryId.set(id)
-    // this.listProductsByCategory(id);
-  }
 
   navigateTo(route: string): void {
     this.router.navigate([route]);

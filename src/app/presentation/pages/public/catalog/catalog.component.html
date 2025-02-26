@@ -1,50 +1,65 @@
 <app-carousel></app-carousel>
+@for (section of sections; track section.id) {
 
 <div style="margin: 30px;">
-    <nz-row [nzGutter]="16" style="margin: 0;">
 
-        <nz-col span="24">
+    <nz-row [nzGutter]="16" style="margin: 0;">
+        <nz-col span="48">
             <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
-                Explora Nuestra Selección Exclusiva de Productos
+                {{section.name}}
             </h2>
             <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">
-                En nuestro catálogo encontrarás una amplia variedad de productos de alta calidad, pensados para
-                satisfacer todas tus necesidades. Descubre lo mejor en tecnología, moda, hogar y mucho más. ¡Encuentra
-                el producto perfecto para ti!
+                {{section.description ?? ''}}
             </p>
+            <div style="background: #ECECEC; padding:30px;">
+
+                <div nz-row [nzGutter]="8">
+                    @for (ps of section.productSections; track $index) {
+
+                    <div nz-col [nzSpan]="8">
+                        <nz-card [nzTitle]="ps?.product?.name ?? ''">
+                            <p>Card content</p>
+                        </nz-card>
+                    </div>
+                    }
+
+
+                </div>
+            </div>
+
         </nz-col>
 
-        <nz-divider></nz-divider>
+    </nz-row>
+</div>
 
+}
+
+<!-- <nz-divider></nz-divider>
+        
         <nz-col span="24">
             <nz-row [nzGutter]="16" style="margin: 0;">
                 <ng-container>
-                    <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6"
-                        class="product-card" style="margin-top: 10px;">
+                    <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6" class="product-card"
+                        style="margin-top: 10px;">
                         <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
                             [nzCover]="coverTemplate" (click)="navigateTo('/public/home/product-detail/'+product.code)">
-                            <nz-card-meta [nzTitle]="product.name"
-                                [nzDescription]="''+product.description"></nz-card-meta>
-                            <div class="price"
-                                style="padding: 10px; font-size: 16px; font-weight: bold; color: #4caf50;">
+                            <nz-card-meta [nzTitle]="product.name" [nzDescription]="''+product.description"></nz-card-meta>
+                            <div class="price" style="padding: 10px; font-size: 16px; font-weight: bold; color: #4caf50;">
                                 Precio: {{ product.price | currency:'USD':'symbol' }}
                             </div>
-
+        
                         </nz-card>
-
+        
                         <ng-template #coverTemplate>
                             <div style="padding: 30px;">
                                 <img alt="product" [src]="product.productImages[0].url" class="product-image"
                                     style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;" />
                             </div>
                         </ng-template>
-
+        
                     </nz-col>
                 </ng-container>
-
-
+        
+        
             </nz-row>
-        </nz-col>
-
-    </nz-row>
-</div>
+        </nz-col> -->
