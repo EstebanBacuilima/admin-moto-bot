@@ -129,7 +129,7 @@ export class ProductSectionDialogComponent {
           this.isOkLoading = false;
           this.onClose.emit(productIds.length);
         },
-        error: () => (this.isOkLoading = true)
+        error: () => (this.isOkLoading = false)
       })
   }
 

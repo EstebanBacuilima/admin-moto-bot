@@ -233,15 +233,11 @@ export class SectionListComponent {
 
   onDialogClosed(quantity: number): void {
     if (this.selectedSectionId === 0 || quantity === 0) return;
-
-    const index = this.sections.findIndex(i => i.id = this.selectedSectionId);
-
+    const index = this.sections.findIndex(i => i.id === this.selectedSectionId);
     if (index != -1) {
       this.sections[index].totalProduct = quantity;
     }
 
     this.selectedSectionId = 0;
-
-    // this.productDialog = undefined as any;
   }
 }

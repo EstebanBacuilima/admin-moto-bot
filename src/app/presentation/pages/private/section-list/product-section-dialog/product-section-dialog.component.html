@@ -7,7 +7,7 @@
             @for (product of products; track product.id){
             <nz-list-item>
                 <nz-list-item-meta [nzAvatar]="(product?.productImages?.length ? product.productImages[0].url : '')"
-                    nzDescription="{{product.name}}">
+                    nzDescription="{{product.name}} - (${{product.price}})">
                     <nz-list-item-meta-title>
                         <div style="display: flex; justify-content: space-between;">
                             <nz-switch [ngModel]="product.changedActive"
