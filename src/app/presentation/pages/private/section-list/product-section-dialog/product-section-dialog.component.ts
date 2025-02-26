@@ -67,7 +67,8 @@ export class ProductSectionDialogComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.productIds = this.defaultResponse.data);
+          this.productIds = this.defaultResponse.data
+          this.buildProductSections();
         },
         error: () => (this.productIds = []),
       });
