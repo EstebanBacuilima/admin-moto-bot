@@ -44,12 +44,15 @@ export class SectionListComponent {
   public openModal = false;
   public selectedSection: Section | null = null;
 
+  public orderList: number[] = [];
+
   @ViewChild('productDialog') productDialog!: ProductSectionDialogComponent;
 
   public sectionForm: UntypedFormGroup = this.formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3)]],
     description: [null,],
     end_date: [null,],
+    sequence: [null, Validators.required]
   });
 
   public listOfColumn = [
@@ -181,6 +184,8 @@ export class SectionListComponent {
 
   private fillForm(): void {
     this.sectionForm.get('name')?.setValue(this.selectedSection?.name);
+
+    this.sectionForm.get('sequence')?.setValue(this.selectedSection?.sequence);
     this.sectionForm
       .get('description')
       ?.setValue(this.selectedSection?.description);
@@ -193,6 +198,7 @@ export class SectionListComponent {
       this.selectedSection?.code ?? '',
       this.sectionForm.get('name')?.value,
       [],
+      this.sectionForm.get('sequence')?.value,
       false,
       this.selectedSection?.active ?? true,
       this.sectionForm.get('description')?.value,
@@ -204,12 +210,14 @@ export class SectionListComponent {
     this.selectedSection = section;
     this.openModal = true;
     this.fillForm();
+    this.generateSequence();
   }
 
   public add() {
     this.openModal = true;
     this.resetForm();
     this.sectionForm.get('active')?.setValue(true);
+    this.generateSequence();
   }
 
   public resetForm() {
@@ -233,15 +241,20 @@ export class SectionListComponent {
 
   onDialogClosed(quantity: number): void {
     if (this.selectedSectionId === 0 || quantity === 0) return;
-
-    const index = this.sections.findIndex(i => i.id = this.selectedSectionId);
-
+    const index = this.sections.findIndex(i => i.id === this.selectedSectionId);
     if (index != -1) {
       this.sections[index].totalProduct = quantity;
     }
 
     this.selectedSectionId = 0;
+  }
 
-    // this.productDialog = undefined as any;
+  public generateSequence(): void {
+    this.orderList = [];
+    const count = this.sections.length + 2;
+    for (let i = 0; i < count; i++) {
+      if (i == 0) continue;
+      this.orderList.push(i);
+    }
   }
 }

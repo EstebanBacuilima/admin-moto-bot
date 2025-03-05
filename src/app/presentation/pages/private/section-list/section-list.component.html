@@ -76,7 +76,24 @@
                             </nz-form-item>
                         </nz-col>
 
-                        <nz-col nzXs="24" nzMd="24">
+                        <nz-col nzXs="12" nzMd="12">
+                            <nz-form-item>
+                                <nz-form-label nzRequired nzSpan="24">Orden</nz-form-label>
+                                <nz-form-control nzErrorTip="Orden no válido">
+                                    <nz-select formControlName="sequence" nzPlaceHolder="Seleccione Característica"
+                                        style="width: 100%">
+                                        <nz-option nzCustomContent [nzValue]="b" [nzLabel]="b"
+                                            *ngFor="let b of orderList">
+                                            <div class="option-content">
+                                                <span class="brand-name">{{ b }}</span>
+                                            </div>
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </nz-col>
+
+                        <nz-col nzXs="12" nzMd="12">
                             <nz-form-item>
                                 <nz-form-label nzSpan="24">Fecha Fin</nz-form-label>
                                 <nz-form-control nzErrorTip="Descripción no válido">

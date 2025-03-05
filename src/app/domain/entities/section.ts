@@ -6,6 +6,7 @@ export class Section {
         public code: string,
         public name: string,
         public productSections: ProductSection[] = [],
+        public sequence: number,
         public changedActive: boolean = false,
         public active: boolean,
         public description?: string,
