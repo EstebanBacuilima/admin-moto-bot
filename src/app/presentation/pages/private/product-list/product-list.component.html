@@ -32,12 +32,13 @@
           <nz-switch [ngModel]="product.active" [nzLoading]="product.changedActive"
             (ngModelChange)="onActiveChange(product, $event)"></nz-switch>
         </td>
-        <td style="text-align: center">
+        <td style="text-align: center" class="justify-center space-x-2">
           <button nz-button nzSize="small" nzType="default" nzShape="circle" (click)="onEdit(product)">
             <span nz-icon nzType="edit" nzTheme="outline"></span>
           </button>
+
           <button nz-button nzSize="small" nzType="default" nzShape="circle" (click)="onProductAttributes(product)">
-            <span nz-icon nzType="edit" nzTheme="outline"></span>
+            <span nz-icon nzType="setting" nzTheme="outline"></span>
           </button>
         </td>
       </tr>
