@@ -10,8 +10,8 @@
         <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
           {{ column.title }}
         </th>
-        <th [nzWidth]="'15%'" style="text-align: center">Estado</th>
-        <th [nzWidth]="'15%'" style="text-align: center">Acciones</th>
+        <th [nzWidth]="'8%'" style="text-align: center">Estado</th>
+        <th [nzWidth]="'8%'" style="text-align: center">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -28,6 +28,13 @@
         </td>
         <td>{{ product.name }}</td>
         <td>{{ product.description ?? "-" }}</td>
+        <td>
+          <ul>
+            <li> <nz-tag nzColor="success">Precio ${{ product.price}}</nz-tag></li>
+            <li> <nz-tag nzColor="processing">Descuento ${{ product.price}}</nz-tag></li>
+            <li><nz-tag nzColor="default">Venta${{ product.price}}</nz-tag></li>
+          </ul>
+        </td>
         <td style="text-align: center">
           <nz-switch [ngModel]="product.active" [nzLoading]="product.changedActive"
             (ngModelChange)="onActiveChange(product, $event)"></nz-switch>
@@ -48,7 +55,7 @@
 </nz-card>
 
 <!-- Modal to create or edit product -->
-<nz-modal [(nzVisible)]="openModal" nzTitle="selectedProduct ? 'Editar Producto' : 'Crear Producto'"
+<nz-modal [(nzVisible)]="openModal" [nzTitle]="selectedProduct ? 'Editar Producto' : 'Crear Producto'"
   (nzOnCancel)="cancel()" (nzOnOk)="saveOrUpdate()" nzWidth="1500px">
   <ng-container *nzModalContent>
     <nz-row [nzGutter]="[12, 12]">
@@ -124,10 +131,20 @@
 
                   <nz-col nzXs="24" nzMd="12">
                     <nz-form-item>
+                      <nz-form-label nzRequired nzSpan="24">Precio</nz-form-label>
+                      <nz-form-control nzErrorTip="Nombre no válido" class="custom-error-tip-left">
+                        <input class="input-radius" type="number" nz-input formControlName="percentage"
+                          placeholder="10 " />
+                      </nz-form-control>
+                    </nz-form-item>
+                  </nz-col>
+
+                  <nz-col nzXs="24" nzMd="24">
+                    <nz-form-item>
                       <nz-form-label nzSpan="24">Descripción</nz-form-label>
                       <nz-form-control nzErrorTip="Descripción no válido">
                         <textarea class="input-radius" formControlName="description" nz-input
-                          [nzAutosize]="{ minRows: 1, maxRows: 4 }">
+                          [nzAutosize]="{ minRows: 3, maxRows: 4 }">
                         </textarea>
                       </nz-form-control>
                     </nz-form-item>

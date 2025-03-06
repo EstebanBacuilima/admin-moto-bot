@@ -13,8 +13,8 @@ import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Category } from '../../../../domain/entities/category';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
-import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 import { SimpleFileComponent } from '../../../common/simple-file/simple-file.component';
+import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 
 @Component({
   selector: 'app-category-list',
@@ -39,6 +39,8 @@ export class CategoryListComponent {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public categories: Category[] = [];
+  public auxCategories: Category[] = [];
+
   private searchDebounceTimer: any;
   public searchText: string = '';
   public opendModal = false;
@@ -49,6 +51,7 @@ export class CategoryListComponent {
     name: [null, [Validators.required, Validators.minLength(3)]],
     description: [null, [Validators.minLength(5)]],
     active: [true, [Validators.required]],
+    logo: [null],
   });
 
   public listOfColumn = [
@@ -85,7 +88,8 @@ export class CategoryListComponent {
         next: (response) => {
           if (response.statusCode !== 200) return;
           this.defaultResponse = response;
-          return (this.categories = this.defaultResponse.data);
+          this.categories = this.defaultResponse.data;
+          this.auxCategories = this.categories;
         },
         error: () => (this.categories = []),
       });
@@ -143,7 +147,7 @@ export class CategoryListComponent {
     }
     // Init the debounce timer for 800ms
     this.searchDebounceTimer = setTimeout(() => {
-      this.list();
+      this.filterData(this.searchText);
     }, 800);
   }
 
@@ -205,5 +209,13 @@ export class CategoryListComponent {
   onImageError(event: Event): void {
     const target = event.target as HTMLImageElement;
     target.src = this.defaultImage;
+  }
+
+  public filterData(value: string) {
+    if (!value) this.categories = this.auxCategories;
+
+    this.categories = this.auxCategories.filter(b =>
+      b.name.toLowerCase().includes(value.toLowerCase()) ||
+      b.description?.toLowerCase().includes(value.toLowerCase()));
   }
 }

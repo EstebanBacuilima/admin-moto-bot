@@ -8,6 +8,7 @@ import { Service } from '../../../../domain/entities/service';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
+import { SimpleFileComponent } from '../../../common/simple-file/simple-file.component';
 
 @Component({
   selector: 'app-service-list',
@@ -17,7 +18,9 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    SimplePageHeaderComponent],
+    SimplePageHeaderComponent,
+    SimpleFileComponent,
+  ],
   templateUrl: './service-list.component.html',
   styleUrl: './service-list.component.scss'
 })
@@ -41,6 +44,7 @@ export class ServiceListComponent {
     description: [null, [Validators.minLength(2)]],
     price: [null, [Validators.required,]],
     active: [true, [Validators.required,]],
+    logo: [null],
   });
 
   public listOfColumn = [
@@ -163,7 +167,9 @@ export class ServiceListComponent {
       this.selectedService?.id ?? 0,
       this.selectedService?.code ?? '',
       this.serviceForm.get('name')?.value,
-      this.selectedService?.image ?? '',
+      // this.selectedService?.image ?? '',
+      this.serviceForm.get('logo')?.value,
+      
       this.serviceForm.get('active')?.value,
       false,
       this.serviceForm.get('price')?.value,
@@ -178,6 +184,8 @@ export class ServiceListComponent {
       ?.setValue(this.selectedService?.description);
     this.serviceForm.get('active')?.setValue(this.selectedService?.active);
     this.serviceForm.get('price')?.setValue(this.selectedService?.price);
+    this.serviceForm.get('logo')?.setValue(this.selectedService?.image  );
+
   }
 
   public onEdit(service: Service) {
@@ -205,5 +213,9 @@ export class ServiceListComponent {
     this.openModal = false;
     this.resetForm();
     this.list();
+  }
+
+  updateLogoUrl(url: string): void {
+    this.serviceForm.get('logo')?.setValue(url);
   }
 }
