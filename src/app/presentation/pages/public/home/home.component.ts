@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AvatarModule } from 'primeng/avatar';
@@ -40,6 +40,15 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 export class HomeComponent {
   private readonly userChatService = inject(UserChatService);
   private readonly message = inject(NzMessageService);
+  private readonly router = inject(Router);
+
+  public isService: boolean = false;
+
+  ngOnInit(): void {
+    const currentPath = this.router.url;
+    this.isService = currentPath === "/public/home/catalog-service";
+    // if (currentPath === "/public/home/catalog-service") this.isService = true;
+  }
 
   public openChatbotModal = false;
   public newMessage = '';

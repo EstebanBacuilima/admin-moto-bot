@@ -17,6 +17,7 @@ import { Product } from '../../../../domain/entities/product';
 import { Section } from '../../../../domain/entities/section';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { CarouselComponent } from '../../../common/carousel/carousel.component';
+import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
 
 @Component({
   selector: 'app-catalog',
@@ -32,7 +33,7 @@ import { CarouselComponent } from '../../../common/carousel/carousel.component';
     NzTabsModule,
     NzDividerModule,
     CarouselComponent,
-
+    CatalogServiceListComponent
   ],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']

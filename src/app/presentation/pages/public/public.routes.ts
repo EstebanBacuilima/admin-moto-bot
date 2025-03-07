@@ -14,6 +14,11 @@ const publicRoutes: Routes = [
           import('./catalog/catalog.component').then((m) => m.CatalogComponent),
       },
       {
+        path: 'catalog-service',
+        loadComponent: () =>
+          import('./catalog-service/catalog-service.component').then((m) => m.CatalogServiceComponent),
+      },
+      {
         path: 'catalog/:code',
         loadComponent: () =>
           import('./catalog-product-list/catalog-product-list.component').then((m) => m.CatalogProductListComponent),

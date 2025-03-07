@@ -9,7 +9,9 @@
     <nz-content class="content">
 
       <!-- <div class="mb-20"> -->
+      @if(!isService){
       <app-catalog-service-list />
+      }
       <!-- </div> -->
 
       <router-outlet></router-outlet>
