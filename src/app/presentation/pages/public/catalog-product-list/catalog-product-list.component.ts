@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -15,10 +16,9 @@ import { ProductService } from '../../../../data/src/product.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
+import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
-
-
 
 @Component({
   selector: 'app-catalog-product-list',
@@ -32,7 +32,12 @@ import { CatalogServiceListComponent } from '../catalog-service-list/catalog-ser
     NzIconModule,
     NzTabsModule,
     NzDividerModule,
-    CatalogServiceListComponent],
+    CatalogServiceListComponent,
+
+
+    NgZorroAntdModule,
+    FormsModule,
+    ReactiveFormsModule,],
   templateUrl: './catalog-product-list.component.html',
   styleUrl: './catalog-product-list.component.scss'
 })
@@ -52,6 +57,8 @@ export class CatalogProductListComponent {
   public categories: Category[] = [];
   public category: Category | null = null;
 
+
+  selectedValue: any = null;
   // @Input() category!: Category;
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -100,5 +107,31 @@ export class CatalogProductListComponent {
   public calculateDiscount(price: number, discount?: number): number {
     if (!discount) return price;
     return price - (price * discount) / 100;
+  }
+
+  public listSeverityLeve: any[] = [
+    { id: 1, value: 'NOMBRE, ascendente' },
+    { id: 2, value: 'NOMBRE, descendente' },
+    { id: 3, value: 'PRECIO: mayor a menor' },
+    { id: 4, value: 'PRECIO: menos a mayor' },
+  ];
+
+  onFilterChange(value: any) {
+    console.log(value);
+    console.log('----------------------------------');
+
+    // alert(value);
+
+    if (value === 1 || value === 2) {
+      this.sortAscProducts(value === 1);
+    }
+  }
+
+  public sortAscProducts(asc: boolean) {
+    if (asc) {
+      this.products.sort((a, b) => b.name.localeCompare(a.name));
+      return;
+    }
+    this.products.sort((a, b) => a.name.localeCompare(b.name));
   }
 }

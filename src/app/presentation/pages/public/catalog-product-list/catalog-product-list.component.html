@@ -3,13 +3,24 @@
 <div style="margin: 30px; ">
     <nz-row [nzGutter]="16" style="margin: 0;">
 
-        <nz-col span="24">
+        <!-- Contenido a la izquierda -->
+        <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="18">
             <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
                 {{category?.name}}
             </h2>
             <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">
                 {{category?.description ?? ''}}
             </p>
+        </nz-col>
+
+        <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="6">
+            <nz-select (ngModelChange)="onFilterChange($event)" nzPlaceHolder="Ordenar por" style="width: 100%">
+                <nz-option nzCustomContent [nzValue]="b.id" [nzLabel]="b.value" *ngFor="let b of listSeverityLeve">
+                    <div class="option-content">
+                        <span class="brand-name">{{ b.value }}</span>
+                    </div>
+                </nz-option>
+            </nz-select>
         </nz-col>
 
         <nz-divider></nz-divider>

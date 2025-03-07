@@ -1,3 +1,4 @@
+// import { CommonModule } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +17,7 @@ import { ProductService } from '../../../../data/src/product.service';
 import { SectionService } from '../../../../data/src/section.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Product } from '../../../../domain/entities/product';
+import { ProductSection } from '../../../../domain/entities/product_section';
 import { Section } from '../../../../domain/entities/section';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { CarouselComponent } from '../../../common/carousel/carousel.component';
@@ -60,35 +62,6 @@ export class CatalogComponent {
   public products: Product[] = [];
   public sections: Section[] = [];
 
-
-  offers = [
-    {
-      title: 'BICICLETA EBIKE CUBE HYBRID STEREO ONES55 SLX',
-      price: '$10,005.00',
-      image: 'https://via.placeholder.com/150' // URL de imagen placeholder
-    },
-    {
-      title: 'JP CHENET FASHION STRAWB - RASPB 750 ML',
-      price: '$13.23',
-      image: 'https://via.placeholder.com/150'
-    },
-    {
-      title: 'VENTISQUERO CABERNET SAUVIGNON 750ML',
-      price: '$7.39',
-      image: 'https://via.placeholder.com/150'
-    },
-    {
-      title: 'VENTISQUERO CLASICO MERLOT 750ML',
-      price: '$7.39',
-      image: 'https://via.placeholder.com/150'
-    },
-    {
-      title: 'ANTHONY VINO FRIZZANTE MORA 750 ML',
-      price: '$6.70',
-      image: 'https://via.placeholder.com/150'
-    }
-  ];
-
   ngOnInit(): void {
     this.list();
   }
@@ -108,8 +81,31 @@ export class CatalogComponent {
       })
   }
 
-
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }
+
+  public getImage(productSection: ProductSection): string {
+    return productSection.product?.productImages?.[0]?.url ?? "";
+  }
+
+  public geName(name: string, first: boolean): string {
+
+    if (!name) return name;
+    const parts = name.split(' ');
+
+    if (first) {
+      return parts[0];
+    } else {
+
+      return parts.length > 1 ? parts.slice(1).join(' ') : '';
+    }
+  }
+
+  public calculateDiscount(price: number, discount?: number): number {
+    if (!discount) return price;
+    return price - (price * discount) / 100;
+  }
+
+
 }
