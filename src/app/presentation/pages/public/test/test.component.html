@@ -1,0 +1,1027 @@
+<!-- <!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas Imperdibles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .title span:last-child {
+            color: #ff8c00;
+            margin-left: 10px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .products-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .products {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card {
+            flex: 0 0 calc(20% - 16px);
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.3;
+            height: 36px;
+            overflow: hidden;
+        }
+
+        .product-brand {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .buy-button {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .buy-button:hover {
+            background-color: #d62b39;
+        }
+
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .whatsapp-button a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-button a:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-button img {
+            width: 35px;
+            height: 35px;
+        }
+
+        @media (max-width: 1200px) {
+            .product-card {
+                flex: 0 0 calc(25% - 15px);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .product-card {
+                flex: 0 0 calc(33.33% - 14px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                flex: 0 0 calc(50% - 10px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-card {
+                flex: 0 0 100%;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">
+                <span>OFERTAS</span>
+                <span>IMPERDIBLES</span>
+            </h1>
+            <div class="nav-buttons">
+                <button class="nav-button prev">←</button>
+                <button class="nav-button next">→</button>
+            </div>
+        </div>
+
+        <div class="products-container">
+            <div class="products">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="JP CHENET FASHION LITCHI">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">JP CHENET FASHION LITCHI 750 ML</h3>
+                        <p class="product-brand">JP CHENET</p>
+                        <p class="product-price">$13,23</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="JP CHENET FASHION LITCHI">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">JP CHENET FASHION LITCHI 750 ML</h3>
+                        <p class="product-brand">JP CHENET</p>
+                        <p class="product-price">$13,23</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="ESPUMANTE JP CHENET">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">ESPUMANTE JP CHENET ICE SPARKLING</h3>
+                        <p class="product-brand">JP CHENET</p>
+                        <p class="product-price">$13,00</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="ANTHONY VINO">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">ANTHONY VINO FRIZZANTE ROSE 750 ML</h3>
+                        <p class="product-brand">ANTHONY</p>
+                        <p class="product-price">$6,70</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA MONTAÑA CUBE">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">BICICLETA MONTAÑA CUBE STEREO ONE55 RACE</h3>
+                        <p class="product-brand">CUBE</p>
+                        <p class="product-price">$5.403,85</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA MONTAÑA CUBE ANALOG">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">BICICLETA MONTAÑA CUBE ANALOG</h3>
+                        <p class="product-brand">CUBE</p>
+                        <p class="product-price">$1.253,50</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA MONTAÑA CUBE ANALOG">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">BICICLETA MONTAÑA CUBE ANALOG</h3>
+                        <p class="product-brand">CUBE</p>
+                        <p class="product-price">$1.253,50</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="whatsapp-button">
+        <a href="https://wa.me/yourphonenumber" target="_blank">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 0C5.373 0 0 5.373 0 12c0 2.917 1.049 5.591 2.787 7.682L1.3 23.7l4.118-1.487C7.556 23.346 9.71 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zM8.126 7.886c.224-.624.224-1.674-.168-2.022-.392-.348-1.12-.348-1.568 0-.448.348-.896 1.398-.896 2.022 0 .624.448 1.674.896 2.022.448.348 1.176.348 1.568 0 .392-.348.392-1.398.168-2.022zm3.92 12.228c-1.008 0-1.904-.348-2.688-.812l-3.008 1.09.896-2.89c-.56-.812-.896-1.786-.896-2.89 0-3.222 2.688-5.832 5.936-5.832s5.936 2.61 5.936 5.832-2.688 5.832-5.936 5.832zm3.92-12.228c.224-.624.224-1.674-.168-2.022-.392-.348-1.12-.348-1.568 0-.448.348-.896 1.398-.896 2.022 0 .624.448 1.674.896 2.022.448.348 1.176.348 1.568 0 .392-.348.392-1.398.168-2.022z'/%3E%3C/svg%3E"
+                alt="WhatsApp">
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const productsContainer = document.querySelector('.products');
+            const prevButton = document.querySelector('.nav-button.prev');
+            const nextButton = document.querySelector('.nav-button.next');
+            let currentPosition = 0;
+            const cardWidth = document.querySelector('.product-card').offsetWidth + 20; // Including gap
+            const totalCards = document.querySelectorAll('.product-card').length;
+            const visibleCards = Math.floor(document.querySelector('.products-container').offsetWidth / cardWidth);
+
+            function updateNavigation() {
+                const maxPosition = -(totalCards - visibleCards) * cardWidth;
+                prevButton.style.opacity = currentPosition === 0 ? '0.5' : '1';
+                nextButton.style.opacity = currentPosition <= maxPosition ? '0.5' : '1';
+            }
+
+            prevButton.addEventListener('click', () => {
+                if (currentPosition < 0) {
+                    currentPosition += cardWidth;
+                    productsContainer.style.transform = `translateX(${currentPosition}px)`;
+                    updateNavigation();
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                const maxPosition = -(totalCards - visibleCards) * cardWidth;
+                if (currentPosition > maxPosition) {
+                    currentPosition -= cardWidth;
+                    productsContainer.style.transform = `translateX(${currentPosition}px)`;
+                    updateNavigation();
+                }
+            });
+
+            // Initial navigation state
+            updateNavigation();
+
+            // Update on window resize
+            window.addEventListener('resize', () => {
+                currentPosition = 0;
+                productsContainer.style.transform = `translateX(0)`;
+                updateNavigation();
+            });
+        });
+    </script>
+</body>
+
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas Imperdibles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .title span:first-child {
+            color: #000;
+        }
+
+        .title span:last-child {
+            color: #ff8c00;
+            margin-left: 10px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .products-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .products {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .products::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .products::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .products::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+        .products::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+
+        .product-card {
+            flex: 0 0 auto;
+            width: calc(20% - 16px);
+            min-width: 220px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+            scroll-snap-align: start;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.3;
+            height: 36px;
+            overflow: hidden;
+        }
+
+        .product-brand {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .buy-button {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .buy-button:hover {
+            background-color: #d62b39;
+        }
+
+        .products-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 40px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
+            pointer-events: none;
+        }
+
+        @media (max-width: 1200px) {
+            .product-card {
+                width: calc(25% - 15px);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .product-card {
+                width: calc(33.33% - 14px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                width: calc(50% - 10px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-card {
+                width: calc(85% - 10px);
+            }
+
+            .title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">
+                <span>OFERTAS</span>
+                <span>IMPERDIBLES</span>
+            </h1>
+            <div class="nav-buttons">
+                <button class="nav-button prev">←</button>
+                <button class="nav-button next">→</button>
+            </div>
+        </div>
+
+        <div class="products-container">
+            <div class="products">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="JP CHENET FASHION LITCHI">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">JP CHENET FASHION LITCHI 750 ML</h3>
+                        <p class="product-brand">JP CHENET</p>
+                        <p class="product-price">$13,23</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="ESPUMANTE JP CHENET">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">ESPUMANTE JP CHENET ICE SPARKLING</h3>
+                        <p class="product-brand">JP CHENET</p>
+                        <p class="product-price">$13,00</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="ANTHONY VINO">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">ANTHONY VINO FRIZZANTE ROSE 750 ML</h3>
+                        <p class="product-brand">ANTHONY</p>
+                        <p class="product-price">$6,70</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA MONTAÑA CUBE">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">BICICLETA MONTAÑA CUBE STEREO ONE55 RACE</h3>
+                        <p class="product-brand">CUBE</p>
+                        <p class="product-price">$5.403,85</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA MONTAÑA CUBE ANALOG">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">BICICLETA MONTAÑA CUBE ANALOG</h3>
+                        <p class="product-brand">CUBE</p>
+                        <p class="product-price">$1.253,50</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="VINO TINTO RESERVA">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">VINO TINTO RESERVA CABERNET</h3>
+                        <p class="product-brand">CASILLERO DEL DIABLO</p>
+                        <p class="product-price">$8,99</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="CHAMPAGNE PREMIUM">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">CHAMPAGNE PREMIUM BRUT</h3>
+                        <p class="product-brand">MOËT & CHANDON</p>
+                        <p class="product-price">$45,50</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA URBANA">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">BICICLETA URBANA TREK FX 2</h3>
+                        <p class="product-brand">TREK</p>
+                        <p class="product-price">$649,99</p>
+                        <button class="buy-button">Comprar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html> -->
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .title span:first-child {
+        color: #000;
+    }
+
+    .title span:last-child {
+        color: #ff8c00;
+        margin-left: 10px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-button {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #e0e0e0;
+        background-color: white;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+    }
+
+    .nav-button:hover {
+        background-color: #f5f5f5;
+    }
+
+    .products-container {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .products {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 10px 0;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .products::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .products::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .products::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+    }
+
+    .products::-webkit-scrollbar-thumb:hover {
+        background: #aaa;
+    }
+
+    .product-card {
+        flex: 0 0 auto;
+        width: calc(20% - 16px);
+        min-width: 220px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: white;
+        transition: transform 0.3s, box-shadow 0.3s;
+        scroll-snap-align: start;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+
+    .product-image img:hover {
+        transform: scale(1.05);
+    }
+
+    .product-info {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .product-title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.3;
+        height: 36px;
+        overflow: hidden;
+    }
+
+    .product-brand {
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+    }
+
+    .product-price {
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .buy-button {
+        background-color: #e63946;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 8px 15px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .buy-button:hover {
+        background-color: #d62b39;
+    }
+
+    .products-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 40px;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
+        pointer-events: none;
+    }
+
+    @media (max-width: 1200px) {
+        .product-card {
+            width: calc(25% - 15px);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .product-card {
+            width: calc(33.33% - 14px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-card {
+            width: calc(50% - 10px);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .product-card {
+            width: calc(85% - 10px);
+        }
+
+        .title {
+            font-size: 24px;
+        }
+    }
+</style>
+
+
+<div class="container">
+    <div class="header">
+        <h1 class="title">
+            <span>OFERTAS</span>
+            <span>IMPERDIBLES</span>
+        </h1>
+        <div class="nav-buttons">
+            <button class="nav-button prev">←</button>
+            <button class="nav-button next">→</button>
+        </div>
+    </div>
+
+    <div class="products-container">
+        <div class="products">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="JP CHENET FASHION LITCHI">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">JP CHENET FASHION LITCHI 750 ML</h3>
+                    <p class="product-brand">JP CHENET</p>
+                    <p class="product-price">$13,23</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="ESPUMANTE JP CHENET">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">ESPUMANTE JP CHENET ICE SPARKLING</h3>
+                    <p class="product-brand">JP CHENET</p>
+                    <p class="product-price">$13,00</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="ANTHONY VINO">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">ANTHONY VINO FRIZZANTE ROSE 750 ML</h3>
+                    <p class="product-brand">ANTHONY</p>
+                    <p class="product-price">$6,70</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA MONTAÑA CUBE">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">BICICLETA MONTAÑA CUBE STEREO ONE55 RACE</h3>
+                    <p class="product-brand">CUBE</p>
+                    <p class="product-price">$5.403,85</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA MONTAÑA CUBE ANALOG">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">BICICLETA MONTAÑA CUBE ANALOG</h3>
+                    <p class="product-brand">CUBE</p>
+                    <p class="product-price">$1.253,50</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="VINO TINTO RESERVA">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">VINO TINTO RESERVA CABERNET</h3>
+                    <p class="product-brand">CASILLERO DEL DIABLO</p>
+                    <p class="product-price">$8,99</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="CHAMPAGNE PREMIUM">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">CHAMPAGNE PREMIUM BRUT</h3>
+                    <p class="product-brand">MOËT & CHANDON</p>
+                    <p class="product-price">$45,50</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/placeholder.svg?height=200&width=200" alt="BICICLETA URBANA">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">BICICLETA URBANA TREK FX 2</h3>
+                    <p class="product-brand">TREK</p>
+                    <p class="product-price">$649,99</p>
+                    <button class="buy-button">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
