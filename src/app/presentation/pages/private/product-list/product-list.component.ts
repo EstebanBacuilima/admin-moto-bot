@@ -338,12 +338,21 @@ export class ProductListComponent {
 
   public add() {
     this.openModal = true;
+    this.resetForm();
   }
 
   public cancel() {
     this.openModal = false;
-    this.selectedProduct = null;
+    this.resetForm();
     this.list();
+  }
+
+
+  public resetForm() {
+    if (this.productForm) {
+      this.productForm.reset();
+    }
+    this.selectedProduct = null;
   }
 
   public generateSku(length: number = 15) {
@@ -364,6 +373,8 @@ export class ProductListComponent {
 
   // public selectedProductAttribute = ProductAttribute || null;
 
+
+  // Product attributes ----------------------------------------------------------------------------------------------
   public onProductAttributes(product: Product) {
     this.currentProductId = product.id;
     this.listProductAttributes();

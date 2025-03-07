@@ -1,13 +1,16 @@
 <nz-layout class="app-layout h-screen">
   <!-- Header -->
-  <nz-header>Header</nz-header>
+  <app-toolbar />
 
   <!-- Main Layout -->
   <nz-layout>
 
     <!-- Content -->
     <nz-content class="content">
-      <app-catalog-service-list></app-catalog-service-list>
+
+      <!-- <div class="mb-20"> -->
+      <app-catalog-service-list />
+      <!-- </div> -->
 
       <router-outlet></router-outlet>
 

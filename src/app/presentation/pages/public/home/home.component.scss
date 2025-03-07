@@ -1,9 +1,4 @@
-// :host {
-//   text-align: center;
-// }
-
-
-nz-header {
+app-toolbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -16,10 +11,10 @@ nz-header {
 
 app-catalog-service-list {
   position: fixed;
-  top: 60px;
+  top: 102px;
   /* Debe estar justo debajo del header */
   left: 0;
-  width: 100%;
+  width: 110%;
   height: 50px;
   /* Ajusta la altura del contenedor */
   background: white;
