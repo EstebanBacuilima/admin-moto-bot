@@ -19,6 +19,8 @@
                 <ng-container *ngIf="products.length > 0; else noProductsTemplate">
                     <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6"
                         class="product-card" style="margin-top: 10px;">
+
+
                         <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
                             [nzCover]="coverTemplate" (click)="navigateTo('/public/home/product-detail/'+product.code)">
                             <nz-card-meta [nzTitle]="' ' +product?.brand?.name "

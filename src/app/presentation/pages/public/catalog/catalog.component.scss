@@ -15,14 +15,15 @@
  }
 
 
- app-catalog-service-list {
-     position: fixed;
-     top: 101px;
-     /* Debe estar justo debajo del header */
-     left: 0;
-     width: 110%;
-     height: 50px;
-     /* Ajusta la altura del contenedor */
-     background: white;
-     z-index: 999;
+ nz-carousel {
+     text-align: center;
+ }
+
+ nz-card {
+     transition: all 0.3s ease;
+ }
+
+ nz-card:hover {
+     transform: translateY(-5px);
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
  }

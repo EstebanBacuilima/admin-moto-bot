@@ -10,6 +10,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { ButtonModule } from 'primeng/button';
+import { CarouselModule } from 'primeng/carousel';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { ProductService } from '../../../../data/src/product.service';
 import { SectionService } from '../../../../data/src/section.service';
@@ -19,6 +20,7 @@ import { Section } from '../../../../domain/entities/section';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { CarouselComponent } from '../../../common/carousel/carousel.component';
 import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
+import { TestComponent } from '../test/test.component';
 
 @Component({
   selector: 'app-catalog',
@@ -35,7 +37,9 @@ import { CatalogServiceListComponent } from '../catalog-service-list/catalog-ser
     NzDividerModule,
     CarouselComponent,
     CatalogServiceListComponent,
-    ButtonModule
+    ButtonModule,
+    CarouselModule,
+    TestComponent
   ],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']
@@ -55,6 +59,35 @@ export class CatalogComponent {
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public products: Product[] = [];
   public sections: Section[] = [];
+
+
+  offers = [
+    {
+      title: 'BICICLETA EBIKE CUBE HYBRID STEREO ONES55 SLX',
+      price: '$10,005.00',
+      image: 'https://via.placeholder.com/150' // URL de imagen placeholder
+    },
+    {
+      title: 'JP CHENET FASHION STRAWB - RASPB 750 ML',
+      price: '$13.23',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      title: 'VENTISQUERO CABERNET SAUVIGNON 750ML',
+      price: '$7.39',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      title: 'VENTISQUERO CLASICO MERLOT 750ML',
+      price: '$7.39',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      title: 'ANTHONY VINO FRIZZANTE MORA 750 ML',
+      price: '$6.70',
+      image: 'https://via.placeholder.com/150'
+    }
+  ];
 
   ngOnInit(): void {
     this.list();
