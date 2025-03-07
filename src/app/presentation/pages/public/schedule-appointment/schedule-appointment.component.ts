@@ -1,10 +1,13 @@
+import { SimpleMapComponent } from './../../../common/simple-map/simple-map.component';
+import { EmployeeService } from './../../../../data/src/emplyee.service';
+import { Employee } from './../../../../domain/entities/employee';
 import { Service } from './../../../../domain/entities/service';
 import { ServiceService } from './../../../../data/src/service.service';
 import { EstablishmentService } from './../../../../data/src/establishment.service';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { DefaultResponse } from './../../../../domain/common/default-response';
 import { Establishment } from './../../../../domain/entities/establishment';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import {
   FormBuilder,
@@ -14,17 +17,25 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Coordinate as CoordinateModel } from '../../../../domain/models/coordinate';
 
 @Component({
   selector: 'app-schedule-appointment',
   standalone: true,
-  imports: [CommonModule, NgZorroAntdModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    NgZorroAntdModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SimpleMapComponent,
+  ],
   templateUrl: './schedule-appointment.component.html',
   styleUrl: './schedule-appointment.component.scss',
 })
-export class ScheduleAppointmentComponent {
+export class ScheduleAppointmentComponent implements OnInit {
   private readonly establishmentService = inject(EstablishmentService);
   private readonly serviceService = inject(ServiceService);
+  private readonly employeeService = inject(EmployeeService);
 
   public steps: any[] = [
     {
@@ -47,7 +58,17 @@ export class ScheduleAppointmentComponent {
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public establishments: Establishment[] = [];
   public services: Service[] = [];
+  public employees: Employee[] = [];
   public searchText: string = '';
+  public selectedEstablishment: Establishment | null = null;
+  public selectedService: Service | null = null;
+  public selectedEmployee: Employee | null = null;
+
+  ngOnInit(): void {
+    this.listEstablishments();
+    this.listServices();
+    this.listEmployees();
+  }
 
   constructor(private formBuilder: FormBuilder) {
     this.customerForm = this.formBuilder.group({
@@ -74,6 +95,23 @@ export class ScheduleAppointmentComponent {
       });
   }
 
+  onSelectedEstablishment(establishment: Establishment) {
+    this.selectedEstablishment = establishment;
+  }
+
+  onSelectedService(service: Service) {
+    this.selectedService = service;
+  }
+
+  getByEstablishment(establishment: Establishment): CoordinateModel {
+    return {
+      title: establishment.name,
+      label: establishment.name,
+      latitude: establishment.latitude,
+      longitude: establishment.longitude,
+    };
+  }
+
   public listServices() {
     this.loading$.next(true);
     this.serviceService
@@ -86,6 +124,21 @@ export class ScheduleAppointmentComponent {
           return (this.services = this.defaultResponse.data);
         },
         error: () => (this.services = []),
+      });
+  }
+
+  public listEmployees() {
+    this.loading$.next(true);
+    this.employeeService
+      .list()
+      .pipe(finalize(() => this.loading$.next(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          return (this.employees = this.defaultResponse.data);
+        },
+        error: () => (this.employees = []),
       });
   }
 

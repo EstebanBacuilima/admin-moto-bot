@@ -1,6 +1,5 @@
-
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Coordinate } from '../../../domain/models/coordinate';
 import { NgZorroAntdModule } from '../../../ng-zorro.module';
@@ -10,13 +9,14 @@ import { NgZorroAntdModule } from '../../../ng-zorro.module';
   standalone: true,
   imports: [NgZorroAntdModule, CommonModule, GoogleMapsModule],
   templateUrl: './simple-map.component.html',
-  styleUrl: './simple-map.component.scss'
+  styleUrl: './simple-map.component.scss',
 })
-export class SimpleMapComponent {
-  public coordinate = input<Coordinate>();
-  public onSelectedCoordinate = output<Coordinate>();
+export class SimpleMapComponent implements OnInit {
+  @Input() coordinate!: Coordinate;
+  @Output() onSelectedCoordinate = new EventEmitter<Coordinate>();
+
   public markerOptions: google.maps.MarkerOptions = { draggable: false };
-  public mapMarkers: any[] = [];
+  public markerPositions: google.maps.LatLngLiteral[] = [];
 
   /** The zoom of the map */
   public zoom = 15;
@@ -27,15 +27,27 @@ export class SimpleMapComponent {
   /** If is a small device */
   public smallDevice: boolean = false;
 
-  public googleMapsCenter: google.maps.LatLngLiteral | google.maps.LatLng = {
+  public googleMapsCenter: google.maps.LatLngLiteral = {
     lat: 4.659698,
     lng: -74.093379,
   };
 
-  public markerPositions: google.maps.LatLngLiteral[] = [];
+  ngOnInit() {
+    // Set the center of the map.
+    if (
+      this.coordinate?.latitude !== undefined &&
+      this.coordinate?.longitude !== undefined
+    ) {
+      this.googleMapsCenter = {
+        lat: this.coordinate.latitude,
+        lng: this.coordinate.longitude,
+      };
+      this.markerPositions = [this.googleMapsCenter];
+    }
+  }
 
   /**
-   * Emits the coordinate clicked on the map.
+   * Handles the click event on the map and emits the selected coordinate.
    * @param event The click event.
    */
   onMapClick(event: google.maps.MapMouseEvent) {
@@ -46,13 +58,15 @@ export class SimpleMapComponent {
         title: '',
         label: '',
       };
-      // Set the marker's position.
+
+      // Update marker position.
       this.markerPositions = [
         {
           lat: event.latLng.lat(),
           lng: event.latLng.lng(),
         },
       ];
+
       // Emit the coordinate.
       this.onSelectedCoordinate.emit(coordinate);
     }
