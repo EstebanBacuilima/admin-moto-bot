@@ -47,7 +47,6 @@ export class HomeComponent {
   ngOnInit(): void {
     const currentPath = this.router.url;
     this.isService = currentPath === "/public/home/catalog-service";
-    // if (currentPath === "/public/home/catalog-service") this.isService = true;
   }
 
   public openChatbotModal = false;

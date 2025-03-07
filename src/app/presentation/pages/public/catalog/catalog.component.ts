@@ -9,6 +9,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { ButtonModule } from 'primeng/button';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { ProductService } from '../../../../data/src/product.service';
 import { SectionService } from '../../../../data/src/section.service';
@@ -33,7 +34,8 @@ import { CatalogServiceListComponent } from '../catalog-service-list/catalog-ser
     NzTabsModule,
     NzDividerModule,
     CarouselComponent,
-    CatalogServiceListComponent
+    CatalogServiceListComponent,
+    ButtonModule
   ],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']
