@@ -49,11 +49,6 @@ const publicRoutes: Routes = [
         (m) => m.ProductDetailComponent
       ),
   },
-  // {
-  //   path: 'catalog',
-  //   loadComponent: () =>
-  //     import('./catalog/catalog.component').then((m) => m.CatalogComponent),
-  // },
   {
     path: 'schedule-appointment',
     loadComponent: () =>

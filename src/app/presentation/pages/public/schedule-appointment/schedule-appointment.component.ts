@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Service } from './../../../../domain/entities/service';
+import { ServiceService } from './../../../../data/src/service.service';
+import { EstablishmentService } from './../../../../data/src/establishment.service';
+import { BehaviorSubject, finalize } from 'rxjs';
+import { DefaultResponse } from './../../../../domain/common/default-response';
+import { Establishment } from './../../../../domain/entities/establishment';
+import { Component, inject } from '@angular/core';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import {
   FormBuilder,
@@ -7,7 +13,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RegisterRequest } from '../../../../domain/models/register-request';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,6 +23,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './schedule-appointment.component.scss',
 })
 export class ScheduleAppointmentComponent {
+  private readonly establishmentService = inject(EstablishmentService);
+  private readonly serviceService = inject(ServiceService);
+
   public steps: any[] = [
     {
       id: 1,
@@ -35,6 +43,11 @@ export class ScheduleAppointmentComponent {
   public current = 0;
   public processing = false;
   public customerForm: FormGroup;
+  public loading$ = new BehaviorSubject<boolean>(false);
+  public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
+  public establishments: Establishment[] = [];
+  public services: Service[] = [];
+  public searchText: string = '';
 
   constructor(private formBuilder: FormBuilder) {
     this.customerForm = this.formBuilder.group({
@@ -43,8 +56,37 @@ export class ScheduleAppointmentComponent {
       lastName: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
       photoUrl: [null],
-      phoneNumber: [null, [Validators.minLength(10)]],
     });
+  }
+
+  public listEstablishments() {
+    this.loading$.next(true);
+    this.establishmentService
+      .list()
+      .pipe(finalize(() => this.loading$.next(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          this.establishments = this.defaultResponse.data;
+        },
+        error: () => (this.establishments = []),
+      });
+  }
+
+  public listServices() {
+    this.loading$.next(true);
+    this.serviceService
+      .list(this.searchText)
+      .pipe(finalize(() => this.loading$.next(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          return (this.services = this.defaultResponse.data);
+        },
+        error: () => (this.services = []),
+      });
   }
 
   getRegisterRequest(): any {
@@ -54,7 +96,6 @@ export class ScheduleAppointmentComponent {
       lastName: this.customerForm.value.lastName,
       email: this.customerForm.value.email,
       photoUrl: this.customerForm.value.photoUrl,
-      phoneNumber: this.customerForm.value.phoneNumber,
     };
   }
 

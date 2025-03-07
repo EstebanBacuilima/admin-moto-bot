@@ -11,7 +11,7 @@
       }
     </nz-steps>
 
-    <nz-card class="steps-content">
+    <nz-card class="steps-content" style="margin-top: 24px">
       @if (current == 0) {
       <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
         <nz-col nzXs="24" nzMd="20">
@@ -94,23 +94,6 @@
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
-              <!-- The password -->
-              <nz-col nzXs="24" nzMd="12">
-                <nz-form-item>
-                  <nz-form-label nzRequired nzSpan="24"
-                    >Contraseña</nz-form-label
-                  >
-                  <nz-form-control nzErrorTip="Contraseña no válido">
-                    <input
-                      class="input-radius"
-                      type="text"
-                      nz-input
-                      formControlName="password"
-                      placeholder="Ejemplo: Abc123.@"
-                    />
-                  </nz-form-control>
-                </nz-form-item>
-              </nz-col>
             </nz-row>
           </form>
         </nz-col>
@@ -118,7 +101,7 @@
       }
     </nz-card>
 
-    <div class="steps-action">
+    <div class="steps-action" style="margin-top: 24px">
       @if (current > 0) {
       <button nz-button nzType="default" (click)="pre()">
         <span>Atras</span>
