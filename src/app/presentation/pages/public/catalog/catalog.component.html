@@ -1,7 +1,7 @@
 <!-- <app-catalog-service-list /> -->
 <app-carousel></app-carousel>
-<p-button label="Submit" />
-@for (section of sections; track section.id) {
+
+<!-- @for (section of sections; track section.id) {
 
 <div style="margin: 30px;">
 
@@ -34,34 +34,41 @@
     </nz-row>
 </div>
 
-}
+} -->
 
-<!-- <nz-divider></nz-divider>
-        
-        <nz-col span="24">
-            <nz-row [nzGutter]="16" style="margin: 0;">
-                <ng-container>
-                    <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6" class="product-card"
-                        style="margin-top: 10px;">
-                        <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
-                            [nzCover]="coverTemplate" (click)="navigateTo('/public/home/product-detail/'+product.code)">
-                            <nz-card-meta [nzTitle]="product.name" [nzDescription]="''+product.description"></nz-card-meta>
-                            <div class="price" style="padding: 10px; font-size: 16px; font-weight: bold; color: #4caf50;">
-                                Precio: {{ product.price | currency:'USD':'symbol' }}
-                            </div>
-        
-                        </nz-card>
-        
-                        <ng-template #coverTemplate>
-                            <div style="padding: 30px;">
-                                <img alt="product" [src]="product.productImages[0].url" class="product-image"
-                                    style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;" />
-                            </div>
-                        </ng-template>
-        
-                    </nz-col>
-                </ng-container>
-        
-        
-            </nz-row>
-        </nz-col> -->
+<app-test></app-test>
+
+<nz-carousel [nzDots]="false" [nzEffect]="'scrollx'" style="background: #f5f5f5; padding: 20px;">
+    <div nz-carousel-content *ngFor="let offer of offers">
+        <div class="offer-container">
+            <nz-card [nzHoverable]="true" style="width: 200px; margin: 0 10px; text-align: center;">
+                <img nz-card-image [src]="offer.image" alt="{{ offer.title }}" />
+                <nz-card-meta [nzTitle]="offer.title" [nzDescription]="offer.price"></nz-card-meta>
+                <button nz-button nzType="primary"
+                    style="margin-top: 10px; background-color: #ff4d4f; border-color: #ff4d4f;">
+                    Comprar
+                </button>
+            </nz-card>
+        </div>
+    </div>
+</nz-carousel>
+
+<style>
+    .offer-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    nz-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    nz-card-meta {
+        margin-top: 10px;
+    }
+
+    nz-button {
+        width: 100%;
+    }
+</style>
