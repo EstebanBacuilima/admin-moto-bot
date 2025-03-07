@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { AttributeService } from '../../../../data/src/attribute.service';
 import { BrandService } from '../../../../data/src/brand.service';
@@ -21,7 +22,6 @@ import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
 import { ProductAttribute } from '../../../../domain/entities/product_attribute';
 import { ProductImage } from '../../../../domain/entities/product_image';
-import { Service } from '../../../../domain/entities/service';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { MultipleUploadFileComponent } from '../../../common/multiple-upload-file/multiple-upload-file.component';
@@ -38,6 +38,7 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     SimplePageHeaderComponent,
     MultipleUploadFileComponent,
     NzIconModule,
+    NzTagModule
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -59,6 +60,7 @@ export class ProductListComponent {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public products: Product[] = [];
+  public auxProducts: Product[] = [];
   public productImages: ProductImage[] = [];
   public productImageUrls: string[] = [];
   public categories: Category[] = [];
@@ -87,8 +89,9 @@ export class ProductListComponent {
     brand_id: [null, [Validators.required]],
     category_id: [null, [Validators.required]],
     price: [null, [Validators.required]],
+    percentage: [null,],
     active: [true, [Validators.required]],
-    sku: [true, [Validators.required]],
+    sku: [null, [Validators.required]],
   });
 
   public productAttributeForm: UntypedFormGroup = this.formBuilder.group({
@@ -99,22 +102,29 @@ export class ProductListComponent {
   public listOfColumn = [
     {
       title: 'Imágenes',
-      compare: (a: Service, b: Service) =>
+      compare: (a: Product, b: Product) =>
         a.name ? a.name.localeCompare(b.name) : 0,
       priority: false,
     },
     {
       title: 'Nombre',
-      compare: (a: Service, b: Service) =>
+      compare: (a: Product, b: Product) =>
         a.name ? a.name.localeCompare(b.name) : 0,
       priority: false,
     },
     {
       title: 'Descripción',
-      compare: (a: Service, b: Service) =>
+      compare: (a: Product, b: Product) =>
         a.description ? a.description.localeCompare(b.description ?? '') : 0,
       priority: 1,
     },
+    {
+      title: 'Precio',
+      compare: (a: Product, b: Product) =>
+        a.price,
+      priority: 1,
+    },
+
   ];
 
   public listOfColumnAttributes = [
@@ -167,7 +177,8 @@ export class ProductListComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.products = this.defaultResponse.data);
+          this.products = this.defaultResponse.data;
+          this.auxProducts = this.products;
         },
         error: () => (this.products = []),
       });
@@ -263,8 +274,16 @@ export class ProductListComponent {
       clearTimeout(this.searchDebounceTimer);
     }
     this.searchDebounceTimer = setTimeout(() => {
-      isProduct ? this.list() : this.listProductAttributes();
+      isProduct ? this.filterData(this.searchText) : this.listProductAttributes();
     }, 800);
+  }
+
+  public filterData(value: string) {
+    if (!value) this.products = this.auxProducts;
+
+    this.products = this.auxProducts.filter(b =>
+      b.name.toLowerCase().includes(value.toLowerCase()) ||
+      b.description?.toLowerCase().includes(value.toLowerCase()));
   }
 
   private validateForm(): boolean {
@@ -289,6 +308,7 @@ export class ProductListComponent {
     this.productForm.get('brand_id')?.setValue(this.selectedProduct?.brandId);
     this.productForm.get('price')?.setValue(this.selectedProduct?.price);
     this.productForm.get('sku')?.setValue(this.selectedProduct?.sku);
+    this.productForm.get('percentage')?.setValue(this.selectedProduct?.percentage);
     this.productImages = this.selectedProduct?.productImages ?? [];
     this.productImageUrls = this.productImages.map((image) => image.url);
   }
@@ -305,7 +325,8 @@ export class ProductListComponent {
       this.productForm.get('active')?.value,
       this.productImages,
       this.productForm.get('price')?.value,
-      this.productForm.get('description')?.value
+      this.productForm.get('description')?.value,
+      this.productForm.get('percentage')?.value,
     );
   }
 
@@ -317,12 +338,21 @@ export class ProductListComponent {
 
   public add() {
     this.openModal = true;
+    this.resetForm();
   }
 
   public cancel() {
     this.openModal = false;
-    this.selectedProduct = null;
+    this.resetForm();
     this.list();
+  }
+
+
+  public resetForm() {
+    if (this.productForm) {
+      this.productForm.reset();
+    }
+    this.selectedProduct = null;
   }
 
   public generateSku(length: number = 15) {
@@ -343,6 +373,8 @@ export class ProductListComponent {
 
   // public selectedProductAttribute = ProductAttribute || null;
 
+
+  // Product attributes ----------------------------------------------------------------------------------------------
   public onProductAttributes(product: Product) {
     this.currentProductId = product.id;
     this.listProductAttributes();

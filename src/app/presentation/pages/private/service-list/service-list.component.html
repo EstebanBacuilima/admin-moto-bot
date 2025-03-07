@@ -78,7 +78,15 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </nz-col>
-
+                        <nz-col nzXs="24" nzMd="12">
+                            <nz-form-item>
+                              <nz-form-label nzSpan="24">Logo</nz-form-label>
+                              <app-simple-file
+                                (outputUrl)="updateLogoUrl($event)"
+                                [inputUrl]="serviceForm.get('logo')?.value ?? ''"
+                              ></app-simple-file>
+                            </nz-form-item>
+                          </nz-col>
                     </nz-row>
                 </form>
             </nz-col>

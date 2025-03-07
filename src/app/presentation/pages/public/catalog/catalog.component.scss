@@ -13,3 +13,16 @@
  p {
      margin: 0;
  }
+
+
+ app-catalog-service-list {
+     position: fixed;
+     top: 101px;
+     /* Debe estar justo debajo del header */
+     left: 0;
+     width: 110%;
+     height: 50px;
+     /* Ajusta la altura del contenedor */
+     background: white;
+     z-index: 999;
+ }

@@ -37,6 +37,8 @@ export class EstablishmentListComponent {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public establishments: Establishment[] = [];
+  public auxEstablishments: Establishment[] = [];
+
   private searchDebounceTimer: any;
   public searchText: string = '';
   public openModal = false;
@@ -94,7 +96,8 @@ export class EstablishmentListComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.establishments = this.defaultResponse.data)
+          this.establishments = this.defaultResponse.data;
+          this.auxEstablishments = this.establishments;
         },
         error: () => (this.establishments = [])
       })
@@ -157,7 +160,7 @@ export class EstablishmentListComponent {
       clearTimeout(this.searchDebounceTimer);
     }
     this.searchDebounceTimer = setTimeout(() => {
-      this.list();
+      this.filterData(this.searchText);
     }, 800);
   }
 
@@ -222,4 +225,11 @@ export class EstablishmentListComponent {
     this.establishmentForm.get('longitude')?.setValue(coordinate.longitude);
   }
 
+  public filterData(value: string) {
+    if (!value) this.establishments = this.auxEstablishments;
+
+    this.establishments = this.auxEstablishments.filter(b =>
+      b.name.toLowerCase().includes(value.toLowerCase()) ||
+      b.description?.toLowerCase().includes(value.toLowerCase()));
+  }
 }

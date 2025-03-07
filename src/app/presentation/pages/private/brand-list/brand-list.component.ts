@@ -1,11 +1,5 @@
-import { Brand } from '../../../../domain/entities/brand';
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { BrandService } from '../../../../data/src/brand.service';
-import { ResponsiveService } from '../../../../services/responsive-service';
-import { BehaviorSubject, finalize } from 'rxjs';
-import { DefaultResponse } from '../../../../domain/common/default-response';
-import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -13,8 +7,14 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
+import { BehaviorSubject, finalize } from 'rxjs';
+import { BrandService } from '../../../../data/src/brand.service';
+import { DefaultResponse } from '../../../../domain/common/default-response';
+import { Brand } from '../../../../domain/entities/brand';
+import { NgZorroAntdModule } from '../../../../ng-zorro.module';
+import { ResponsiveService } from '../../../../services/responsive-service';
 import { SimpleFileComponent } from '../../../common/simple-file/simple-file.component';
+import { SimplePageHeaderComponent } from '../../../common/simple-page-header/simple-page-header.component';
 
 @Component({
   selector: 'app-bran-list',
@@ -39,6 +39,7 @@ export class BrandListComponent implements OnInit {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public brands: Brand[] = [];
+  public auxBrands: Brand[] = [];
   private searchDebounceTimer: any;
   public searchText: string = '';
   public opendModal = false;
@@ -86,7 +87,8 @@ export class BrandListComponent implements OnInit {
         next: (response) => {
           if (response.statusCode !== 200) return;
           this.defaultResponse = response;
-          return (this.brands = this.defaultResponse.data);
+          this.brands = this.defaultResponse.data;
+          this.auxBrands = this.brands;
         },
         error: () => (this.brands = []),
       });
@@ -144,7 +146,7 @@ export class BrandListComponent implements OnInit {
     }
     // Init the debounce timer for 800ms
     this.searchDebounceTimer = setTimeout(() => {
-      this.list();
+      this.filterData(this.searchText);
     }, 800);
   }
 
@@ -206,5 +208,13 @@ export class BrandListComponent implements OnInit {
   onImageError(event: Event): void {
     const target = event.target as HTMLImageElement;
     target.src = this.defaultImage;
+  }
+
+  public filterData(value: string) {
+    if (!value) this.brands = this.auxBrands;
+
+    this.brands = this.auxBrands.filter(b =>
+      b.name.toLowerCase().includes(value.toLowerCase()) ||
+      b.description?.toLowerCase().includes(value.toLowerCase()));
   }
 }

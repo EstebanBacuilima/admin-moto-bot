@@ -16,6 +16,7 @@ import { DefaultResponse } from '../../../../domain/common/default-response';
 import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
 import { ResponsiveService } from '../../../../services/responsive-service';
+import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
 
 
 
@@ -30,7 +31,8 @@ import { ResponsiveService } from '../../../../services/responsive-service';
     NzCarouselModule,
     NzIconModule,
     NzTabsModule,
-    NzDividerModule],
+    NzDividerModule,
+    CatalogServiceListComponent],
   templateUrl: './catalog-product-list.component.html',
   styleUrl: './catalog-product-list.component.scss'
 })

@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { AvatarModule } from 'primeng/avatar';
+import { ToolbarModule } from 'primeng/toolbar';
 import { finalize } from 'rxjs';
 import { UserChatService } from '../../../../data/src/user-chat.service';
 import { DefaultResponse } from '../../../../domain/common/default-response';
@@ -12,6 +14,7 @@ import { ChatResponse } from '../../../../domain/models/chat-response';
 import { UserQueryRequestDto } from '../../../../domain/models/user-query-request-dto';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +27,12 @@ import { CatalogServiceListComponent } from '../catalog-service-list/catalog-ser
     NzIconModule,
     RouterOutlet,
     CatalogServiceListComponent,
+
+    // Prime components
+    ToolbarModule, AvatarModule,
+
+    //Components
+    ToolbarComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -31,6 +40,14 @@ import { CatalogServiceListComponent } from '../catalog-service-list/catalog-ser
 export class HomeComponent {
   private readonly userChatService = inject(UserChatService);
   private readonly message = inject(NzMessageService);
+  private readonly router = inject(Router);
+
+  public isService: boolean = false;
+
+  ngOnInit(): void {
+    const currentPath = this.router.url;
+    this.isService = currentPath === "/public/home/catalog-service";
+  }
 
   public openChatbotModal = false;
   public newMessage = '';
