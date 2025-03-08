@@ -1,3 +1,5 @@
+import { AppointmentService } from './../../../../data/src/appointment.service';
+import { Appointment } from './../../../../domain/entities/appoitnment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { SimpleMapComponent } from './../../../common/simple-map/simple-map.component';
 import { EmployeeService } from './../../../../data/src/emplyee.service';
@@ -8,7 +10,7 @@ import { EstablishmentService } from './../../../../data/src/establishment.servi
 import { BehaviorSubject, finalize } from 'rxjs';
 import { DefaultResponse } from './../../../../domain/common/default-response';
 import { Establishment } from './../../../../domain/entities/establishment';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import {
   FormBuilder,
@@ -40,6 +42,7 @@ export class ScheduleAppointmentComponent implements OnInit {
   private readonly establishmentService = inject(EstablishmentService);
   private readonly serviceService = inject(ServiceService);
   private readonly employeeService = inject(EmployeeService);
+  private readonly appointmentService = inject(AppointmentService);
   private readonly nzMessageService = inject(NzMessageService);
 
   public steps: any[] = [
@@ -70,6 +73,7 @@ export class ScheduleAppointmentComponent implements OnInit {
   public selectedEmployee: Employee | null = null;
   public date: Date | null = null;
   public customer: Customer | null = null;
+  public saving = signal(false);
 
   ngOnInit(): void {
     this.listEstablishments();
@@ -181,6 +185,24 @@ export class ScheduleAppointmentComponent implements OnInit {
     );
   }
 
+  private getAppoinment(): Appointment {
+    return new Appointment(
+      0,
+      this.selectedService?.id ?? 0,
+      this.selectedEmployee?.id ?? 0,
+      this.selectedEstablishment?.id ?? 0,
+      '',
+      this.date ?? new Date(),
+      true,
+      '',
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      this.customer ?? undefined
+    );
+  }
+
   /**
    * It loops through all the form controls and marks them as dirty and updates their validity
    * @returns A boolean value.
@@ -229,6 +251,24 @@ export class ScheduleAppointmentComponent implements OnInit {
 
   done(): void {
     this.loadingAndStep();
+  }
+
+  private create(): void {
+    this.appointmentService
+      .create(this.getAppoinment())
+      .pipe(finalize(() => this.saving.set(false)))
+      .subscribe({
+        next: (response) => {
+          if (response.statusCode !== 200) return;
+          this.current = 0;
+          this.customerForm.reset();
+          this.selectedEmployee = null;
+          this.selectedEstablishment = null;
+          this.selectedService = null;
+          this.date = null;
+          this.customer = null;
+        },
+      });
   }
 
   loadingAndStep(): void {
