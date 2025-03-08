@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Coordinate as CoordinateModel } from '../../../../domain/models/coordinate';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
 
 @Component({
   selector: 'app-schedule-appointment',
@@ -63,6 +64,7 @@ export class ScheduleAppointmentComponent implements OnInit {
   public selectedEstablishment: Establishment | null = null;
   public selectedService: Service | null = null;
   public selectedEmployee: Employee | null = null;
+  public date = null;
 
   ngOnInit(): void {
     this.listEstablishments();
@@ -188,4 +190,15 @@ export class ScheduleAppointmentComponent implements OnInit {
       this.current += 1;
     }
   }
+
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
+  }
+
+  // Deshabilitar fechas antes de hoy
+  disabledDate = (current: Date): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return current < today;
+  };
 }

@@ -13,8 +13,9 @@
 
     <nz-card class="steps-content" style="margin-top: 24px">
       @if (current == 0) {
-      <nz-row [nzGutter]="[12, 12]" style="justify-content: center">
-        <nz-col nzXs="24" nzMd="20">
+      <nz-row [nzGutter]="[24, 24]" class="form-container">
+        <!-- Column: Form -->
+        <nz-col nzXs="24" nzMd="14">
           <form nz-form [formGroup]="customerForm">
             <nz-row [nzGutter]="[12, 12]">
               <nz-col nzXs="24" nzMd="24">
@@ -22,10 +23,7 @@
                   <nz-form-label nzRequired nzSpan="24"
                     >Identificación</nz-form-label
                   >
-                  <nz-form-control
-                    nzErrorTip="Identificación no válido"
-                    class="custom-error-tip-left"
-                  >
+                  <nz-form-control nzErrorTip="Identificación no válida">
                     <input
                       class="input-radius"
                       type="text"
@@ -41,10 +39,7 @@
               <nz-col nzXs="24" nzMd="12">
                 <nz-form-item>
                   <nz-form-label nzRequired nzSpan="24">Nombres</nz-form-label>
-                  <nz-form-control
-                    nzErrorTip="Nombre no válido"
-                    class="custom-error-tip-left"
-                  >
+                  <nz-form-control nzErrorTip="Nombre no válido">
                     <input
                       class="input-radius"
                       type="text"
@@ -76,16 +71,13 @@
               <nz-col nzXs="24" nzMd="12">
                 <nz-form-item>
                   <nz-form-label nzRequired nzSpan="24">Correo</nz-form-label>
-                  <nz-form-control
-                    nzErrorTip="Correo no válido"
-                    class="custom-error-tip-left"
-                  >
+                  <nz-form-control nzErrorTip="Correo no válido">
                     <input
                       class="input-radius"
                       type="text"
                       nz-input
                       formControlName="email"
-                      placeholder="Ejemplo: correo@gmail.co."
+                      placeholder="Ejemplo: correo@gmail.com"
                     />
                   </nz-form-control>
                 </nz-form-item>
@@ -93,8 +85,24 @@
             </nz-row>
           </form>
         </nz-col>
+
+        <!-- Column: DatePicker -->
+        <nz-col nzXs="24" nzMd="10">
+          <div class="date-picker-container">
+            <span class="date-picker-title">Seleccionar fecha de cita:</span>
+            <nz-range-picker
+              nzInline
+              nzShowTime
+              [nzDisabledDate]="disabledDate"
+              [(ngModel)]="date"
+              (ngModelChange)="onChange($event)"
+            ></nz-range-picker>
+          </div>
+        </nz-col>
       </nz-row>
+
       } @else if (current == 1) {
+
       <nz-card>
         <span style="font-weight: bold; font-size: 1.2rem"
           >Establecimientos</span
@@ -169,7 +177,7 @@
           </div>
         </div>
       </nz-card>
-
+      <br />
       <nz-card>
         <span style="font-weight: bold; font-size: 1.2rem">Empleados</span>
         <br />
