@@ -49,11 +49,13 @@ const publicRoutes: Routes = [
         (m) => m.ProductDetailComponent
       ),
   },
-  // {
-  //   path: 'catalog',
-  //   loadComponent: () =>
-  //     import('./catalog/catalog.component').then((m) => m.CatalogComponent),
-  // },
+  {
+    path: 'schedule-appointment',
+    loadComponent: () =>
+      import('./schedule-appointment/schedule-appointment.component').then(
+        (m) => m.ScheduleAppointmentComponent
+      ),
+  },
   {
     path: '**',
     redirectTo: '/home',

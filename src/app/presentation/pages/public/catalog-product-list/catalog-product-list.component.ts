@@ -9,6 +9,7 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { CategoryService } from '../../../../data/src/category.service';
@@ -18,6 +19,7 @@ import { Category } from '../../../../domain/entities/category';
 import { Product } from '../../../../domain/entities/product';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
+import { EmptyDataComponent } from '../../../common/empty-data/empty-data.component';
 import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
 
 @Component({
@@ -33,11 +35,11 @@ import { CatalogServiceListComponent } from '../catalog-service-list/catalog-ser
     NzTabsModule,
     NzDividerModule,
     CatalogServiceListComponent,
-
-
     NgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule,],
+    ReactiveFormsModule,
+    NzInputModule,
+    EmptyDataComponent],
   templateUrl: './catalog-product-list.component.html',
   styleUrl: './catalog-product-list.component.scss'
 })
@@ -54,11 +56,15 @@ export class CatalogProductListComponent {
 
   public defaultResponse: DefaultResponse = new DefaultResponse(200, '');
   public products: Product[] = [];
+  public auxProducts: Product[] = [];
   public categories: Category[] = [];
   public category: Category | null = null;
+  private searchDebounceTimer: any;
 
 
   selectedValue: any = null;
+  inputValue: string = '';
+
   // @Input() category!: Category;
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -69,6 +75,12 @@ export class CatalogProductListComponent {
       }
     });
   }
+
+  // ngOnChanges(): void {
+
+  //   this.filterData(this.inputValue);
+  // }
+
   public listProductsByCategoryCode(code: string) {
     this.loading$.next(true);
     this.categoryService
@@ -78,7 +90,8 @@ export class CatalogProductListComponent {
         next: (resp) => {
           if (resp.statusCode !== 200) return;
           this.defaultResponse = resp;
-          return (this.products = this.defaultResponse.data)
+          this.products = this.defaultResponse.data
+          this.auxProducts = this.products;
         },
         error: () => (this.products = [])
       })
@@ -112,18 +125,17 @@ export class CatalogProductListComponent {
   public listSeverityLeve: any[] = [
     { id: 1, value: 'NOMBRE, ascendente' },
     { id: 2, value: 'NOMBRE, descendente' },
-    { id: 3, value: 'PRECIO: mayor a menor' },
-    { id: 4, value: 'PRECIO: menos a mayor' },
+    { id: 3, value: 'PRECIO: menor a mayor' },
+    { id: 4, value: 'PRECIO: mayor a menor' },
   ];
 
   onFilterChange(value: any) {
-    console.log(value);
-    console.log('----------------------------------');
-
-    // alert(value);
-
     if (value === 1 || value === 2) {
       this.sortAscProducts(value === 1);
+    }
+
+    if (value == 3 || value === 4) {
+      this.sortAscPriceProducts(value == 3);
     }
   }
 
@@ -133,5 +145,31 @@ export class CatalogProductListComponent {
       return;
     }
     this.products.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  public sortAscPriceProducts(asc: boolean) {
+    this.products.sort((a, b) => {
+      return asc ? this.calculateDiscount(a.price, a.percentage) - this.calculateDiscount(b.price, b.percentage) : this.calculateDiscount(b.price, b.percentage) - this.calculateDiscount(a.price, a.percentage);
+    });
+  }
+
+
+  public onSearchChanged(value: any) {
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+    }
+    this.searchDebounceTimer = setTimeout(() => {
+      this.filterData(value);
+    }, 800);
+  }
+
+  public filterData(value: string) {
+    if (!value) this.products = this.auxProducts;
+
+    this.products = this.auxProducts.filter(b =>
+      b?.category?.name.toLowerCase().includes(value.toLowerCase()) ||
+      b?.brand?.name.toLowerCase().includes(value.toLowerCase()) ||
+      b.name.toLowerCase().includes(value.toLowerCase()) ||
+      b.description?.toLowerCase().includes(value.toLowerCase()));
   }
 }

@@ -14,20 +14,24 @@
         </nz-col>
 
         <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="6">
-            <nz-select (ngModelChange)="onFilterChange($event)" nzPlaceHolder="Ordenar por" style="width: 100%">
+            <nz-select [(ngModel)]="selectedValue" (ngModelChange)="onFilterChange($event)" nzPlaceHolder="Ordenar por"
+                style="width: 100%">
                 <nz-option nzCustomContent [nzValue]="b.id" [nzLabel]="b.value" *ngFor="let b of listSeverityLeve">
                     <div class="option-content">
                         <span class="brand-name">{{ b.value }}</span>
                     </div>
                 </nz-option>
             </nz-select>
+
         </nz-col>
+        <input nz-input placeholder="Buscar productos" nzSize="large" class="mt-5" [(ngModel)]="inputValue"
+            (ngModelChange)="onSearchChanged($event)" />
 
         <nz-divider></nz-divider>
 
         <nz-col span="24">
             <nz-row [nzGutter]="16" style="margin: 0;">
-                <ng-container *ngIf="products.length > 0; else noProductsTemplate">
+                <ng-container *ngIf="products.length > 0">
                     <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6"
                         class="product-card" style="margin-top: 10px;">
 
@@ -58,13 +62,14 @@
                     </nz-col>
                 </ng-container>
 
-                <ng-template #noProductsTemplate>
-                    <nz-col span="24" style="text-align: center; margin-top: 20px;">
-                        <h3 style="font-size: 1.5rem; color: #555;">No se encontraron productos en esta categoría.</h3>
-                    </nz-col>
-                </ng-template>
+
             </nz-row>
         </nz-col>
 
     </nz-row>
 </div>
+
+
+@if(products.length == 0){
+<app-empty-data />
+}

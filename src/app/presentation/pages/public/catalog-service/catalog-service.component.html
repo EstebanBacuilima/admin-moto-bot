@@ -1,4 +1,4 @@
-<h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
+<!-- <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
     Explora Nuestra Selección Servicios</h2>
 <div style="margin: 10px;">
     <nz-row [nzGutter]="16" style="margin: 0;">
@@ -18,12 +18,7 @@
                         </div>
                     </nz-card>
 
-                    <ng-template #coverTemplate>
-                        <div style="padding: 10px;">
-                            <img alt="example" [src]="service.image" />
 
-                        </div>
-                    </ng-template>
 
                 </nz-col>
             </nz-row>
@@ -31,3 +26,50 @@
 
     </nz-row>
 </div>
+ -->
+
+
+
+<div class="m-3">
+    <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
+        Explora Nuestra Selección Servicios</h2>
+    <input nz-input placeholder="Buscar servicios" nzSize="large" class="mt-5" [(ngModel)]="inputValue"
+        (ngModelChange)="onSearchChanged($event)" />
+</div>
+
+
+<div style="margin: 10px;">
+    <nz-row [nzGutter]="16" style="margin: 0;">
+
+        <nz-divider></nz-divider>
+
+        <nz-col span="24">
+            <nz-row [nzGutter]="16">
+                <nz-col *ngFor="let service of services" [nzSpan]="8" [nzSm]="12" [nzMd]="8" [nzLg]="8"
+                    class="product-card" style="margin-top: 10px;">
+                    <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
+                        [nzCover]="coverTemplate">
+                        <nz-card-meta [nzTitle]="service.name" [nzDescription]="''+service.description"></nz-card-meta>
+                        <div class="price"
+                            style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #4caf50;">
+                            Precio: {{ service.price | currency:'USD':'symbol' }}
+                        </div>
+                    </nz-card>
+                    <ng-template #coverTemplate>
+                        <div style="padding: 10px;">
+                            <img alt="example" [src]="service.image" />
+
+                        </div>
+                    </ng-template>
+
+
+                </nz-col>
+            </nz-row>
+        </nz-col>
+
+    </nz-row>
+</div>
+
+@if(services.length == 0){
+<app-empty-data />
+}

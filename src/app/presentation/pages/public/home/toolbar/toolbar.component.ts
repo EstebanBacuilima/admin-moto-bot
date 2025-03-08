@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
@@ -10,5 +11,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   styleUrl: './toolbar.component.scss'
 })
 export class ToolbarComponent {
+  private readonly router = inject(Router);
 
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
+  }
 }
