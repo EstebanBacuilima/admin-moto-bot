@@ -1,9 +1,12 @@
-<!-- <div style="justify-content: center; margin: auto">
+<div style="justify-content: center; margin: auto">
   <nz-card>
     <nz-steps [nzCurrent]="current">
       @for (step of this.steps; track step.id) {
-      <nz-step [nzTitle]="step.title" [nzDescription]="step.description"
-        [nzPercentage]="step.async ? step.percentage : null">
+      <nz-step
+        [nzTitle]="step.title"
+        [nzDescription]="step.description"
+        [nzPercentage]="step.async ? step.percentage : null"
+      >
       </nz-step>
       }
     </nz-steps>
@@ -16,10 +19,20 @@
             <nz-row [nzGutter]="[12, 12]">
               <nz-col nzXs="24" nzMd="24">
                 <nz-form-item>
-                  <nz-form-label nzRequired nzSpan="24">Identificación</nz-form-label>
-                  <nz-form-control nzErrorTip="Identificación no válido" class="custom-error-tip-left">
-                    <input class="input-radius" type="text" nz-input formControlName="idCard"
-                      placeholder="Ejemplo: 0105957811" />
+                  <nz-form-label nzRequired nzSpan="24"
+                    >Identificación</nz-form-label
+                  >
+                  <nz-form-control
+                    nzErrorTip="Identificación no válido"
+                    class="custom-error-tip-left"
+                  >
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="idCard"
+                      placeholder="Ejemplo: 0105957811"
+                    />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
@@ -28,18 +41,33 @@
               <nz-col nzXs="24" nzMd="12">
                 <nz-form-item>
                   <nz-form-label nzRequired nzSpan="24">Nombres</nz-form-label>
-                  <nz-form-control nzErrorTip="Nombre no válido" class="custom-error-tip-left">
-                    <input class="input-radius" type="text" nz-input formControlName="firstName"
-                      placeholder="Ejemplo: Esteban" />
+                  <nz-form-control
+                    nzErrorTip="Nombre no válido"
+                    class="custom-error-tip-left"
+                  >
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="firstName"
+                      placeholder="Ejemplo: Esteban"
+                    />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
               <nz-col nzXs="24" nzMd="12">
                 <nz-form-item>
-                  <nz-form-label nzRequired nzSpan="24">Apellidos</nz-form-label>
+                  <nz-form-label nzRequired nzSpan="24"
+                    >Apellidos</nz-form-label
+                  >
                   <nz-form-control nzErrorTip="Apellidos no válidos">
-                    <input class="input-radius" type="text" nz-input formControlName="lastName"
-                      placeholder="Ejemplo: Bacuilima" />
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="lastName"
+                      placeholder="Ejemplo: Bacuilima"
+                    />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
@@ -48,9 +76,17 @@
               <nz-col nzXs="24" nzMd="12">
                 <nz-form-item>
                   <nz-form-label nzRequired nzSpan="24">Correo</nz-form-label>
-                  <nz-form-control nzErrorTip="Correo no válido" class="custom-error-tip-left">
-                    <input class="input-radius" type="text" nz-input formControlName="email"
-                      placeholder="Ejemplo: correo@gmail.co." />
+                  <nz-form-control
+                    nzErrorTip="Correo no válido"
+                    class="custom-error-tip-left"
+                  >
+                    <input
+                      class="input-radius"
+                      type="text"
+                      nz-input
+                      formControlName="email"
+                      placeholder="Ejemplo: correo@gmail.co."
+                    />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
@@ -60,22 +96,34 @@
       </nz-row>
       } @else if (current == 1) {
       <nz-card>
-        <span style="font-weight: bold; font-size: 1.2rem">Establecimientos</span>
+        <span style="font-weight: bold; font-size: 1.2rem"
+          >Establecimientos</span
+        >
         <br />
         <div class="establecimientos-container">
           <div class="establecimientos-list">
             @for (item of establishments; track $index) {
-            <nz-card class="establecimiento-card" nzHoverable [ngStyle]="{
+            <nz-card
+              class="establecimiento-card"
+              nzHoverable
+              [ngStyle]="{
                 cursor: 'pointer',
                 borderRadius: '4px',
                 backgroundColor:
                   selectedEstablishment?.id === item.id ? '#E0FBE2' : '#ffffff',
                 border: '1px solid #ACE1AF'
-              }" (click)="onSelectedEstablishment(item)">
-              <nz-card-meta [nzTitle]="item.name" [nzDescription]="'' + item.description"></nz-card-meta>
+              }"
+              (click)="onSelectedEstablishment(item)"
+            >
+              <nz-card-meta
+                [nzTitle]="item.name"
+                [nzDescription]="'' + item.description"
+              ></nz-card-meta>
               <br />
               <div class="map-container">
-                <app-simple-map [coordinate]="getByEstablishment(item)"></app-simple-map>
+                <app-simple-map
+                  [coordinate]="getByEstablishment(item)"
+                ></app-simple-map>
               </div>
             </nz-card>
             }
@@ -89,20 +137,31 @@
         <div class="establecimientos-container">
           <div class="establecimientos-list">
             @for (service of services; track $index) {
-            <nz-card class="establecimiento-card" nzHoverable [ngStyle]="{
+            <nz-card
+              class="establecimiento-card"
+              nzHoverable
+              [ngStyle]="{
                 cursor: 'pointer',
                 borderRadius: '4px',
                 backgroundColor:
                   selectedService?.id === service.id ? '#D4F6FF' : '#ffffff',
                 border: '1px solid #C6E7FF'
-              }" (click)="onSelectedService(service)">
-              <nz-card-meta [nzTitle]="service.name" [nzDescription]="'' + service.description"></nz-card-meta>
-              <div class="price" style="
+              }"
+              (click)="onSelectedService(service)"
+            >
+              <nz-card-meta
+                [nzTitle]="service.name"
+                [nzDescription]="'' + service.description"
+              ></nz-card-meta>
+              <div
+                class="price"
+                style="
                   margin-top: 10px;
                   font-size: 16px;
                   font-weight: bold;
                   color: #4caf50;
-                ">
+                "
+              >
                 Precio: {{ service.price | currency : "USD" : "symbol" }}
               </div>
             </nz-card>
@@ -116,23 +175,25 @@
         <br />
         <div class="establecimientos-container">
           <div class="establecimientos-list">
-            @for (employe of employees; track $index) {
-            <nz-card class="establecimiento-card" nzHoverable [ngStyle]="{
+            @for (employee of employees; track $index) {
+            <nz-card
+              class="establecimiento-card"
+              nzHoverable
+              [ngStyle]="{
                 cursor: 'pointer',
                 borderRadius: '4px',
                 backgroundColor:
-                  selectedService?.id === service.id ? '#D4F6FF' : '#ffffff',
+                  selectedEmployee?.id === employee.id ? '#D4F6FF' : '#ffffff',
                 border: '1px solid #C6E7FF'
-              }" (click)="onSelectedService(service)">
-              <nz-card-meta [nzTitle]="service.name" [nzDescription]="'' + service.description"></nz-card-meta>
-              <div class="price" style="
-                  margin-top: 10px;
-                  font-size: 16px;
-                  font-weight: bold;
-                  color: #4caf50;
-                ">
-                Precio: {{ service.price | currency : "USD" : "symbol" }}
-              </div>
+              }"
+              (click)="onSelectedEmployee(employee)"
+            >
+              <nz-card-meta
+                [nzTitle]="
+                  employee.person?.firstName + ' ' + employee.person?.lastName
+                "
+                [nzDescription]="'' + employee.person?.idCard"
+              ></nz-card-meta>
             </nz-card>
             }
           </div>
@@ -146,14 +207,25 @@
       <button nz-button nzType="default" (click)="pre()">
         <span>Atras</span>
       </button>
-      } @if (current < 2) { <button nz-button nzType="default" (click)="next()" [nzLoading]="processing">
+      } @if (current < 2) {
+      <button
+        nz-button
+        nzType="default"
+        (click)="next()"
+        [nzLoading]="processing"
+      >
         <span>Siguiente</span>
-        </button>
-        } @if (current === 2) {
-        <button nz-button nzType="primary" (click)="done()" [nzLoading]="processing">
-          <span>Guardar</span>
-        </button>
-        }
+      </button>
+      } @if (current === 2) {
+      <button
+        nz-button
+        nzType="primary"
+        (click)="done()"
+        [nzLoading]="processing"
+      >
+        <span>Guardar</span>
+      </button>
+      }
     </div>
   </nz-card>
-</div> -->
+</div>

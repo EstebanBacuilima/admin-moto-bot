@@ -103,6 +103,10 @@ export class ScheduleAppointmentComponent implements OnInit {
     this.selectedService = service;
   }
 
+  onSelectedEmployee(employee: Employee) {
+    this.selectedEmployee = employee;
+  }
+
   getByEstablishment(establishment: Establishment): CoordinateModel {
     return {
       title: establishment.name,
