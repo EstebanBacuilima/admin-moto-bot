@@ -4,14 +4,17 @@
     <nz-row [nzGutter]="16" style="margin: 0;">
 
         <!-- Contenido a la izquierda -->
-        <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="18">
-            <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
-                {{category?.name}}
-            </h2>
-            <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">
-                {{category?.description ?? ''}}
-            </p>
-        </nz-col>
+        <div data-aos="flip-up">
+
+            <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="18">
+                <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">
+                    {{category?.name}}
+                </h2>
+                <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">
+                    {{category?.description ?? ''}}
+                </p>
+            </nz-col>
+        </div>
 
         <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="6">
             <nz-select [(ngModel)]="selectedValue" (ngModelChange)="onFilterChange($event)" nzPlaceHolder="Ordenar por"
@@ -35,7 +38,6 @@
                     <nz-col *ngFor="let product of products" [nzSpan]="8" [nzSm]="12" [nzMd]="6" [nzLg]="6"
                         class="product-card" style="margin-top: 10px;">
 
-
                         <nz-card nzHoverable style="width: 100%; margin-bottom: 20px; border-radius: 10px;"
                             [nzCover]="coverTemplate" (click)="navigateTo('/public/home/product-detail/'+product.code)">
                             <nz-card-meta [nzTitle]="' ' +product?.brand?.name "
@@ -43,11 +45,13 @@
 
                             <div class="price-container">
                                 <div class="discounted-price">
-                                    {{ calculateDiscount(product.price, product.percentage) | currency:'USD':'symbol' }}
+                                    {{ calculateDiscount(product.price, product.percentage) |
+                                    currency:'USD':'symbol' }}
                                 </div>
                                 <div class="original-price">
                                     {{ product.price | currency:'USD':'symbol' }}
                                 </div>
+
                             </div>
 
                         </nz-card>

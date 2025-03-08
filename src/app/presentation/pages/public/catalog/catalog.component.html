@@ -3,6 +3,7 @@
 
 <!-- <app-test></app-test> -->
 
+
 @for (section of sections; track section.id) {
 
 <div class="container">
@@ -17,6 +18,7 @@
         </div> -->
     </div>
 
+    <!-- <div data-aos="flip-up"> -->
     <div class="products-container">
         <div class="products">
             @for (ps of section.productSections; track $index) {
@@ -28,7 +30,8 @@
                 <div class="product-info">
                     <h3 class="product-title">{{''+ps?.product?.name}}</h3>
                     <p class="product-brand">{{''+ps?.product?.brand?.name}}</p>
-                    <p class="product-price"> $ {{ calculateDiscount(ps?.product?.price?? 0, ps?.product?.percentage) }}
+                    <p class="product-price"> $ {{ calculateDiscount(ps?.product?.price?? 0,
+                        ps?.product?.percentage) }}
                     </p>
                     <button class="buy-button"
                         (click)="navigateTo('/public/home/product-detail/'+ps?.product?.code)">Comprar</button>
@@ -37,5 +40,6 @@
             }
         </div>
     </div>
+    <!-- </div> -->
 </div>
 }
