@@ -22,6 +22,8 @@ export class ProductService {
   }
 
   create(product: Product): Observable<DefaultResponse> {
+
+    console.log(product);
     return this.http.post<DefaultResponse>(
       `${this.apiURL}/${this.typePath}/create`,
       product
@@ -35,6 +37,8 @@ export class ProductService {
   }
 
   update(product: Product): Observable<DefaultResponse> {
+    console.log(product);
+
     return this.http.put<DefaultResponse>(
       `${this.apiURL}/${this.typePath}/update/${product.code}`,
       product

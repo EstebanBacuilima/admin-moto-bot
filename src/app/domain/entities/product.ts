@@ -16,10 +16,10 @@ export class Product {
     public productImages: ProductImage[] = [],
     public productAttributes: ProductAttribute[] = [],
     public price: number,
-    public brand?: Brand,
-    public category?: Category,
     public description?: string,
     public percentage?: number,
+    public brand?: Brand,
+    public category?: Category,
     public creationDate?: Date,
     public updateDate?: Date
   ) { }

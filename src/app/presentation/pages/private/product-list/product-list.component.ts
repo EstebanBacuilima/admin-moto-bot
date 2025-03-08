@@ -90,7 +90,6 @@ export class ProductListComponent {
     category_id: [null, [Validators.required]],
     price: [null, [Validators.required]],
     percentage: [null,],
-    active: [true, [Validators.required]],
     sku: [null, [Validators.required]],
   });
 
@@ -301,7 +300,6 @@ export class ProductListComponent {
     this.productForm
       .get('description')
       ?.setValue(this.selectedProduct?.description);
-    this.productForm.get('active')?.setValue(this.selectedProduct?.active);
     this.productForm
       .get('category_id')
       ?.setValue(this.selectedProduct?.categoryId);
@@ -322,8 +320,9 @@ export class ProductListComponent {
       this.productForm.get('name')?.value,
       this.productForm.get('sku')?.value,
       false,
-      this.productForm.get('active')?.value,
+      this.selectedProduct?.active ?? false,
       this.productImages,
+      [],
       this.productForm.get('price')?.value,
       this.productForm.get('description')?.value,
       this.productForm.get('percentage')?.value,
