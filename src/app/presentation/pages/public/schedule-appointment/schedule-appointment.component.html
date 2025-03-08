@@ -311,11 +311,11 @@
         <span>Atras</span>
       </button>
       } @if (current < 2) {
-      <button nz-button nzType="default" (click)="next()" [nzLoading]="saving">
+      <button nz-button nzType="default" (click)="next()">
         <span>Siguiente</span>
       </button>
       } @if (current === 2) {
-      <button nz-button nzType="primary" (click)="done()" [nzLoading]="saving">
+      <button nz-button nzType="primary" (click)="done()" [nzLoading]="saving()">
         <span>Guardar</span>
       </button>
       }
