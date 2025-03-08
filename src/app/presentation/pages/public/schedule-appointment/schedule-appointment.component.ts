@@ -1,3 +1,4 @@
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { SimpleMapComponent } from './../../../common/simple-map/simple-map.component';
 import { EmployeeService } from './../../../../data/src/emplyee.service';
 import { Employee } from './../../../../domain/entities/employee';
@@ -19,6 +20,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { Coordinate as CoordinateModel } from '../../../../domain/models/coordinate';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { Customer } from '../../../../domain/entities/customer';
+import { Person } from '../../../../domain/entities/people';
 
 @Component({
   selector: 'app-schedule-appointment',
@@ -37,6 +40,7 @@ export class ScheduleAppointmentComponent implements OnInit {
   private readonly establishmentService = inject(EstablishmentService);
   private readonly serviceService = inject(ServiceService);
   private readonly employeeService = inject(EmployeeService);
+  private readonly nzMessageService = inject(NzMessageService);
 
   public steps: any[] = [
     {
@@ -64,7 +68,8 @@ export class ScheduleAppointmentComponent implements OnInit {
   public selectedEstablishment: Establishment | null = null;
   public selectedService: Service | null = null;
   public selectedEmployee: Employee | null = null;
-  public date = null;
+  public date: Date | null = null;
+  public customer: Customer | null = null;
 
   ngOnInit(): void {
     this.listEstablishments();
@@ -148,14 +153,24 @@ export class ScheduleAppointmentComponent implements OnInit {
       });
   }
 
-  getRegisterRequest(): any {
-    return {
-      idCard: this.customerForm.value.idCard,
-      firstName: this.customerForm.value.firstName,
-      lastName: this.customerForm.value.lastName,
-      email: this.customerForm.value.email,
-      photoUrl: this.customerForm.value.photoUrl,
-    };
+  getCustomer(): Customer {
+    return new Customer(
+      0,
+      0,
+      '',
+      true,
+      new Person(
+        0,
+        '',
+        this.customerForm.value.idCard,
+        this.customerForm.value.firstName,
+        this.customerForm.value.lastName,
+        true,
+        this.customerForm.value.email,
+        this.customerForm.value.photoUrl,
+        this.customerForm.value.phoneNumber
+      )
+    );
   }
 
   /**
@@ -177,6 +192,13 @@ export class ScheduleAppointmentComponent implements OnInit {
   }
 
   next(): void {
+    if (this.current === 0) {
+      this.validateForm();
+      if (this.date === null) {
+        this.nzMessageService.error('Seleccione una fecha');
+      }
+      return;
+    }
     this.loadingAndStep();
   }
 
@@ -188,14 +210,16 @@ export class ScheduleAppointmentComponent implements OnInit {
     if (this.current < this.steps.length) {
       const step = this.steps[this.current];
       this.current += 1;
+      if (this.current === 1) {
+        this.getCustomer();
+      }
     }
   }
 
   onChange(result: Date): void {
-    console.log('onChange: ', result);
+    this.date = result;
   }
 
-  // Deshabilitar fechas antes de hoy
   disabledDate = (current: Date): boolean => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);

@@ -90,13 +90,13 @@
         <nz-col nzXs="24" nzMd="10">
           <div class="date-picker-container">
             <span class="date-picker-title">Seleccionar fecha de cita:</span>
-            <nz-range-picker
+            <nz-date-picker
               nzInline
               nzShowTime
               [nzDisabledDate]="disabledDate"
               [(ngModel)]="date"
               (ngModelChange)="onChange($event)"
-            ></nz-range-picker>
+            ></nz-date-picker>
           </div>
         </nz-col>
       </nz-row>
