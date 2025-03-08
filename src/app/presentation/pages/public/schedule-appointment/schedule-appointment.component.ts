@@ -250,7 +250,7 @@ export class ScheduleAppointmentComponent implements OnInit {
   }
 
   done(): void {
-    this.loadingAndStep();
+    this.create();
   }
 
   private create(): void {
