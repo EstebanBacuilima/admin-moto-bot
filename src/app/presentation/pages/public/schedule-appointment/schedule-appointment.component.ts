@@ -83,6 +83,14 @@ export class ScheduleAppointmentComponent implements OnInit {
       firstName: [null, [Validators.required, Validators.minLength(3)]],
       lastName: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
+      phoneNumber: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(10),
+        ],
+      ],
       photoUrl: [null],
     });
   }
@@ -162,13 +170,13 @@ export class ScheduleAppointmentComponent implements OnInit {
       new Person(
         0,
         '',
-        this.customerForm.value.idCard,
-        this.customerForm.value.firstName,
-        this.customerForm.value.lastName,
+        this.customerForm.get('idCard')?.value,
+        this.customerForm.get('firstName')?.value,
+        this.customerForm.get('lastName')?.value,
         true,
-        this.customerForm.value.email,
-        this.customerForm.value.photoUrl,
-        this.customerForm.value.phoneNumber
+        this.customerForm.get('email')?.value,
+        this.customerForm.get('photoUrl')?.value,
+        this.customerForm.get('photoUrl')?.value
       )
     );
   }
@@ -193,11 +201,28 @@ export class ScheduleAppointmentComponent implements OnInit {
 
   next(): void {
     if (this.current === 0) {
-      this.validateForm();
+      if (!this.validateForm()) {
+        return;
+      }
       if (this.date === null) {
         this.nzMessageService.error('Seleccione una fecha');
+        return;
       }
-      return;
+      this.customer = this.getCustomer();
+    }
+    if (this.current === 1) {
+      if (this.selectedEstablishment === null) {
+        this.nzMessageService.error('Seleccione un establecimiento');
+        return;
+      }
+      if (this.selectedService === null) {
+        this.nzMessageService.error('Seleccione un servicio');
+        return;
+      }
+      if (this.selectedEmployee === null) {
+        this.nzMessageService.error('Seleccione un empleado');
+        return;
+      }
     }
     this.loadingAndStep();
   }
@@ -210,9 +235,6 @@ export class ScheduleAppointmentComponent implements OnInit {
     if (this.current < this.steps.length) {
       const step = this.steps[this.current];
       this.current += 1;
-      if (this.current === 1) {
-        this.getCustomer();
-      }
     }
   }
 
