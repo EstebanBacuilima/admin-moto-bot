@@ -1,3 +1,4 @@
+import { ManagmentAppointmentComponent } from './managment-appointment/managment-appointment.component';
 import { Routes } from '@angular/router';
 
 const privateRoutes: Routes = [
@@ -39,9 +40,9 @@ const privateRoutes: Routes = [
       {
         path: 'motorcycle-issue-list',
         loadComponent: () =>
-          import('./motorcycle-issue-list/motorcycle-issue-list.component').then(
-            (m) => m.MotorcycleIssueListComponent
-          ),
+          import(
+            './motorcycle-issue-list/motorcycle-issue-list.component'
+          ).then((m) => m.MotorcycleIssueListComponent),
       },
       {
         path: 'establishment-list',
@@ -71,7 +72,13 @@ const privateRoutes: Routes = [
             (m) => m.SectionListComponent
           ),
       },
-
+      {
+        path: 'managment-appointments',
+        loadComponent: () =>
+          import(
+            './managment-appointment/managment-appointment.component'
+          ).then((m) => m.ManagmentAppointmentComponent),
+      },
       {
         path: '**',
         redirectTo: '/welcome',

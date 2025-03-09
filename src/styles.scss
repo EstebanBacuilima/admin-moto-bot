@@ -27,3 +27,16 @@
 .input-radius {
   border-radius: 8px;
 }
+
+.header-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layout-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  border: 1px dotted #bbb6b6;
+}
