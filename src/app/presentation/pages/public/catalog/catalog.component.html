@@ -1,8 +1,8 @@
-<!-- <app-catalog-service-list /> -->
 <app-carousel></app-carousel>
 
-<!-- <app-test></app-test> -->
-
+@if(loading$.getValue()){
+<app-spin />
+}
 
 @for (section of sections; track section.id) {
 

@@ -20,6 +20,7 @@ import { Product } from '../../../../domain/entities/product';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { EmptyDataComponent } from '../../../common/empty-data/empty-data.component';
+import { SpinComponent } from '../../../common/spin/spin.component';
 import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
 
 @Component({
@@ -39,7 +40,8 @@ import { CatalogServiceListComponent } from '../catalog-service-list/catalog-ser
     FormsModule,
     ReactiveFormsModule,
     NzInputModule,
-    EmptyDataComponent],
+    EmptyDataComponent,
+    SpinComponent],
   templateUrl: './catalog-product-list.component.html',
   styleUrl: './catalog-product-list.component.scss'
 })

@@ -21,6 +21,7 @@ import { ProductSection } from '../../../../domain/entities/product_section';
 import { Section } from '../../../../domain/entities/section';
 import { ResponsiveService } from '../../../../services/responsive-service';
 import { CarouselComponent } from '../../../common/carousel/carousel.component';
+import { SpinComponent } from '../../../common/spin/spin.component';
 import { CatalogServiceListComponent } from '../catalog-service-list/catalog-service-list.component';
 import { TestComponent } from '../test/test.component';
 
@@ -41,7 +42,8 @@ import { TestComponent } from '../test/test.component';
     CatalogServiceListComponent,
     ButtonModule,
     CarouselModule,
-    TestComponent
+    TestComponent,
+    SpinComponent
   ],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']
