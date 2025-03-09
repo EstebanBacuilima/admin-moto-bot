@@ -7,7 +7,7 @@ export class Person {
     public lastName: string,
     public active: boolean,
     public email?: string,
-    public phomeNumber?: string,
+    public phoneNumber?: string,
     public creationDate?: Date,
     public updateDate?: Date
   ) {}

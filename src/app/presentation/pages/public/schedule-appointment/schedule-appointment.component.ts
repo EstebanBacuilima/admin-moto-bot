@@ -1,3 +1,6 @@
+import { AppointmentService } from './../../../../data/src/appointment.service';
+import { Appointment } from './../../../../domain/entities/appoitnment';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { SimpleMapComponent } from './../../../common/simple-map/simple-map.component';
 import { EmployeeService } from './../../../../data/src/emplyee.service';
 import { Employee } from './../../../../domain/entities/employee';
@@ -7,7 +10,7 @@ import { EstablishmentService } from './../../../../data/src/establishment.servi
 import { BehaviorSubject, finalize } from 'rxjs';
 import { DefaultResponse } from './../../../../domain/common/default-response';
 import { Establishment } from './../../../../domain/entities/establishment';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import {
   FormBuilder,
@@ -19,6 +22,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { Coordinate as CoordinateModel } from '../../../../domain/models/coordinate';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { Customer } from '../../../../domain/entities/customer';
+import { Person } from '../../../../domain/entities/people';
 
 @Component({
   selector: 'app-schedule-appointment',
@@ -37,6 +42,8 @@ export class ScheduleAppointmentComponent implements OnInit {
   private readonly establishmentService = inject(EstablishmentService);
   private readonly serviceService = inject(ServiceService);
   private readonly employeeService = inject(EmployeeService);
+  private readonly appointmentService = inject(AppointmentService);
+  private readonly nzMessageService = inject(NzMessageService);
 
   public steps: any[] = [
     {
@@ -64,7 +71,9 @@ export class ScheduleAppointmentComponent implements OnInit {
   public selectedEstablishment: Establishment | null = null;
   public selectedService: Service | null = null;
   public selectedEmployee: Employee | null = null;
-  public date = null;
+  public date: Date | null = null;
+  public customer: Customer | null = null;
+  public saving = signal(false);
 
   ngOnInit(): void {
     this.listEstablishments();
@@ -78,6 +87,14 @@ export class ScheduleAppointmentComponent implements OnInit {
       firstName: [null, [Validators.required, Validators.minLength(3)]],
       lastName: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
+      phoneNumber: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(10),
+        ],
+      ],
       photoUrl: [null],
     });
   }
@@ -148,14 +165,42 @@ export class ScheduleAppointmentComponent implements OnInit {
       });
   }
 
-  getRegisterRequest(): any {
-    return {
-      idCard: this.customerForm.value.idCard,
-      firstName: this.customerForm.value.firstName,
-      lastName: this.customerForm.value.lastName,
-      email: this.customerForm.value.email,
-      photoUrl: this.customerForm.value.photoUrl,
-    };
+  getCustomer(): Customer {
+    return new Customer(
+      0,
+      0,
+      '',
+      true,
+      new Person(
+        0,
+        '',
+        this.customerForm.get('idCard')?.value,
+        this.customerForm.get('firstName')?.value,
+        this.customerForm.get('lastName')?.value,
+        true,
+        this.customerForm.get('email')?.value,
+        this.customerForm.get('photoUrl')?.value,
+        this.customerForm.get('photoUrl')?.value
+      )
+    );
+  }
+
+  private getAppoinment(): Appointment {
+    return new Appointment(
+      0,
+      this.selectedService?.id ?? 0,
+      this.selectedEmployee?.id ?? 0,
+      this.selectedEstablishment?.id ?? 0,
+      '',
+      this.date ?? new Date(),
+      true,
+      '',
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      this.customer ?? undefined
+    );
   }
 
   /**
@@ -177,11 +222,53 @@ export class ScheduleAppointmentComponent implements OnInit {
   }
 
   next(): void {
+    if (this.current === 0) {
+      if (!this.validateForm()) {
+        return;
+      }
+      if (this.date === null) {
+        this.nzMessageService.error('Seleccione una fecha');
+        return;
+      }
+      this.customer = this.getCustomer();
+    }
+    if (this.current === 1) {
+      if (this.selectedEstablishment === null) {
+        this.nzMessageService.error('Seleccione un establecimiento');
+        return;
+      }
+      if (this.selectedService === null) {
+        this.nzMessageService.error('Seleccione un servicio');
+        return;
+      }
+      if (this.selectedEmployee === null) {
+        this.nzMessageService.error('Seleccione un empleado');
+        return;
+      }
+    }
     this.loadingAndStep();
   }
 
   done(): void {
-    this.loadingAndStep();
+    this.create();
+  }
+
+  private create(): void {
+    this.appointmentService
+      .create(this.getAppoinment())
+      .pipe(finalize(() => this.saving.set(false)))
+      .subscribe({
+        next: (response) => {
+          if (response.statusCode !== 200) return;
+          this.current = 0;
+          this.customerForm.reset();
+          this.selectedEmployee = null;
+          this.selectedEstablishment = null;
+          this.selectedService = null;
+          this.date = null;
+          this.customer = null;
+        },
+      });
   }
 
   loadingAndStep(): void {
@@ -192,10 +279,9 @@ export class ScheduleAppointmentComponent implements OnInit {
   }
 
   onChange(result: Date): void {
-    console.log('onChange: ', result);
+    this.date = result;
   }
 
-  // Deshabilitar fechas antes de hoy
   disabledDate = (current: Date): boolean => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
