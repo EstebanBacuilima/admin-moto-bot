@@ -15,7 +15,7 @@
       <!-- </div> -->
 
       <router-outlet></router-outlet>
-
+      <app-footer />
       <!-- chatbot button -->
       <button class="chatbot-button" (click)="openChatbot()">
         <span>🤖</span>
@@ -50,9 +50,12 @@
             <span *ngIf="message.type === chatTypeEnum.user">{{
               message.text
               }}</span>
-            <span *ngIf="message.type === chatTypeEnum.bot" [innerHTML]="message.text"></span>
+            <!-- <span *ngIf="message.type === chatTypeEnum.bot" [innerHTML]="message.text"></span> -->
+            <!-- <div *ngIf="message.type === chatTypeEnum.bot" [innerHTML]="message.text"></div> -->
           </div>
+          <div *ngIf="message.type === chatTypeEnum.bot" [innerHTML]="message.text"></div>
 
+          <!-- <div [innerHTML]="fullTemplate"></div> -->
           <!-- User -->
           <div *ngIf="message.type === chatTypeEnum.user" class="avatar user-avatar">
             👤

@@ -1,0 +1,38 @@
+.footer {
+    background: linear-gradient(135deg, #6f69a9, #ddd5e0);
+    color: #fff;
+    // padding: 10px 0 5px;
+    padding: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.copyright {
+    text-align: left;
+    margin-left: 30px;
+
+    border-top: 1px solid rgba(105, 69, 121, 0.1);
+    color: #bdc3c7;
+    font-size: 0.9rem;
+}
+
+@keyframes pulsar {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+}

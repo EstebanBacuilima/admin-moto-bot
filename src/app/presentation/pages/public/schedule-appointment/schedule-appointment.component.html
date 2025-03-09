@@ -1,12 +1,10 @@
+<app-encourage />
 <div style="justify-content: center; margin: auto">
   <nz-card>
     <nz-steps [nzCurrent]="current">
       @for (step of this.steps; track step.id) {
-      <nz-step
-        [nzTitle]="step.title"
-        [nzDescription]="step.description"
-        [nzPercentage]="step.async ? step.percentage : null"
-      >
+      <nz-step [nzTitle]="step.title" [nzDescription]="step.description"
+        [nzPercentage]="step.async ? step.percentage : null">
       </nz-step>
       }
     </nz-steps>
@@ -20,17 +18,10 @@
             <nz-row [nzGutter]="[12, 12]">
               <nz-col nzXs="24" nzMd="24">
                 <nz-form-item>
-                  <nz-form-label nzRequired nzSpan="24"
-                    >Identificación</nz-form-label
-                  >
+                  <nz-form-label nzRequired nzSpan="24">Identificación</nz-form-label>
                   <nz-form-control nzErrorTip="Identificación no válida">
-                    <input
-                      class="input-radius"
-                      type="text"
-                      nz-input
-                      formControlName="idCard"
-                      placeholder="Ejemplo: 0105957811"
-                    />
+                    <input class="input-radius" type="text" nz-input formControlName="idCard"
+                      placeholder="Ejemplo: 0105957811" />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
@@ -40,29 +31,17 @@
                 <nz-form-item>
                   <nz-form-label nzRequired nzSpan="24">Nombres</nz-form-label>
                   <nz-form-control nzErrorTip="Nombre no válido">
-                    <input
-                      class="input-radius"
-                      type="text"
-                      nz-input
-                      formControlName="firstName"
-                      placeholder="Ejemplo: Esteban"
-                    />
+                    <input class="input-radius" type="text" nz-input formControlName="firstName"
+                      placeholder="Ejemplo: Esteban" />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
               <nz-col nzXs="24" nzMd="12">
                 <nz-form-item>
-                  <nz-form-label nzRequired nzSpan="24"
-                    >Apellidos</nz-form-label
-                  >
+                  <nz-form-label nzRequired nzSpan="24">Apellidos</nz-form-label>
                   <nz-form-control nzErrorTip="Apellidos no válidos">
-                    <input
-                      class="input-radius"
-                      type="text"
-                      nz-input
-                      formControlName="lastName"
-                      placeholder="Ejemplo: Bacuilima"
-                    />
+                    <input class="input-radius" type="text" nz-input formControlName="lastName"
+                      placeholder="Ejemplo: Bacuilima" />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
@@ -72,13 +51,8 @@
                 <nz-form-item>
                   <nz-form-label nzRequired nzSpan="24">Correo</nz-form-label>
                   <nz-form-control nzErrorTip="Correo no válido">
-                    <input
-                      class="input-radius"
-                      type="text"
-                      nz-input
-                      formControlName="email"
-                      placeholder="Ejemplo: correo@gmail.com"
-                    />
+                    <input class="input-radius" type="text" nz-input formControlName="email"
+                      placeholder="Ejemplo: correo@gmail.com" />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
@@ -86,13 +60,8 @@
                 <nz-form-item>
                   <nz-form-label nzRequired nzSpan="24">Telefono</nz-form-label>
                   <nz-form-control nzErrorTip="Telefonono válido">
-                    <input
-                      class="input-radius"
-                      type="number"
-                      nz-input
-                      formControlName="phoneNumber"
-                      placeholder="Ejemplo: 09805050511"
-                    />
+                    <input class="input-radius" type="number" nz-input formControlName="phoneNumber"
+                      placeholder="Ejemplo: 09805050511" />
                   </nz-form-control>
                 </nz-form-item>
               </nz-col>
@@ -104,23 +73,15 @@
         <nz-col nzXs="24" nzMd="10">
           <div class="date-picker-container">
             <span class="date-picker-title">Seleccionar fecha de cita:</span>
-            <span
-              class="date-picker-subtitle"
-              [ngStyle]="{ color: date === null ? 'red' : 'black' }"
-            >
+            <span class="date-picker-subtitle" [ngStyle]="{ color: date === null ? 'red' : 'black' }">
               Fecha:
               {{
-                date === null ? "Sin fecha" : (date | date : "dd/MM/yyyy HH:mm")
+              date === null ? "Sin fecha" : (date | date : "dd/MM/yyyy HH:mm")
               }}
             </span>
 
-            <nz-date-picker
-              nzInline
-              nzShowTime
-              [nzDisabledDate]="disabledDate"
-              [(ngModel)]="date"
-              (ngModelChange)="onChange($event)"
-            ></nz-date-picker>
+            <nz-date-picker nzInline nzShowTime [nzDisabledDate]="disabledDate" [(ngModel)]="date"
+              (ngModelChange)="onChange($event)"></nz-date-picker>
           </div>
         </nz-col>
       </nz-row>
@@ -128,35 +89,23 @@
       } @else if (current == 1) {
 
       <nz-card>
-        <span style="font-weight: bold; font-size: 1.2rem"
-          ><span nz-icon nzType="home" nzTheme="outline"></span>
-          Establecimientos</span
-        >
+        <span style="font-weight: bold; font-size: 1.2rem"><span nz-icon nzType="home" nzTheme="outline"></span>
+          Establecimientos</span>
         <nz-divider></nz-divider>
         <div class="establecimientos-container">
           <div class="establecimientos-list">
             @for (item of establishments; track $index) {
-            <nz-card
-              class="establecimiento-card"
-              nzHoverable
-              [ngStyle]="{
+            <nz-card class="establecimiento-card" nzHoverable [ngStyle]="{
                 cursor: 'pointer',
                 borderRadius: '4px',
                 backgroundColor:
                   selectedEstablishment?.id === item.id ? '#E0FBE2' : '#ffffff',
                 border: '1px solid #ACE1AF'
-              }"
-              (click)="onSelectedEstablishment(item)"
-            >
-              <nz-card-meta
-                [nzTitle]="item.name"
-                [nzDescription]="'' + item.description"
-              ></nz-card-meta>
+              }" (click)="onSelectedEstablishment(item)">
+              <nz-card-meta [nzTitle]="item.name" [nzDescription]="'' + item.description"></nz-card-meta>
               <br />
               <div class="map-container">
-                <app-simple-map
-                  [coordinate]="getByEstablishment(item)"
-                ></app-simple-map>
+                <app-simple-map [coordinate]="getByEstablishment(item)"></app-simple-map>
               </div>
             </nz-card>
             }
@@ -165,39 +114,26 @@
       </nz-card>
       <br />
       <nz-card>
-        <span style="font-weight: bold; font-size: 1.2rem"
-          ><span nz-icon nzType="setting" nzTheme="outline"></span>
-          Servicios</span
-        >
+        <span style="font-weight: bold; font-size: 1.2rem"><span nz-icon nzType="setting" nzTheme="outline"></span>
+          Servicios</span>
         <nz-divider></nz-divider>
         <div class="establecimientos-container">
           <div class="establecimientos-list">
             @for (service of services; track $index) {
-            <nz-card
-              class="establecimiento-card"
-              nzHoverable
-              [ngStyle]="{
+            <nz-card class="establecimiento-card" nzHoverable [ngStyle]="{
                 cursor: 'pointer',
                 borderRadius: '4px',
                 backgroundColor:
                   selectedService?.id === service.id ? '#D4F6FF' : '#ffffff',
                 border: '1px solid #C6E7FF'
-              }"
-              (click)="onSelectedService(service)"
-            >
-              <nz-card-meta
-                [nzTitle]="service.name"
-                [nzDescription]="'' + service.description"
-              ></nz-card-meta>
-              <div
-                class="price"
-                style="
+              }" (click)="onSelectedService(service)">
+              <nz-card-meta [nzTitle]="service.name" [nzDescription]="'' + service.description"></nz-card-meta>
+              <div class="price" style="
                   margin-top: 10px;
                   font-size: 16px;
                   font-weight: bold;
                   color: #4caf50;
-                "
-              >
+                ">
                 Precio: {{ service.price | currency : "USD" : "symbol" }}
               </div>
             </nz-card>
@@ -209,30 +145,21 @@
       <nz-card>
         <span style="font-weight: bold; font-size: 1.2rem">
           <span nz-icon nzType="usergroup-delete" nzTheme="outline"></span>
-          Empleados</span
-        >
+          Empleados</span>
         <nz-divider></nz-divider>
         <div class="establecimientos-container">
           <div class="establecimientos-list">
             @for (employee of employees; track $index) {
-            <nz-card
-              class="establecimiento-card"
-              nzHoverable
-              [ngStyle]="{
+            <nz-card class="establecimiento-card" nzHoverable [ngStyle]="{
                 cursor: 'pointer',
                 borderRadius: '4px',
                 backgroundColor:
                   selectedEmployee?.id === employee.id ? '#EAD8C0' : '#ffffff',
                 border: '1px solid #A79277'
-              }"
-              (click)="onSelectedEmployee(employee)"
-            >
-              <nz-card-meta
-                [nzTitle]="
+              }" (click)="onSelectedEmployee(employee)">
+              <nz-card-meta [nzTitle]="
                   employee.person?.firstName + ' ' + employee.person?.lastName
-                "
-                [nzDescription]="'' + employee.person?.idCard"
-              ></nz-card-meta>
+                " [nzDescription]="'' + employee.person?.idCard"></nz-card-meta>
             </nz-card>
             }
           </div>
@@ -245,19 +172,13 @@
           <nz-list-item>
             <h2 class="title-h2">Datos Personales</h2>
           </nz-list-item>
-          <nz-list-item
-            ><b>Cédula:</b> {{ customer?.person?.idCard }}</nz-list-item
-          >
+          <nz-list-item><b>Cédula:</b> {{ customer?.person?.idCard }}</nz-list-item>
           <nz-list-item>
             <b>Nombres:</b> {{ customer?.person?.firstName }}
             {{ customer?.person?.lastName }}
           </nz-list-item>
-          <nz-list-item
-            ><b>Correo:</b> {{ customer?.person?.email }}</nz-list-item
-          >
-          <nz-list-item
-            ><b>Teléfono:</b> {{ customer?.person?.phoneNumber }}</nz-list-item
-          >
+          <nz-list-item><b>Correo:</b> {{ customer?.person?.email }}</nz-list-item>
+          <nz-list-item><b>Teléfono:</b> {{ customer?.person?.phoneNumber }}</nz-list-item>
           <nz-list-item>
             <b>Fecha de Cita:</b> {{ date | date : "dd/MM/yyyy HH:mm" }}
           </nz-list-item>
@@ -265,24 +186,16 @@
           <nz-list-item>
             <h2 class="title-h2">Establecimiento</h2>
           </nz-list-item>
-          <nz-list-item
-            ><b>Nombre:</b> {{ selectedEstablishment?.name }}</nz-list-item
-          >
-          <nz-list-item
-            ><b>Descripción:</b>
-            {{ selectedEstablishment?.description }}</nz-list-item
-          >
+          <nz-list-item><b>Nombre:</b> {{ selectedEstablishment?.name }}</nz-list-item>
+          <nz-list-item><b>Descripción:</b>
+            {{ selectedEstablishment?.description }}</nz-list-item>
 
           <nz-list-item>
             <h2 class="title-h2">Servicio</h2>
           </nz-list-item>
-          <nz-list-item
-            ><b>Nombre:</b> {{ selectedService?.name }}</nz-list-item
-          >
-          <nz-list-item
-            ><b>Descripción:</b>
-            {{ selectedService?.description }}</nz-list-item
-          >
+          <nz-list-item><b>Nombre:</b> {{ selectedService?.name }}</nz-list-item>
+          <nz-list-item><b>Descripción:</b>
+            {{ selectedService?.description }}</nz-list-item>
           <nz-list-item>
             <b>Precio:</b>
             {{ selectedService?.price | currency : "USD" : "symbol" }}
@@ -292,10 +205,8 @@
             <h2 class="title-h2">Empleado</h2>
           </nz-list-item>
           <nz-list-item>
-            <nz-list-item
-              ><b>Cédula:</b>
-              {{ selectedEmployee?.person?.idCard }}</nz-list-item
-            >
+            <nz-list-item><b>Cédula:</b>
+              {{ selectedEmployee?.person?.idCard }}</nz-list-item>
             <b>Nombre:</b> {{ selectedEmployee?.person?.firstName }}
             {{ selectedEmployee?.person?.lastName }}
           </nz-list-item>
@@ -310,15 +221,14 @@
       <button nz-button nzType="default" (click)="pre()">
         <span>Atras</span>
       </button>
-      } @if (current < 2) {
-      <button nz-button nzType="default" (click)="next()">
+      } @if (current < 2) { <button nz-button nzType="default" (click)="next()">
         <span>Siguiente</span>
-      </button>
-      } @if (current === 2) {
-      <button nz-button nzType="primary" (click)="done()" [nzLoading]="saving()">
-        <span>Guardar</span>
-      </button>
-      }
+        </button>
+        } @if (current === 2) {
+        <button nz-button nzType="primary" (click)="done()" [nzLoading]="saving()">
+          <span>Guardar</span>
+        </button>
+        }
     </div>
   </nz-card>
 </div>

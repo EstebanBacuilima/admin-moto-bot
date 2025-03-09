@@ -15,6 +15,7 @@ import { AuthService } from '../../../../data/src/auth.service';
 import { PrimeNgModule } from '../../../../designs/primeng.module';
 import { SignInRequest } from '../../../../domain/models/sign-in-request';
 import { NgZorroAntdModule } from '../../../../ng-zorro.module';
+import { EncourageComponent } from '../../../common/encourage/encourage.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -26,6 +27,7 @@ import { NgZorroAntdModule } from '../../../../ng-zorro.module';
     FormsModule,
     RouterModule,
     NgZorroAntdModule,
+    EncourageComponent
   ],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
@@ -41,6 +43,12 @@ export class SignInComponent {
   public currentYear = new Date().getFullYear();
   public signInForm: FormGroup;
 
+
+  ngOnInit() {
+    this.localData.getToken().then(t => {
+      if (t) this.router.navigate(['/admin']);
+    });
+  }
   constructor(private formBuilder: FormBuilder) {
     this.signInForm = this.formBuilder.group({
       username: [null, [Validators.required, Validators.email]],

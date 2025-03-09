@@ -1,17 +1,5 @@
-import { AppointmentService } from './../../../../data/src/appointment.service';
-import { Appointment } from './../../../../domain/entities/appoitnment';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { SimpleMapComponent } from './../../../common/simple-map/simple-map.component';
-import { EmployeeService } from './../../../../data/src/emplyee.service';
-import { Employee } from './../../../../domain/entities/employee';
-import { Service } from './../../../../domain/entities/service';
-import { ServiceService } from './../../../../data/src/service.service';
-import { EstablishmentService } from './../../../../data/src/establishment.service';
-import { BehaviorSubject, finalize } from 'rxjs';
-import { DefaultResponse } from './../../../../domain/common/default-response';
-import { Establishment } from './../../../../domain/entities/establishment';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { NgZorroAntdModule } from '../../../../ng-zorro.module';
 import {
   FormBuilder,
   FormGroup,
@@ -19,11 +7,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Coordinate as CoordinateModel } from '../../../../domain/models/coordinate';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { BehaviorSubject, finalize } from 'rxjs';
 import { Customer } from '../../../../domain/entities/customer';
 import { Person } from '../../../../domain/entities/people';
+import { Coordinate as CoordinateModel } from '../../../../domain/models/coordinate';
+import { NgZorroAntdModule } from '../../../../ng-zorro.module';
+import { EncourageComponent } from '../../../common/encourage/encourage.component';
+import { AppointmentService } from './../../../../data/src/appointment.service';
+import { EmployeeService } from './../../../../data/src/emplyee.service';
+import { EstablishmentService } from './../../../../data/src/establishment.service';
+import { ServiceService } from './../../../../data/src/service.service';
+import { DefaultResponse } from './../../../../domain/common/default-response';
+import { Appointment } from './../../../../domain/entities/appoitnment';
+import { Employee } from './../../../../domain/entities/employee';
+import { Establishment } from './../../../../domain/entities/establishment';
+import { Service } from './../../../../domain/entities/service';
+import { SimpleMapComponent } from './../../../common/simple-map/simple-map.component';
 
 @Component({
   selector: 'app-schedule-appointment',
@@ -34,6 +34,7 @@ import { Person } from '../../../../domain/entities/people';
     FormsModule,
     ReactiveFormsModule,
     SimpleMapComponent,
+    EncourageComponent
   ],
   templateUrl: './schedule-appointment.component.html',
   styleUrl: './schedule-appointment.component.scss',
