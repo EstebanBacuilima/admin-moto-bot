@@ -268,12 +268,16 @@ export class ProductListComponent {
   }
 
   public onSearchChanged(value: string, isProduct: boolean) {
-    this.searchText = value;
     if (this.searchDebounceTimer) {
       clearTimeout(this.searchDebounceTimer);
     }
     this.searchDebounceTimer = setTimeout(() => {
-      isProduct ? this.filterData(this.searchText) : this.listProductAttributes();
+      if (isProduct) this.filterData(value)
+      if (!isProduct) {
+        this.searchText = value;
+
+        this.listProductAttributes();
+      }
     }, 800);
   }
 
