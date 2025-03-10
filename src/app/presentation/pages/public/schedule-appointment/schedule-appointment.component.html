@@ -366,6 +366,7 @@
     <nz-divider></nz-divider>
     @for (item of appointments; track $index) {
     <nz-card nzHoverable [ngStyle]="{ cursor: 'pointer', padding: '10px' }">
+      <h3>{{ item.date | date : "dd/MM/yyyy HH:mm" }}</h3>
       <nz-card-meta
         [nzTitle]="
           item.customer?.person?.firstName +
@@ -374,7 +375,7 @@
         "
         [nzDescription]="'' + item.customer?.person?.idCard"
       ></nz-card-meta>
-      ><nz-badge
+      <nz-badge
         [nzColor]="
           item.state === 'P' ? 'yellow' : item.state === 'A' ? 'green' : 'red'
         "
