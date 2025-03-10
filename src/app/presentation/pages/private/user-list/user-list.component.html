@@ -1,0 +1,66 @@
+<app-simple-page-header
+  title="Usuarios"
+  searchPlaceholder="Buscar Usuarios"
+  (add)="add()"
+  (searchChange)="onSearchChanged($event)"
+></app-simple-page-header>
+
+<nz-card>
+  <nz-table
+    #userTable
+    [nzData]="users"
+    nzSize="small"
+    nzTableLayout="fixed"
+    [nzScroll]="{ x: responsiveService.isMobile() ? '600px' : '' }"
+    [nzLoading]="loading$.value"
+    [nzFrontPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of listOfColumn"
+          [nzSortFn]="column.compare"
+          [nzSortPriority]="column.priority"
+        >
+          {{ column.title }}
+        </th>
+        <th [nzWidth]="'15%'" style="text-align: center">Estado</th>
+        <th [nzWidth]="'15%'" style="text-align: center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of userTable.data; track user.id) {
+      <tr>
+        <td>
+          <img
+            nz-image
+            [nzSrc]="user.photoUrl || defaultImage"
+            (error)="onImageError($event)"
+            alt="Logo"
+          />
+        </td>
+        <td>{{ user.displayName }}</td>
+        <td>{{ user.email }}</td>
+        <td style="text-align: center">
+          <nz-switch
+            [ngModel]="user.disabled"
+            [nzLoading]="user.disabled"
+            (ngModelChange)="onActiveChange(user, $event)"
+          ></nz-switch>
+        </td>
+        <td style="text-align: center">
+          <button
+            nz-button
+            nzSize="small"
+            nzType="default"
+            nzShape="circle"
+            (click)="onEdit(user)"
+          >
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</nz-card>

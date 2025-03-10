@@ -1,7 +1,15 @@
 export class User {
-  id?: number;
-  username?: string;
-  password?: string;
-  imageUrl?: string;
-  state?: boolean;
+  constructor(
+    public id: number,
+    public personId: number,
+    public code: string,
+    public displayName: string,
+    public email: string,
+    public password: string,
+    public disabled: boolean,
+    public isManagment: boolean,
+    public photoUrl?: string,
+    public phoneNumber?: string,
+    public verificationCode?: string
+  ) {}
 }

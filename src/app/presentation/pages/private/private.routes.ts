@@ -1,3 +1,4 @@
+import { UserListComponent } from './user-list/user-list.component';
 import { ManagmentAppointmentComponent } from './managment-appointment/managment-appointment.component';
 import { Routes } from '@angular/router';
 
@@ -15,6 +16,13 @@ const privateRoutes: Routes = [
         path: 'welcome',
         loadComponent: () =>
           import('./welcome/welcome.component').then((m) => m.WelcomeComponent),
+      },
+      {
+        path: 'user-list',
+        loadComponent: () =>
+          import('./user-list/user-list.component').then(
+            (m) => m.UserListComponent
+          ),
       },
       {
         path: 'brand-list',
