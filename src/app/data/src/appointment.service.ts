@@ -13,9 +13,9 @@ export class AppointmentService {
   private readonly http = inject(HttpClient);
 
   list(
-    active: boolean = true,
-    name: string = '',
-    idCard: string = ''
+    date: Date = new Date(),
+    customerIdCard: string = '',
+    employeeIdCard: string = ''
   ): Observable<DefaultResponse> {
     return this.http.get<DefaultResponse>(`${this.apiURL}/appointment/list`);
   }
@@ -23,6 +23,13 @@ export class AppointmentService {
   create(appointment: Appointment): Observable<DefaultResponse> {
     return this.http.post<DefaultResponse>(
       `${this.apiURL}/appointment/create`,
+      appointment
+    );
+  }
+
+  updateState(appointment: Appointment): Observable<DefaultResponse> {
+    return this.http.put<DefaultResponse>(
+      `${this.apiURL}/appointment/update-state/${appointment.code}`,
       appointment
     );
   }

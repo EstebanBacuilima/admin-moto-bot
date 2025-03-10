@@ -6,29 +6,139 @@
 
 <div class="layout-container">
   <nz-calendar>
-    <ul *nzDateCell="let date" class="events">
-      @switch (date.getDate()) { @case (8) { @for (item of listDataMap.eight;
-      track $index) {
-      <li>
-        <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
-      </li>
-      } } @case (10) { @for (item of listDataMap.ten; track $index) {
-      <li>
-        <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
-      </li>
-      } } @case (11) { @for (item of listDataMap.eleven; track $index) {
-      <li>
-        <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
-      </li>
-      } } }
+    <ul *nzDateCell="let date">
+      <ng-container *ngIf="date as dateObj">
+        <ng-container *ngIf="dateObj | date : 'yyyy-M-d' as formattedDate">
+          <ul *ngIf="formattedDate && listDataMap[formattedDate] as events">
+            <li *ngFor="let item of events">
+              <nz-card
+                nzHoverable
+                [nzBordered]="true"
+                [ngStyle]="{
+                  backgroundColor: item.color,
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
+                }"
+                class="custom-card"
+                (click)="openModalDialog(item.appointment)"
+              >
+                <p>{{ item.content }}</p>
+              </nz-card>
+            </li>
+          </ul>
+        </ng-container>
+      </ng-container>
     </ul>
-    <ng-container *nzMonthCell="let month">
-      @if (getMonthData(month); as monthData) {
-      <div class="notes-month">
-        <section>{{ monthData }}</section>
-        <span>Backlog number</span>
-      </div>
-      }
-    </ng-container>
   </nz-calendar>
 </div>
+
+<nz-modal
+  [(nzVisible)]="openModal"
+  [nzTitle]="'Detalles de la Cita'"
+  (nzOnCancel)="close()"
+  [nzFooter]="modalFooter"
+  nzWidth="800px"
+>
+  <ng-container *nzModalContent>
+    @if (selectedAppointment != null) {
+    <div class="modal-content">
+      <nz-descriptions [nzBordered]="true" [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Fecha">
+          {{ selectedAppointment.date | date : "dd/MM/yyyy" }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Hora">
+          {{ selectedAppointment.date | date : "HH:mm" }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Estado">
+          <nz-badge
+            [nzColor]="
+              selectedAppointment.state === 'P'
+                ? 'yellow'
+                : selectedAppointment.state === 'A'
+                ? 'green'
+                : 'red'
+            "
+            [nzText]="
+              selectedAppointment.state === 'P'
+                ? 'Pendiente'
+                : selectedAppointment.state === 'A'
+                ? 'Aceptada'
+                : 'Cancelada'
+            "
+          ></nz-badge>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Observaciones">
+          {{ selectedAppointment.observation || "Sin observaciones" }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <nz-divider nzText="Cliente"></nz-divider>
+      <nz-descriptions [nzBordered]="true" [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Nombre">
+          {{ selectedAppointment.customer?.person?.firstName }}
+          {{ selectedAppointment.customer?.person?.lastName }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Correo">
+          {{ selectedAppointment.customer?.person?.email }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Teléfono">
+          {{ selectedAppointment.customer?.person?.phoneNumber }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <nz-divider nzText="Empleado"></nz-divider>
+      <nz-descriptions [nzBordered]="true" [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Nombre">
+          {{ selectedAppointment.employee?.person?.firstName }}
+          {{ selectedAppointment.employee?.person?.lastName }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Correo">
+          {{ selectedAppointment.employee?.person?.email }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Teléfono">
+          {{ selectedAppointment.employee?.person?.phoneNumber }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <nz-divider nzText="Servicio"></nz-divider>
+      <nz-descriptions [nzBordered]="true" [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Nombre">
+          {{ selectedAppointment.service?.name }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Descripción">
+          {{ selectedAppointment.service?.description }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Precio">
+          {{ selectedAppointment.service?.price | currency : "USD" : "symbol" }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <nz-divider nzText="Establecimiento"></nz-divider>
+      <nz-descriptions [nzBordered]="true" [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Nombre">
+          {{ selectedAppointment.establishment?.name }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+    } @else {
+    <div><p>No hay cita seleccionada</p></div>
+    }
+  </ng-container>
+
+  <ng-template #modalFooter>
+    @if (selectedAppointment?.state === 'P') {
+    <div class="modal-footer">
+      <button
+        nz-button
+        nzType="default"
+        nzDanger="true"
+        (click)="rejectAppointment()"
+      >
+        <i nz-icon nzType="close-circle" nzTheme="outline"></i> Rechazar
+      </button>
+      <button nz-button nzType="primary" (click)="acceptAppointment()">
+        <i nz-icon nzType="check-circle" nzTheme="outline"></i> Aceptar
+      </button>
+    </div>
+    }
+  </ng-template>
+</nz-modal>

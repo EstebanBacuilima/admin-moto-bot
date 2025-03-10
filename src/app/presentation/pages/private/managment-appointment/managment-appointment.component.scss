@@ -4,10 +4,19 @@
   padding: 0;
 }
 
-.events .ant-badge-status {
-  overflow: hidden;
-  white-space: nowrap;
-  width: 100%;
-  text-overflow: ellipsis;
-  font-size: 12px;
+.modal-content {
+  padding: 10px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+button[nz-button] {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }

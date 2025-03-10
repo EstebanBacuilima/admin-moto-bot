@@ -1,3 +1,4 @@
+import { Establishment } from './establishment';
 import { Service } from './service';
 import { Employee } from './employee';
 import { Customer } from './customer';
@@ -12,10 +13,12 @@ export class Appointment {
     public date: Date,
     public active: boolean,
     public observation: string,
+    public state: string,
     public creationDate?: Date,
     public updateDate?: Date,
     public employee?: Employee,
     public service?: Service,
-    public customer?: Customer
+    public customer?: Customer,
+    public establishment?: Establishment
   ) {}
 }

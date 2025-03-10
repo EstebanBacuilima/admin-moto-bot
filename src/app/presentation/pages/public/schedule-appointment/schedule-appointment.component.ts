@@ -196,6 +196,7 @@ export class ScheduleAppointmentComponent implements OnInit {
       this.date ?? new Date(),
       true,
       '',
+      'P',
       undefined,
       undefined,
       undefined,
