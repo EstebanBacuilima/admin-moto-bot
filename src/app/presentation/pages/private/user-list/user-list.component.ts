@@ -22,7 +22,7 @@ import { UserService } from '../../../../data/src/user.service';
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
 })
-export class UserListComponent  implements OnInit {
+export class UserListComponent implements OnInit {
   public readonly userService = inject(UserService);
   public readonly responsiveService = inject(ResponsiveService);
   private readonly formBuilder = inject(FormBuilder);
@@ -40,7 +40,19 @@ export class UserListComponent  implements OnInit {
 
   public listOfColumn = [
     {
+      title: 'Identificación',
+      compare: (a: User, b: User) =>
+        a.person?.idCard ? a.person?.idCard.localeCompare(a.person?.idCard) : 0,
+      priority: false,
+    },
+    {
       title: 'Nombre de Usuario',
+      compare: (a: User, b: User) =>
+        a.displayName ? a.displayName.localeCompare(b.displayName) : 0,
+      priority: false,
+    },
+    {
+      title: 'Correo',
       compare: (a: User, b: User) =>
         a.displayName ? a.displayName.localeCompare(b.displayName) : 0,
       priority: false,

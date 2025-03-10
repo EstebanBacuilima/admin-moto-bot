@@ -1,0 +1,26 @@
+<app-simple-page-header title="Clientes" searchPlaceholder="Buscar clientes"
+    (searchChange)="onSearchChanged($event)"></app-simple-page-header>
+
+<nz-card>
+    <nz-table #roleTable [nzData]="customers" nzSize="small" nzTableLayout="fixed"
+        [nzScroll]="{ x: responsiveService.isMobile() ? '600px' : '' }" [nzLoading]="loading$.value"
+        [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+                    {{ column.title }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of roleTable.data; track item.id) {
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item?.person?.idCard }}</td>
+                <td>{{ item?.person?.firstName}} {{item?.person?.lastName}}</td>
+                <td>{{ item.person?.email }}</td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+</nz-card>

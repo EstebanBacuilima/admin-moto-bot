@@ -1,3 +1,5 @@
+import { Person } from "./people";
+
 export class User {
   constructor(
     public id: number,
@@ -10,6 +12,7 @@ export class User {
     public isManagment: boolean,
     public photoUrl?: string,
     public phoneNumber?: string,
-    public verificationCode?: string
+    public verificationCode?: string,
+    public person?: Person
   ) {}
 }

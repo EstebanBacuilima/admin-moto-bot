@@ -31,6 +31,7 @@
     <tbody>
       @for (user of userTable.data; track user.id) {
       <tr>
+        <td>{{ user.person?.idCard ?? "-" }}</td>
         <td>
           <img
             nz-image
@@ -38,8 +39,8 @@
             (error)="onImageError($event)"
             alt="Logo"
           />
+          {{ user.displayName }}
         </td>
-        <td>{{ user.displayName }}</td>
         <td>{{ user.email }}</td>
         <td style="text-align: center">
           <nz-switch

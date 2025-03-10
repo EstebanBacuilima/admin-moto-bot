@@ -88,6 +88,13 @@ const privateRoutes: Routes = [
           ).then((m) => m.ManagmentAppointmentComponent),
       },
       {
+        path: 'customer-list',
+        loadComponent: () =>
+          import('./customer-list/customer-list.component').then(
+            (m) => m.CustomerListComponent
+          ),
+      },
+      {
         path: '**',
         redirectTo: '/welcome',
       },
