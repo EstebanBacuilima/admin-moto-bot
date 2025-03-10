@@ -65,3 +65,24 @@ app-simple-map {
   font-weight: bold;
   color: red;
 }
+.custom-button {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #1890ff;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #40a9ff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+
+  i {
+    margin-right: 8px;
+  }
+}

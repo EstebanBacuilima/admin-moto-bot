@@ -34,7 +34,7 @@ import { SimpleMapComponent } from './../../../common/simple-map/simple-map.comp
     FormsModule,
     ReactiveFormsModule,
     SimpleMapComponent,
-    EncourageComponent
+    EncourageComponent,
   ],
   templateUrl: './schedule-appointment.component.html',
   styleUrl: './schedule-appointment.component.scss',
@@ -75,6 +75,9 @@ export class ScheduleAppointmentComponent implements OnInit {
   public date: Date | null = null;
   public customer: Customer | null = null;
   public saving = signal(false);
+  public openDrawer = false;
+  public loading = signal(false);
+  public appointments: Appointment[] = [];
 
   ngOnInit(): void {
     this.listEstablishments();
@@ -273,6 +276,21 @@ export class ScheduleAppointmentComponent implements OnInit {
       });
   }
 
+  public list() {
+    this.loading.set(true);
+    this.appointmentService
+      .list(undefined, this.idCard)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (resp) => {
+          if (resp.statusCode !== 200) return;
+          this.defaultResponse = resp;
+          this.appointments = this.defaultResponse.data;
+        },
+        error: () => (this.appointments = []),
+      });
+  }
+
   loadingAndStep(): void {
     if (this.current < this.steps.length) {
       const step = this.steps[this.current];
@@ -289,4 +307,14 @@ export class ScheduleAppointmentComponent implements OnInit {
     today.setHours(0, 0, 0, 0);
     return current < today;
   };
+
+  public idCard: string = '';
+
+  public openDrawerAppointment(): void {
+    this.openDrawer = true;
+  }
+
+  public close(): void {
+    this.openDrawer = false;
+  }
 }
