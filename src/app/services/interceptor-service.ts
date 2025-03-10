@@ -36,7 +36,7 @@ export class InterceptorService implements HttpInterceptor {
       switchMap((jwtToken: string | null) => {
         const token = jwtToken ?? '';
         const headers: any = {
-          Authorization: token,
+          Authorization: 'Bearer ' + token,
         };
 
         if (request.headers.has('Content-Type')) {
