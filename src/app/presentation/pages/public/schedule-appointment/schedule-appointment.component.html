@@ -364,7 +364,9 @@
   <ng-container *nzDrawerContent>
     <input nz-input [(ngModel)]="idCard" placeholder="Cedula" />
     <nz-divider></nz-divider>
-    @for (item of appointments; track $index) {
+    @if (loading()) {
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+    } @for (item of appointments; track $index) {
     <nz-card nzHoverable [ngStyle]="{ cursor: 'pointer', padding: '10px' }">
       <h3>{{ item.date | date : "dd/MM/yyyy HH:mm" }}</h3>
       <nz-card-meta

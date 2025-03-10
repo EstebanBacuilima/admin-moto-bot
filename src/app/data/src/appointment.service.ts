@@ -1,7 +1,7 @@
 import { Appointment } from './../../domain/entities/appoitnment';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DefaultResponse } from '../../domain/common/default-response';
 import { Observable } from 'rxjs';
 
@@ -17,7 +17,12 @@ export class AppointmentService {
     customerIdCard: string = '',
     employeeIdCard: string = ''
   ): Observable<DefaultResponse> {
-    return this.http.get<DefaultResponse>(`${this.apiURL}/appointment/list`);
+    let params = new HttpParams()
+      .set('customer-id-card', customerIdCard)
+      .set('employee-id-card', employeeIdCard);
+    return this.http.get<DefaultResponse>(`${this.apiURL}/appointment/list`, {
+      params,
+    });
   }
 
   create(appointment: Appointment): Observable<DefaultResponse> {
