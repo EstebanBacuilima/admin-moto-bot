@@ -23,20 +23,24 @@
         <div class="products">
             @for (ps of section.productSections; track $index) {
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img [src]="getImage(ps)" alt="JP CHENET FASHION LITCHI">
+            <div data-aos="fade-zoom-in" data-aos-easing="ease-in-back" data-aos-delay="100" data-aos-offset="0">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img [src]="getImage(ps)" alt="">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{''+ps?.product?.name}}</h3>
+                        <p class="product-brand">{{''+ps?.product?.brand?.name}}</p>
+                        <p class="product-price"> $ {{ calculateDiscount(ps?.product?.price?? 0,
+                            ps?.product?.percentage) }}
+                        </p>
+                        <button class="buy-button"
+                            (click)="navigateTo('/public/home/product-detail/'+ps?.product?.code)">Comprar</button>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-title">{{''+ps?.product?.name}}</h3>
-                    <p class="product-brand">{{''+ps?.product?.brand?.name}}</p>
-                    <p class="product-price"> $ {{ calculateDiscount(ps?.product?.price?? 0,
-                        ps?.product?.percentage) }}
-                    </p>
-                    <button class="buy-button"
-                        (click)="navigateTo('/public/home/product-detail/'+ps?.product?.code)">Comprar</button>
-                </div>
+
             </div>
+
             }
         </div>
     </div>
