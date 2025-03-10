@@ -1,4 +1,3 @@
-import { ManagmentAppointmentComponent } from './managment-appointment/managment-appointment.component';
 import { Routes } from '@angular/router';
 
 const privateRoutes: Routes = [
@@ -78,6 +77,13 @@ const privateRoutes: Routes = [
           import(
             './managment-appointment/managment-appointment.component'
           ).then((m) => m.ManagmentAppointmentComponent),
+      },
+      {
+        path: 'customer-list',
+        loadComponent: () =>
+          import(
+            './customer-list/customer-list.component'
+          ).then((m) => m.CustomerListComponent),
       },
       {
         path: '**',
