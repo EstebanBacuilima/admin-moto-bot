@@ -179,7 +179,7 @@
                 <nz-form-control nzErrorTip="Contraseña no válido">
                   <input
                     class="input-radius"
-                    type="text"
+                    [type]="selectedUser ? 'password' : 'text'"
                     nz-input
                     formControlName="password"
                     placeholder="Ejemplo: Abc123.@"

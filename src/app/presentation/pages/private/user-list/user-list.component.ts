@@ -45,7 +45,6 @@ export class UserListComponent implements OnInit {
 
   private searchDebounceTimer: any;
   public searchText: string = '';
-  public opendModal = false;
   public selectedUser: User | null = null;
   public registerLoading = false;
   public openModal = false;
@@ -108,7 +107,8 @@ export class UserListComponent implements OnInit {
 
   public onEdit(user: User) {
     this.selectedUser = user;
-    this.opendModal = true;
+    this.fillForm();
+    this.openModal = true;
   }
 
   public add(): void {
@@ -118,7 +118,7 @@ export class UserListComponent implements OnInit {
   updateLogoUrl(url: string): void {
     this.registerForm.get('photoUrl')?.setValue(url);
   }
-  
+
   onImageError(event: Event): void {
     const target = event.target as HTMLImageElement;
     target.src = this.defaultImage;
@@ -157,6 +157,28 @@ export class UserListComponent implements OnInit {
         b.email.toLowerCase().includes(value.toLowerCase()) ||
         b.displayName?.toLowerCase().includes(value.toLowerCase())
     );
+  }
+
+  private fillForm(): void {
+    this.registerForm
+      .get('idCard')
+      ?.setValue(this.selectedUser?.person?.idCard);
+    this.registerForm
+      .get('firstName')
+      ?.setValue(this.selectedUser?.person?.firstName);
+    this.registerForm
+      .get('lastName')
+      ?.setValue(this.selectedUser?.person?.lastName);
+    this.registerForm.get('email')?.setValue(this.selectedUser?.email);
+    this.registerForm
+      .get('phoneNumber')
+      ?.setValue(this.selectedUser?.person?.phoneNumber);
+    this.registerForm.get('photoUrl')?.setValue(this.selectedUser?.photoUrl);
+    this.registerForm.get('password')?.setValue(this.selectedUser?.password);
+    this.registerForm.get('password')?.disable();
+    this.registerForm
+      .get('displayName')
+      ?.setValue(this.selectedUser?.displayName);
   }
 
   register() {
