@@ -31,8 +31,6 @@ export class MultipleUploadFileComponent {
 
   beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = [file];
-    this.previewFile(file);
-    console.log(this.fileList + ' - the NzUploadFile');
     this.uploadFile(this.fileList);
     return false;
   };
@@ -46,9 +44,7 @@ export class MultipleUploadFileComponent {
       .subscribe({
         next: (response) => {
           if (response.statusCode !== 200) return;
-          this.previewImages = response.data;
-          console.log(this.previewImages);
-          this.updatePreviewImages(this.previewImages);
+          this.updatePreviewImages(response.data);
           this.message.success('Imagenes subida exitosamente');
         },
         error: () => {
@@ -61,22 +57,13 @@ export class MultipleUploadFileComponent {
   updatePreviewImages(urls: string[]): void {
     if (!urls) return;
     if (this.previewImages.find((url) => url === urls[0])) return;
-    console.log(this.previewImages + '1');
     this.previewImages = [...this.previewImages, ...urls];
-    console.log(this.previewImages + '2');
     this.outputUrls.emit(this.previewImages);
-  }
-
-  previewFile(file: NzUploadFile): void {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.previewImages.push(e.target.result);
-    };
-    reader.readAsDataURL(file as any);
   }
 
   deleteFile(index: number): void {
     this.previewImages.splice(index, 1);
     this.fileList.splice(index, 1);
+    this.outputUrls.emit(this.previewImages);
   }
 }

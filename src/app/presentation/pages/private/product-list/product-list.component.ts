@@ -38,7 +38,7 @@ import { SimplePageHeaderComponent } from '../../../common/simple-page-header/si
     SimplePageHeaderComponent,
     MultipleUploadFileComponent,
     NzIconModule,
-    NzTagModule
+    NzTagModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -89,7 +89,7 @@ export class ProductListComponent {
     brand_id: [null, [Validators.required]],
     category_id: [null, [Validators.required]],
     price: [null, [Validators.required]],
-    percentage: [null,],
+    percentage: [null],
     sku: [null, [Validators.required]],
   });
 
@@ -119,11 +119,9 @@ export class ProductListComponent {
     },
     {
       title: 'Precio',
-      compare: (a: Product, b: Product) =>
-        a.price,
+      compare: (a: Product, b: Product) => a.price,
       priority: 1,
     },
-
   ];
 
   public listOfColumnAttributes = [
@@ -272,7 +270,7 @@ export class ProductListComponent {
       clearTimeout(this.searchDebounceTimer);
     }
     this.searchDebounceTimer = setTimeout(() => {
-      if (isProduct) this.filterData(value)
+      if (isProduct) this.filterData(value);
       if (!isProduct) {
         this.searchText = value;
 
@@ -284,9 +282,11 @@ export class ProductListComponent {
   public filterData(value: string) {
     if (!value) this.products = this.auxProducts;
 
-    this.products = this.auxProducts.filter(b =>
-      b.name.toLowerCase().includes(value.toLowerCase()) ||
-      b.description?.toLowerCase().includes(value.toLowerCase()));
+    this.products = this.auxProducts.filter(
+      (b) =>
+        b.name.toLowerCase().includes(value.toLowerCase()) ||
+        b.description?.toLowerCase().includes(value.toLowerCase())
+    );
   }
 
   private validateForm(): boolean {
@@ -310,7 +310,9 @@ export class ProductListComponent {
     this.productForm.get('brand_id')?.setValue(this.selectedProduct?.brandId);
     this.productForm.get('price')?.setValue(this.selectedProduct?.price);
     this.productForm.get('sku')?.setValue(this.selectedProduct?.sku);
-    this.productForm.get('percentage')?.setValue(this.selectedProduct?.percentage);
+    this.productForm
+      .get('percentage')
+      ?.setValue(this.selectedProduct?.percentage);
     this.productImages = this.selectedProduct?.productImages ?? [];
     this.productImageUrls = this.productImages.map((image) => image.url);
   }
@@ -329,7 +331,7 @@ export class ProductListComponent {
       [],
       this.productForm.get('price')?.value,
       this.productForm.get('description')?.value,
-      this.productForm.get('percentage')?.value,
+      this.productForm.get('percentage')?.value
     );
   }
 
@@ -346,10 +348,10 @@ export class ProductListComponent {
 
   public cancel() {
     this.openModal = false;
+    this.selectedProduct = null;
     this.resetForm();
     this.list();
   }
-
 
   public resetForm() {
     if (this.productForm) {
@@ -375,7 +377,6 @@ export class ProductListComponent {
   // public openProductAttributeForm = false;
 
   // public selectedProductAttribute = ProductAttribute || null;
-
 
   // Product attributes ----------------------------------------------------------------------------------------------
   public onProductAttributes(product: Product) {
@@ -419,10 +420,17 @@ export class ProductListComponent {
       });
   }
 
-  public onActiveChangeProductAttribute(productAttribute: ProductAttribute, state: boolean) {
+  public onActiveChangeProductAttribute(
+    productAttribute: ProductAttribute,
+    state: boolean
+  ) {
     productAttribute.changedActive = true;
     this.productAttributeService
-      .changeState(state, productAttribute.productId, productAttribute.attributeId)
+      .changeState(
+        state,
+        productAttribute.productId,
+        productAttribute.attributeId
+      )
       .pipe(finalize(() => (productAttribute.changedActive = false)))
       .subscribe({
         next: (response) => {
@@ -493,11 +501,12 @@ export class ProductListComponent {
   }
 
   private fillProductAttributeForm(): void {
-    this.productAttributeForm.get('value')?.setValue(this.selectedProductAttribute?.value);
+    this.productAttributeForm
+      .get('value')
+      ?.setValue(this.selectedProductAttribute?.value);
     this.productAttributeForm
       .get('attribute_id')
       ?.setValue(this.selectedProductAttribute?.attributeId);
-
   }
 
   public onEditProductAttribute(productAttribute: ProductAttribute) {
@@ -516,7 +525,6 @@ export class ProductListComponent {
 
     this.productAttributeForm.get('attribute_id')?.enable();
     // this.serviceForm.get('active')?.setValue(true);
-
   }
 
   public cancelProductAttribute() {
@@ -530,6 +538,5 @@ export class ProductListComponent {
       this.productAttributeForm.reset();
     }
     this.selectedProductAttribute = null;
-
   }
 }
