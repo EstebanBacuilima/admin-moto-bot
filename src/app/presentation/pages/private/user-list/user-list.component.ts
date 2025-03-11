@@ -136,6 +136,7 @@ export class UserListComponent implements OnInit {
 
   getRegisterRequest(): RegisterRequest {
     return {
+      code: this.selectedUser?.code || '',
       idCard: this.registerForm.value.idCard,
       firstName: this.registerForm.value.firstName,
       lastName: this.registerForm.value.lastName,
@@ -163,6 +164,7 @@ export class UserListComponent implements OnInit {
     this.registerForm
       .get('idCard')
       ?.setValue(this.selectedUser?.person?.idCard);
+    this.registerForm.get('idCard')?.disable();
     this.registerForm
       .get('firstName')
       ?.setValue(this.selectedUser?.person?.firstName);
@@ -170,6 +172,7 @@ export class UserListComponent implements OnInit {
       .get('lastName')
       ?.setValue(this.selectedUser?.person?.lastName);
     this.registerForm.get('email')?.setValue(this.selectedUser?.email);
+    this.registerForm.get('email')?.disable();
     this.registerForm
       .get('phoneNumber')
       ?.setValue(this.selectedUser?.person?.phoneNumber);
@@ -181,21 +184,35 @@ export class UserListComponent implements OnInit {
       ?.setValue(this.selectedUser?.displayName);
   }
 
-  register() {
+  createOrUpdate() {
     if (!this.validateForm()) return;
     this.registerLoading = true;
-    this.authService
-      .register(this.getRegisterRequest())
-      .pipe(finalize(() => (this.registerLoading = false)))
-      .subscribe({
-        next: (resp) => {
-          if (resp.statusCode !== 200) return;
-          this.list();
-        },
-        error: () => {
-          this.registerLoading = false;
-        },
-      });
+    if (this.selectedUser) {
+      this.userService
+        .update(this.getRegisterRequest())
+        .pipe(finalize(() => this.saving.set(false)))
+        .subscribe({
+          next: (response) => {
+            if (response.statusCode !== 200) return;
+            this.openModal = false;
+            this.list();
+          },
+        });
+    } else {
+      this.authService
+        .register(this.getRegisterRequest())
+        .pipe(finalize(() => (this.registerLoading = false)))
+        .subscribe({
+          next: (resp) => {
+            if (resp.statusCode !== 200) return;
+            this.openModal = false;
+            this.list();
+          },
+          error: () => {
+            this.registerLoading = false;
+          },
+        });
+    }
   }
 
   /**
