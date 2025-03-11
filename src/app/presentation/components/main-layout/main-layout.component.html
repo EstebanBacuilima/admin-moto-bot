@@ -1,25 +1,15 @@
 <app-encourage />
 <nz-layout class="app-layout">
-  <nz-sider
-    class="menu-sidebar"
-    nzCollapsible
-    nzWidth="256px"
-    nzBreakpoint="md"
-    [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null"
-  >
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+      <a>
+        <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" /> -->
+        <span style="font-size:  25px;">🤖</span>
         <h1>MotobotIA</h1>
       </a>
     </div>
-    <ul
-      nz-menu
-      nzTheme="dark"
-      nzMode="inline"
-      [nzInlineCollapsed]="isCollapsed"
-    >
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-submenu nzOpen nzTitle="Administración" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -51,9 +41,7 @@
             <a routerLink="/admin/service-list">Services</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/admin/motorcycle-issue-list"
-              >Inconveniente de motocicleta</a
-            >
+            <a routerLink="/admin/motorcycle-issue-list">Inconveniente de motocicleta</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/attribute-list">Características</a>
@@ -70,13 +58,13 @@
     <nz-header>
       <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <span
-            class="trigger"
-            nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          ></span>
+          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
         </span>
+        <button nz-button nzSize="small" nzType="default" nzShape="circle" (click)="signOut()">
+          <span nz-icon nzType="logout" nzTheme="outline"></span>
+        </button>
       </div>
+
     </nz-header>
     <nz-content>
       <div class="inner-content">
