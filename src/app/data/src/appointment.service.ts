@@ -38,4 +38,22 @@ export class AppointmentService {
       appointment
     );
   }
+
+  serviceReport(): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(
+      `${this.apiURL}/appointment/list/most-used-services`
+    );
+  }
+
+  establishmentReport(): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(
+      `${this.apiURL}/appointment/list/most-used-establishments`
+    );
+  }
+
+  appoinmentReport(): Observable<DefaultResponse> {
+    return this.http.get<DefaultResponse>(
+      `${this.apiURL}/appointment/list/chart-state`
+    );
+  }
 }

@@ -1,14 +1,57 @@
-<div class="text-center">
-    <div class="mx-auto h-16 w-16 flex items-center justify-center bg-indigo-600 rounded-full shadow-lg">
-        <span class="text-white text-3xl">🤖</span>
+<div class="layout-container">
+  <div class="text-center">
+    <div
+      class="mx-auto h-16 w-16 flex items-center justify-center bg-indigo-600 rounded-full shadow-lg"
+    >
+      <span class="text-white text-3xl">🤖</span>
     </div>
     <h1 class="mt-4 text-4xl font-bold text-gray-800">
-        ¡Bienvenido a Motobot!
+      ¡Bienvenido a Motobot!
     </h1>
-    <p class="mt-2 text-gray-600 text-lg">
-        Soy tu asistente de inteligencia artificial, listo para ayudarte con respuestas rápidas, precisas y
-        personalizadas.
-        <br />
-        ¡Vamos a empezar esta increíble experiencia juntos!
-    </p>
+  </div>
+  <br />
+  <div class="layout-container">
+    <div class="stats-container">
+      <nz-card *ngFor="let item of appointments" class="stat-card">
+        <div class="stat-content">
+          <nz-avatar
+            [nzSrc]="item.icon"
+            [nzSize]="50"
+            [ngStyle]="{
+              backgroundColor:
+                item.name == 'Denegado'
+                  ? '#FF8A8A'
+                  : item.name == 'Pendiente'
+                  ? '#FFCF81'
+                  : '#A5DD9B'
+            }"
+          ></nz-avatar>
+          <div class="stat-info">
+            <div class="stat-number">{{ item.quantity }}</div>
+            <div class="stat-label">{{ item.name }}</div>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+    <br />
+    <br />
+    <!-- Gráficos -->
+    <div nz-row nzGutter="16" class="charts-container">
+      <!-- Gráfico 1 -->
+      <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzLg]="12">
+        <nz-card>
+          <app-skeleton-loading *ngIf="loading()"></app-skeleton-loading>
+          <div id="chart1"></div>
+        </nz-card>
+      </div>
+
+      <!-- Gráfico 2 -->
+      <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzLg]="12">
+        <nz-card>
+          <app-skeleton-loading *ngIf="loading()"></app-skeleton-loading>
+          <div id="chart2"></div>
+        </nz-card>
+      </div>
+    </div>
+  </div>
 </div>
